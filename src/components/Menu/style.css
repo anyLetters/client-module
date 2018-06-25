@@ -1,0 +1,6 @@
+.menu {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px; }
+  .menu img {
+    cursor: pointer; }
