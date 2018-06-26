@@ -1,0 +1,52 @@
+.new-app-page {
+  min-height: 100%;
+  width: 100%; }
+  .new-app-page .wrapper {
+    min-height: 100%; }
+
+.content-new-app {
+  min-height: 100%;
+  padding: 15px 0;
+  box-sizing: border-box; }
+  .content-new-app p.grey {
+    text-align: left;
+    line-height: 1.43;
+    font-size: 14px;
+    width: 100%; }
+  .content-new-app .qr-code {
+    background-color: #343434;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+    margin-top: 20px;
+    margin-bottom: 30px; }
+  .content-new-app-text {
+    font-size: 14px;
+    margin-bottom: 30px;
+    text-align: left; }
+  .content-new-app-form {
+    text-align: left; }
+    .content-new-app-form input:last-child {
+      font-size: 24px; }
+    .content-new-app-form-loan {
+      margin-bottom: 20px; }
+    .content-new-app-form-term {
+      margin-bottom: 30px; }
+  .content-new-app-form > form > div > input {
+    width: 100%;
+    padding: 10.5px 15px;
+    padding-right: 40px;
+    font-size: 24px; }
+    .content-new-app-form > form > div > input::placeholder {
+      color: #d7d7d7; }
+  .content-new-app-form > form > div {
+    position: relative; }
+    .content-new-app-form > form > div p {
+      margin-bottom: 5px;
+      font-size: 14px; }
+    .content-new-app-form > form > div span {
+      position: absolute;
+      right: 20px;
+      bottom: 0;
+      font-size: 24px;
+      line-height: 50px; }

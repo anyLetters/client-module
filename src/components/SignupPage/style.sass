@@ -4,12 +4,14 @@
     .wrapper
         height: 100%
         width: 214px
+        padding: 0 60px
     .back
         background-color: #343434
         position: fixed
         min-width: 100%
         min-height: 100%
         z-index: -1
+
 .content-signup
     height: 100%
     display: flex
@@ -26,7 +28,11 @@
             margin: 0
             padding: 0
             justify-content: space-between
-    
+            span:first-child
+                margin-left: -7px
+            span:last-child
+                margin-right: -7px
+
 .signup-form
     margin: 40px 0
     input

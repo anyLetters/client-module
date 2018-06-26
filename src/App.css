@@ -28,9 +28,22 @@ input[type='submit'] {
 	color: white;
 }
 
+.input-white {
+	border: solid 1px #ececec;
+	color: #343434;
+	background-color: white;
+}
+
 .input-submit {
 	background-color: #00a1dc;
 	color: white;
+}
+
+.block-loan {
+	background-color: #f9f9f9;
+	padding: 10px;
+	font-size: 14px;
+	margin-bottom: 10px;
 }
 
 .blue {
@@ -39,4 +52,12 @@ input[type='submit'] {
 
 .grey {
 	color: #a3a3a3 !important
+}
+
+.green {
+	color: #0dc576;
+}
+
+.red {
+	color: #dd6666;
 }

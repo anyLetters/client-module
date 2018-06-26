@@ -3,7 +3,8 @@
   width: 100%; }
   .recovery-page .wrapper {
     height: 100%;
-    width: 214px; }
+    width: 214px;
+    padding: 0 60px; }
   .recovery-page .back {
     background-color: #343434;
     position: fixed;
@@ -28,6 +29,10 @@
       margin: 0;
       padding: 0;
       justify-content: space-between; }
+      .content-recovery footer p span:first-child {
+        margin-left: -7px; }
+      .content-recovery footer p span:last-child {
+        margin-right: -7px; }
 
 .recovery-form {
   margin: 40px 0; }

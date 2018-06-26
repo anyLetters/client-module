@@ -6,20 +6,12 @@ import SigninPage from './components/SigninPage/SigninPage.js';
 import SignupPage from './components/SignupPage/SignupPage.js';
 import RecoveryPage from './components/RecoveryPage/RecoveryPage.js';
 import ApplicationsPage from './components/ApplicationsPage/ApplicationsPage';
+import ApplicationPage from './components/ApplicationPage/ApplicationPage';
 import PayPage from './components/PayPage/PayPage';
+import NewApplicationPage from './components/NewApplicationPage/NewApplicationPage';
+import CreatePasswordPage from './components/CreatePasswordPage/CreatePasswordPage';
 
 class App extends Component {
-
-	// componentWillMount() {
-	// 	let path = window.location.pathname.split( '/' )[1];
-	// 	console.log(path);
-	// 	if (path === 'login' || path === 'signup') {
-	// 		this.backColor = '#343434';
-	// 	} else {
-	// 		this.backColor = 'white';
-	// 	}
-	// }
-
 	render() {
 		return (
 			<Router>
@@ -29,7 +21,11 @@ class App extends Component {
 						<Route exact path='/login/recovery' component={RecoveryPage} />
 						<Route exact path='/signup' component={SignupPage} />
 						<Route exact path='/applications' component={ApplicationsPage} />
+						<Route exact path='/application/:id' component={ApplicationPage} />
 						<Route exact path='/application/:id/pay' component={PayPage} />
+						<Route exact path='/password' component={CreatePasswordPage} />
+						{/* <Route exact path='/new_application' component={NewApplicationPage} /> */}
+						<Redirect from='/' to='/login' />
 					</Switch>
 				</div>
 			</Router>

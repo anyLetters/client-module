@@ -7,8 +7,6 @@
 .content-pay {
   min-height: 100%;
   padding: 15px 0;
-  display: flexbox;
-  flex-direction: column;
   box-sizing: border-box; }
   .content-pay p.grey {
     text-align: left;
@@ -22,6 +20,24 @@
     margin: 0 auto;
     margin-top: 20px;
     margin-bottom: 30px; }
+  .content-pay-text {
+    font-size: 14px;
+    text-align: left; }
   .content-pay h3 {
-    text-align: left;
-    font-size: 18px; }
+    font-size: 18px;
+    margin-bottom: 6px; }
+  .content-pay table {
+    border-spacing: 0;
+    margin-bottom: 30px; }
+  .content-pay tr {
+    height: 24px; }
+  .content-pay td {
+    font-size: 14px; }
+  .content-pay td:first-child {
+    width: 60px; }
+  .content-pay .mb-10 {
+    margin-bottom: 10px; }
+  .content-pay .mb-5 {
+    margin-bottom: 10px; }
+    .content-pay .mb-5 br {
+      line-height: 1.4; }

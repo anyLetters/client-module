@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import logo from '../../images/logo.svg';
 import { Link } from 'react-router-dom';
+import InputMask from 'react-input-mask';
 import './style.css';
 
 export default class SigninPage extends Component {
@@ -16,7 +17,13 @@ export default class SigninPage extends Component {
                             </div>
                             <div className="signin-form-inputs">
                                 <form>
-                                    <input type="text" className='input input-black' placeholder='Телефон'/>
+                                    <InputMask
+                                        className='input input-black'
+                                        required
+                                        ref={ref => this.phoneInput = ref}
+                                        mask="+7 999 999-99-99"
+                                        placeholder='Номер телефона'
+                                        maskChar=""/>
                                     <input type="password" className='input input-black' placeholder='Пароль'/>
                                     <input type="submit" className='input input-submit' value='Войти'/>
                                 </form>
