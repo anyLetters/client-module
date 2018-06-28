@@ -2,20 +2,38 @@ import React, { Component } from 'react';
 import logo from '../../images/logo.svg';
 import { Link } from 'react-router-dom';
 import InputMask from 'react-input-mask';
-import { User } from '../../api/index';
+import Auth from '../../api/auth';
+import { UserAPI } from '../../api/index';
 import './style.css';
 
 export default class SignupPage extends Component {
 
     submit = e => {
         e.preventDefault();
-        const name = this.nameInput.value;
-        const phone = this.phoneInput.value;
+        // const name = this.nameInput.value;
+        const phone =  this.phoneInput.value
+        ? this.phoneInput.value.toString().replace(/[^0-9.]+/g, '').slice(1, this.phoneInput.value.length)
+        : '';
         const password1 = this.passwordInput1.value;
         const password2 = this.passwordInput2.value;
 
-        if (password1 !== password2) return;
-        User.create();
+        if (password1 !== password2 || !phone) return;
+
+        UserAPI.create({ username: phone, password: password1 })
+            .then(response => {
+                console.log(response);
+
+                Auth.login({
+                    grant_type: 'password',
+                    username: response.phone,
+                    password: password1
+                })
+                .then(() => this.props.history.push('/applications'))
+                .catch(json => {
+                    console.error(`Error: ${json.error}\nMessage: ${json.message}`);
+                });
+            })
+            .catch(json => console.error(`Error: ${json.error}\nMessage: ${json.message}`));
     }
 
     render() {
@@ -30,7 +48,7 @@ export default class SignupPage extends Component {
                             </div>
                             <div className="signup-form-inputs">
                                 <form onSubmit={this.submit}>
-                                    <input type="text" required ref={ref => this.nameInput = ref} className='input input-black' placeholder='Имя'/>
+                                    {/* <input type="text" required ref={ref => this.nameInput = ref} className='input input-black' placeholder='Имя'/> */}
                                     <InputMask
                                         className='input input-black'
                                         required

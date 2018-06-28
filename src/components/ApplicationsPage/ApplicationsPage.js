@@ -20,7 +20,8 @@ function Loan(props) {
                 </div>
                 <div className="loan-under">
                     <span className='grey'>Предстоящий платеж</span>
-                    <Link to={`/application/1/pay`} className='blue'>Оплатить</Link>
+                    {/* <Link to={`/application/1/pay`} className='blue'>Оплатить</Link> */}
+                    <span className='blue'>Оплатить</span>
                 </div>
             </div>
         </Link>
