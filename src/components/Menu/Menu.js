@@ -14,8 +14,8 @@ export default class Menu extends Component {
     render() {
         return (
             <div className='menu'>
-                <Link to='/applications'><img src={logo} alt=""/></Link>
-                <Link to='/login' onClick={this.logout}><img src={logout} alt=""/></Link>
+                <Link to='/loans'><img src={logo} alt=""/></Link>
+                <Link to='/login' onClick={this.logout}><img src={logout} alt="выйти"/></Link>
             </div>
         );
     }

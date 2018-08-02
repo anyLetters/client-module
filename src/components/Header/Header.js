@@ -9,14 +9,14 @@ export default class Header extends Component {
         const { title, page } = this.props;
         let elementR, elementL;
         switch(page) {
-            // case 'applications':
+            // case 'loans':
             //     element = <Link className='blue' to='/new_application'>Взять займ</Link>;
             //     break;
-            case 'application':
-                elementL = <img src={back} onClick={this.props.back} alt=""/>;
+            case 'loan':
+                elementL = <img src={back} onClick={this.props.back} alt="назад"/>;
                 break;
             case 'pay':
-                elementR = <img src={close} onClick={this.props.back} alt=""/>;
+                elementR = <img src={close} onClick={this.props.back} alt="назад"/>;
                 break;
             // case 'new-app':
             //     element = <img src={close} onClick={this.props.back} alt=""/>;
@@ -29,7 +29,7 @@ export default class Header extends Component {
                     <h2>{elementL}{this.props.title}</h2>
                 </div>
                 <div className="header-rightside">
-                    {/* <img src={close} alt=""/> */}
+                    {/* <img src={close} alt="выйти"/> */}
                     {elementR}
                 </div>
             </div>

@@ -20,13 +20,21 @@ function handleErrors(response) {
 
 export class UserAPI {
     static create(body) {
-        return fetch('http://185.185.71.78/person/account', {
+        return fetch('https://api.credit.club/person/account', {
                     method: 'post',
                     body: JSON.stringify(body),
                     headers: { 'Accept': 'application/json;charset=UTF-8', 'Content-Type': 'application/json;charset=UTF-8' }
                 })
                 .then(handleErrors)
-                .then(response => response.json())
+                .then(response => response.json());
+    }
+}
+
+export class LoanAPI {
+    static getAllByPersonId() {
+        return Auth.fetch('https://api.credit.club/loan/person')
+                .then(handleErrors)
+                .then(response => response.json());
     }
 }
 

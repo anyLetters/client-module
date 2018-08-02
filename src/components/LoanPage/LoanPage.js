@@ -41,7 +41,7 @@ function HistoryRow(props) {
     );
 }
 
-export default class ApplicationPage extends Component {
+export default class LoanPage extends Component {
 
     state = {
         isToggled: false
@@ -53,11 +53,11 @@ export default class ApplicationPage extends Component {
 
     render() {
         return (
-            <div className='application-page'>
+            <div className='loan-page'>
                 <div className="wrapper">
-                    <div className="content-application">
+                    <div className="content-loan">
                         <Menu />
-                        <Header title='МК 0917/83' page='application' back={this.props.history.goBack} />
+                        <Header title='МК 0917/83' page='loan' back={this.props.history.goBack} />
                         <div className="block-loan">
                             <div className="block-loan-row">
                                 <BlockRow title='Параметры займа' text='2 000 000 ₽ на 36 мес. под 2.3%' />
@@ -81,7 +81,7 @@ export default class ApplicationPage extends Component {
                                 <p className='grey'>Предстоящий платеж</p>
                                 <p className='blue'>
                                     <span onClick={this.toggle}>{this.state.isToggled ? 'Свернуть' : 'Подробно'}</span>
-                                    <Link className='blue' to={`/application/${this.props.match.params.id}/pay`}>Оплатить</Link>
+                                    <Link className='blue' to={`/loan/${this.props.match.params.id}/pay`}>Оплатить</Link>
                                 </p>
                             </div>
                             {this.state.isToggled && <div className="loan-more">

@@ -1,7 +1,6 @@
-const auth = {
-    base64: 'YnJvd3NlcjoxMjM0NTY=',
-    url: 'http://185.185.71.78/uaa/oauth/token'
-};
+import { auth } from './secrets';
+
+const apiURL = process.env.NODE_ENV === 'production' ? auth.url.prod : auth.url.dev;
 
 export default class Auth {
     static login(params) {
@@ -9,7 +8,7 @@ export default class Auth {
             return encodeURIComponent(key) + '=' + encodeURIComponent(params[key]);
         }).join('&');
 
-        return fetch(auth.url, {
+        return fetch(apiURL, {
                     method: 'post',
                     body,
                     headers: {
@@ -31,29 +30,37 @@ export default class Auth {
             'Content-Type': 'application/json'
         };
 
-        if (this.loggedIn() && !this.isExpired()) {
+        if (this.loggedIn() && !this.isRefresh()) {
             headers['Authorization'] = 'Bearer ' + this.getToken().accessToken;
 
             return fetch(url, { headers, ...options })
-                    .then(this._checkStatus)
-                    .then(response => response.json());
-        } else if (this.isExpired()) {
+                    .then(this._checkStatus);
+        } else if (this.isRefresh()) {
             return this.updateToken().then(() => {
-                        headers['Authorization'] = 'Bearer ' + this.getToken().accessToken;
+                headers['Authorization'] = 'Bearer ' + this.getToken().accessToken;
 
-                        return fetch(url, { headers, ...options })
-                                .then(this._checkStatus)
-                                .then(response => response.json());
-                    });
+                return fetch(url, { headers, ...options })
+                        .then(this._checkStatus);
+            });
         }
     }
 
     static isExpired() {
         const date = new Date().getTime();
-        const threeMinutes = 180000;
-        const expiresIn = +this.getToken().expiresIn - threeMinutes;
+        const expiresIn = +this.getToken().expiresIn;
 
         if (date > expiresIn) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    static isRefresh() {
+        const date = new Date().getTime();
+        const refreshIn = +this.getToken().refreshIn;
+
+        if (date > refreshIn) {
             return true;
         } else {
             return false;
@@ -66,9 +73,13 @@ export default class Auth {
             refresh_token: this.getToken().refreshToken
         };
 
+        const encodedBody = Object.keys(body).map((key) => {
+            return encodeURIComponent(key) + '=' + encodeURIComponent(body[key]);
+        }).join('&');
+
         return fetch(auth.url, {
                 method: 'post',
-                body,
+                body: encodedBody,
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
                     'Authorization': `Basic ${auth.base64}`
@@ -82,6 +93,7 @@ export default class Auth {
     static setToken(response) {
         localStorage.setItem('access_token', response.access_token);
         localStorage.setItem('refresh_token', response.refresh_token);
+        localStorage.setItem('refresh_in', new Date().getTime() + (response.expires_in * 1000) / 2);
         localStorage.setItem('expires_in', new Date().getTime() + (response.expires_in * 1000));
     }
 
@@ -89,19 +101,21 @@ export default class Auth {
         return {
             accessToken: localStorage.getItem('access_token'),
             refreshToken: localStorage.getItem('refresh_token'),
+            refreshIn: localStorage.getItem('refresh_in'),
             expiresIn: localStorage.getItem('expires_in')
-        }
+        };
     }
 
     static logout() {
         localStorage.removeItem('access_token');
         localStorage.removeItem('refresh_token');
+        localStorage.removeItem('refresh_in');
         localStorage.removeItem('expires_in');
     }
 
     static loggedIn() {
         const tokens = this.getToken();
-        return !!tokens.accessToken && !!tokens.refreshToken && !!tokens.expiresIn ? true : false;
+        return !!tokens.accessToken && !!tokens.refreshToken && !!tokens.refreshIn && !!tokens.expiresIn ? true : false;
     }
 
     static _checkStatus(response) {

@@ -6,6 +6,8 @@
 # testing
 /coverage
 
+/src/api/secrets.js
+
 # production
 /build
 

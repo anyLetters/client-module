@@ -1,31 +1,34 @@
-.applications-page {
+.loans-page {
   height: 100%;
   width: 100%; }
-  .applications-page .wrapper {
+  .loans-page .wrapper {
     height: 100%; }
 
-.content-applications {
-  height: 100%;
+.content-loans {
+  min-height: 100%;
   padding: 20px 0;
   box-sizing: border-box; }
-  .content-applications .loan-info {
+  .content-loans .block-loan {
+    min-height: 123px;
+    box-sizing: border-box; }
+  .content-loans .loan-info {
     font-size: 14px;
     line-height: 1.43;
     color: #343434;
     text-align: left;
     margin-bottom: 15px; }
-    .content-applications .loan-info p:first-child {
+    .content-loans .loan-info p:first-child {
       font-weight: 500; }
-  .content-applications .loan-payment {
+  .content-loans .loan-payment {
     display: flex;
     flex-wrap: wrap;
     font-size: 24px;
     text-align: left;
     color: #343434;
     margin-bottom: 5px; }
-    .content-applications .loan-payment span:nth-child(2) {
+    .content-loans .loan-payment span:nth-child(2) {
       padding: 0 5px; }
-  .content-applications .loan-under {
+  .content-loans .loan-under {
     font-size: 14px;
     display: flex;
     justify-content: space-between; }

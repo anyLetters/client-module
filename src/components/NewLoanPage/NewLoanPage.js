@@ -4,7 +4,7 @@ import CurrencyInput from 'react-currency-input';
 import InputMask from 'react-input-mask';
 import './style.css';
 
-export default class NewApplicationPage extends Component {
+export default class NewLoanPage extends Component {
 
     state = {
         loan: null,
