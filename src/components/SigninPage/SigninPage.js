@@ -4,47 +4,51 @@ import { Link } from 'react-router-dom';
 import InputMask from 'react-input-mask';
 import Auth from '../../api/auth';
 import './style.css';
+import Loader from '../Loader/Loader';
 
 export default class SigninPage extends Component {
 
     state = {
         error: false,
-        errorText: null
+        errorText: null,
+        isLoading: false
     }
-
     submit = e => {
         e.preventDefault();
         const phone = this.phoneInput.value.replace(/[^0-9.]/g, "").slice(1);;
         const password = this.refs.password.value;
 
-        Auth.login({
-            grant_type: 'password',
-            username: phone,
-            password
+        if (phone.length !== 10) {
+            this.setState({error: true, errorText: 'Номер не полный'});
+            return;
+        }
+
+        this.setState({ isLoading: true }, () => {
+            Auth.login({
+                grant_type: 'password',
+                username: phone,
+                password
+            })
+            .then(() => this.props.history.push('/'))
+            .catch(json => {
+                this.showError(json);
+                console.error(`Error: ${json.error}\nMessage: ${json.message}`);
+            });
         })
-        .then(() => this.props.history.push('/loans'))
-        .catch(json => {
-            this.showError(json);
-            console.error(`Error: ${json.error}\nMessage: ${json.message}`);
-        });
     }
 
     showError = (error) => {
         switch (error.message) {
             case 'Bad credentials':
-                this.setState({error: true, errorText: 'Неверный логин или пароль'}, () => setTimeout(() => {
-                    this.setState({error: false})
-                }, 1000));
+                this.setState({error: true, errorText: 'Неверный логин или пароль', isLoading: false});
                 break;
             default:
-                this.setState({error: true, errorText: 'Ошибка приложения, попробуйте позже'}, () => setTimeout(() => {
-                    this.setState({error: false})
-                }, 1000));
+                this.setState({error: true, errorText: 'Ошибка приложения, попробуйте позже', isLoading: false});
         }
     }
 
     render() {
-        const { error, errorText } = this.state;
+        const { error, errorText, isLoading } = this.state;
         return (
             <div className='signin-page'>
                 <div className="back"></div>
@@ -54,28 +58,30 @@ export default class SigninPage extends Component {
                             <img src={logo} alt=""/>
                         </div>
                         <div className="signin-form">
-                            <div className='signup-form-title'>
-                                <h1>Вход</h1>
-                            </div>
-                            <div className="signin-form-inputs">
-                                <form onSubmit={this.submit}>
-                                    <InputMask
-                                        className='input input-black'
-                                        required
-                                        ref={ref => this.phoneInput = ref}
-                                        mask="+7 999 999-99-99"
-                                        placeholder='Номер телефона'
-                                        maskChar=""/>
-                                    <input ref='password' type="password" className='input input-black' placeholder='Пароль'/>
-                                    <input type="submit" className='input input-submit' style={{backgroundColor: error ? '#dd6666' : '', transitionDuration: '.5s'}} value='Войти'/>
-                                    {errorText && <p className='red' style={{marginTop: '24px'}}>{errorText}</p>}
-                                </form>
-                            </div>
-                            <div className="signin-form-links">
-                                {/* <Link to='/login/recovery'>Не помню пароль</Link> */}
-                                {/* <br/> */}
-                                <Link to='/signup'>Зарегистрироваться</Link>
-                            </div>
+                            {isLoading
+                            ? <Loader/>
+                            : <div>
+                                <div className='signup-form-title'>
+                                    <h1>Вход</h1>
+                                </div>
+                                <div className="signin-form-inputs">
+                                    <form onSubmit={this.submit}>
+                                        <InputMask
+                                            className='input input-black'
+                                            required
+                                            ref={ref => this.phoneInput = ref}
+                                            mask="+7 999 999-99-99"
+                                            placeholder='Номер телефона'
+                                            maskChar=""/>
+                                        <input ref='password' type="password" className='input input-black' placeholder='Пароль'/>
+                                        <input type="submit" className='input input-submit' value='Войти'/>
+                                        {errorText && <p className='red' style={{marginTop: '24px'}}>{errorText}</p>}
+                                    </form>
+                                </div>
+                                <div className="signin-form-links">
+                                    <Link to='/signup'>Зарегистрироваться</Link>
+                                </div>
+                            </div>}
                         </div>
                         <footer>
                             <p><span>© 2018, КредитКлаб</span> <span>8 800 775 80 09</span></p>

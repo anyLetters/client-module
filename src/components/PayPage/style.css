@@ -2,11 +2,13 @@
   min-height: 100%;
   width: 100%; }
   .pay-page .wrapper {
-    min-height: 100%; }
+    height: 100%;
+    width: 100%;
+    max-width: 400px; }
 
 .content-pay {
   min-height: 100%;
-  padding: 15px 0;
+  padding: 20px 0;
   box-sizing: border-box; }
   .content-pay p.grey {
     text-align: left;
@@ -25,6 +27,7 @@
     text-align: left; }
   .content-pay h3 {
     font-size: 18px;
+    margin-top: 30px;
     margin-bottom: 6px; }
   .content-pay table {
     border-spacing: 0;

@@ -4,3 +4,17 @@
   margin-bottom: 20px; }
   .menu img {
     cursor: pointer; }
+  .menu .avatar {
+    margin-top: -2px;
+    margin-left: 8px; }
+  .menu .username {
+    font-size: 14px;
+    line-height: 1.43;
+    color: #00a1dc;
+    margin-right: 10px;
+    align-items: flex-start;
+    display: flex; }
+  .menu div {
+    display: flex; }
+    .menu div:first-child img {
+      margin-right: 10px; }

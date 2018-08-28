@@ -1,0 +1,67 @@
+.main-page {
+  height: 100%;
+  width: 100%; }
+  .main-page .wrapper {
+    height: 100%;
+    width: 100%;
+    max-width: 400px; }
+    .main-page .wrapper .tabs {
+      display: flex;
+      width: 100%;
+      flex-direction: row;
+      align-items: flex-end;
+      line-height: .8;
+      justify-content: space-between;
+      margin-bottom: 10px; }
+      .main-page .wrapper .tabs-item {
+        font-size: 24px;
+        font-weight: 600;
+        color: #343434;
+        cursor: pointer; }
+
+.content-main {
+  min-height: 100%;
+  padding: 20px 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; }
+  .content-main .block-loan {
+    min-height: 123px;
+    box-sizing: border-box; }
+  .content-main .block-application {
+    min-height: 96px;
+    box-sizing: border-box; }
+  .content-main .application-info {
+    font-size: 14px;
+    line-height: 1.43;
+    color: #343434;
+    text-align: left;
+    margin-bottom: 15px; }
+  .content-main .loan-info {
+    font-size: 14px;
+    line-height: 1.43;
+    color: #343434;
+    text-align: left;
+    margin-bottom: 15px; }
+    .content-main .loan-info p:first-child {
+      font-weight: 500; }
+  .content-main .loan-payment {
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 24px;
+    text-align: left;
+    color: #343434;
+    margin-bottom: 5px; }
+    .content-main .loan-payment span:nth-child(2) {
+      padding: 0 5px; }
+  .content-main .loan-under, .content-main .application-under {
+    font-size: 14px;
+    color: #343434;
+    display: flex;
+    justify-content: space-between; }
+  .content-main .loans-not-found, .content-main .applications-not-found {
+    padding: 48px; }
+  .content-main-footer input {
+    width: 100%;
+    cursor: pointer; }

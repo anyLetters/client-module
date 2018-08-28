@@ -3,6 +3,8 @@
     width: 100%
     .wrapper
         height: 100%
+        width: 100%
+        max-width: 400px
 
 .content-loan
     height: 100%
@@ -21,6 +23,7 @@
                 width: 50%
                 p
                     line-height: 1.4
+                    word-break: break-word
         .loan-payment
             display: flex
             flex-wrap: wrap
@@ -53,9 +56,11 @@
             line-height: 1.4
         h4
             margin-bottom: 10px
-        p:first-child
+        div:first-child
             display: flex
             justify-content: space-between
+            div
+                max-width: 60%
 
     .mb-20
         margin-bottom: 20px

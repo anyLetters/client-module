@@ -4,14 +4,16 @@ import { Link } from 'react-router-dom';
 import InputMask from 'react-input-mask';
 import Auth from '../../api/auth';
 import logo from '../../images/mini-logo-white.svg';
-import { UserAPI } from '../../api/index';
+import Loader from '../Loader/Loader';
+import { PersonAPI, Dadata } from '../../api/index';
 import './style.css';
 
 export default class SignupPage extends Component {
 
     state = {
         error: false,
-        errorText: null
+        errorText: null,
+        isLoading: false
     }
 
     submit = e => {
@@ -19,41 +21,58 @@ export default class SignupPage extends Component {
         const phone =  this.phoneInput.value
         ? this.phoneInput.value.toString().replace(/[^0-9.]+/g, '').slice(1, this.phoneInput.value.length)
         : '';
-        const password1 = this.passwordInput1.value;
+        const password = this.passwordInput1.value;
         const password2 = this.passwordInput2.value;
-        
-        if (password1 !== password2) {
-            this.showError('Пароли не совпадают')
+        const query = this.fullName.value.trim();
+
+        if (password !== password2) {
+            this.setState({error: true, errorText: 'Пароли не совпадают'});
             return;
         };
-
-        UserAPI.create({ username: phone, password: password1 })
-            .then(response => {
-                Auth.login({
-                    grant_type: 'password',
-                    username: response.phone,
-                    password: password1
-                })
-                .then(() => this.props.history.push('/loans'))
-                .catch(json => {
-                    this.showError('Ошибка приложения, попробуйте позже');
-                    console.error(`Error: ${json.error}\nMessage: ${json.message}`);
-                });
+        this.setState({ isLoading: true }, () => {
+            Dadata.getFIOSuggestions(query)
+                .then(personRes => {
+                    PersonAPI.create({
+                        name: personRes.name,
+                        surname: personRes.surname,
+                        patronymic: personRes.patronymic,
+                        phone,
+                        password
+                    })
+                    .then(response => {
+                        Auth.login({
+                            grant_type: 'password74',
+                            username: phone,
+                            password
+                        })
+                        .then(() => this.props.history.push('/'))
+                        .catch(json => this.props.history.push('/login'));
+                    })
+                    .catch(json => {
+                        this.showError(json);
+                        console.error(`Error: ${json.error}\nMessage: ${json.message}`);
+                    });
             })
-            .catch(json => {
-                this.showError('Ошибка приложения, попробуйте позже');
-                console.error(`Error: ${json.error}\nMessage: ${json.message}`);
-            });
+            .catch((json) => this.showError(json));
+        })
     }
 
-    showError = (errorText) => {
-        this.setState({error: true, errorText}, () => setTimeout(() => {
-            this.setState({error: false})
-        }, 1000));
+    showError = (error) => {
+        if (error.message.includes('user already exists')) {
+            this.setState({error: true, errorText: 'Такой пользователь уже существует', isLoading: false});
+            return;
+        }
+        switch (error.message) {
+            // case 'Bad credentials':
+            //     this.setState({error: true, errorText: 'Неверный логин или пароль', isLoading: false});
+            //     break;
+            default:
+                this.setState({error: true, errorText: 'Ошибка приложения, попробуйте позже', isLoading: false});
+        }
     }
 
     render() {
-        const { error, errorText } = this.state;
+        const { error, errorText, isLoading } = this.state;
         return (
             <div className='signup-page'>
                 <div className="back"></div>
@@ -63,31 +82,33 @@ export default class SignupPage extends Component {
                             <img src={logo} alt=""/>
                         </div>
                         <div className="signup-form">
-                            {/* <div className="logo">
-                                <img src={logo} alt=""/>
-                            </div> */}
-                            <div className='signup-form-title'>
-                                <h1>Регистрация</h1>
-                            </div>
-                            <div className="signup-form-inputs">
-                                <form onSubmit={this.submit}>
-                                    <InputMask
-                                        className='input input-black'
-                                        required
-                                        ref={ref => this.phoneInput = ref}
-                                        mask="+7 999 999-99-99"
-                                        placeholder='Номер телефона'
-                                        maskChar=""/>
-                                    <input type="password" required ref={ref => this.passwordInput1 = ref} className='input input-black' placeholder='Пароль'/>
-                                    <input type="password" required ref={ref => this.passwordInput2 = ref} style={{marginBottom: 0}} className='input input-black' placeholder='Пароль ещё раз'/>
-                                    <input type="submit" className='input input-submit' style={{backgroundColor: error ? '#dd6666' : '', transitionDuration: '.5s'}} value='Зарегистрироваться'/>
-                                    {errorText && <p className='red' style={{marginTop: '24px'}}>{errorText}</p>}
-                                </form>
-                            </div>
-                            <div className="signup-form-links">
-                                <p>Уже зарегистрированы?</p>
-                                <Link to='/login'>Войти</Link>
-                            </div>
+                        {isLoading
+                        ?   <Loader/>
+                        :   <div>
+                                <div className='signup-form-title'>
+                                    <h1>Регистрация</h1>
+                                </div>
+                                <div className="signup-form-inputs">
+                                    <form onSubmit={this.submit}>
+                                        <input required ref={ref => this.fullName = ref} className='input input-black' placeholder='ФИО'/>
+                                        <InputMask
+                                            className='input input-black'
+                                            required
+                                            ref={ref => this.phoneInput = ref}
+                                            mask="+7 999 999-99-99"
+                                            placeholder='Номер телефона'
+                                            maskChar=""/>
+                                        <input type="password" required ref={ref => this.passwordInput1 = ref} className='input input-black' placeholder='Пароль'/>
+                                        <input type="password" required ref={ref => this.passwordInput2 = ref} style={{marginBottom: 0}} className='input input-black' placeholder='Пароль ещё раз'/>
+                                        <input type="submit" className='input input-submit' value='Зарегистрироваться'/>
+                                        {errorText && <p className='red' style={{marginTop: '24px'}}>{errorText}</p>}
+                                    </form>
+                                </div>
+                                <div className="signup-form-links">
+                                    <p>Уже зарегистрированы?</p>
+                                    <Link to='/login'>Войти</Link>
+                                </div>
+                            </div>}
                         </div>
                         <footer>
                             <p><span>© 2018, КредитКлаб</span> <span>8 800 775 80 09</span></p>

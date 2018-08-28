@@ -1,4 +1,6 @@
 import { auth } from './secrets';
+import { resetUserState, resetLoansState } from '../actions/index';
+import store from '../store/index';
 
 const apiURL = process.env.NODE_ENV === 'production' ? auth.url.prod : auth.url.dev;
 
@@ -30,12 +32,12 @@ export default class Auth {
             'Content-Type': 'application/json'
         };
 
-        if (this.loggedIn() && !this.isRefresh()) {
+        if (this.loggedIn() && !this.isRefresh() && !this.isExpired()) {
             headers['Authorization'] = 'Bearer ' + this.getToken().accessToken;
 
             return fetch(url, { headers, ...options })
                     .then(this._checkStatus);
-        } else if (this.isRefresh()) {
+        } else if (this.isRefresh() || this.isExpired()) {
             return this.updateToken().then(() => {
                 headers['Authorization'] = 'Bearer ' + this.getToken().accessToken;
 
@@ -77,7 +79,7 @@ export default class Auth {
             return encodeURIComponent(key) + '=' + encodeURIComponent(body[key]);
         }).join('&');
 
-        return fetch(auth.url, {
+        return fetch(apiURL, {
                 method: 'post',
                 body: encodedBody,
                 headers: {
@@ -91,26 +93,31 @@ export default class Auth {
     }
 
     static setToken(response) {
-        localStorage.setItem('access_token', response.access_token);
-        localStorage.setItem('refresh_token', response.refresh_token);
-        localStorage.setItem('refresh_in', new Date().getTime() + (response.expires_in * 1000) / 2);
-        localStorage.setItem('expires_in', new Date().getTime() + (response.expires_in * 1000));
+        localStorage.setItem('_cc__access_token', response.access_token);
+        localStorage.setItem('_cc__refresh_token', response.refresh_token);
+        localStorage.setItem('_cc__refresh_in', new Date().getTime() + (response.expires_in * 1000) / 2);
+        localStorage.setItem('_cc__expires_in', new Date().getTime() + (response.expires_in * 1000));
     }
 
     static getToken() {
         return {
-            accessToken: localStorage.getItem('access_token'),
-            refreshToken: localStorage.getItem('refresh_token'),
-            refreshIn: localStorage.getItem('refresh_in'),
-            expiresIn: localStorage.getItem('expires_in')
+            accessToken: localStorage.getItem('_cc__access_token'),
+            refreshToken: localStorage.getItem('_cc__refresh_token'),
+            refreshIn: localStorage.getItem('_cc__refresh_in'),
+            expiresIn: localStorage.getItem('_cc__expires_in')
         };
     }
 
     static logout() {
-        localStorage.removeItem('access_token');
-        localStorage.removeItem('refresh_token');
-        localStorage.removeItem('refresh_in');
-        localStorage.removeItem('expires_in');
+        // localStorage.removeItem('_cc__access_token');
+        // localStorage.removeItem('_cc__refresh_token');
+        // localStorage.removeItem('_cc__refresh_in');
+        // localStorage.removeItem('_cc__expires_in');
+        // localStorage.removeItem('__cc_r');
+        // localStorage.removeItem('__cc_crumbs');
+        store.dispatch(resetUserState());
+        store.dispatch(resetLoansState());
+        localStorage.clear();
     }
 
     static loggedIn() {

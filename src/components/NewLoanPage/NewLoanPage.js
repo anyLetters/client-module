@@ -17,7 +17,7 @@ export default class NewLoanPage extends Component {
             <div className='new-app-page'>
                 <div className="wrapper">
                     <div className="content-new-app">
-                        <Header title='Взять займ' page='new-app' back={history.goBack} />
+                        <Header title='Взять заём' page='new-app' back={history.goBack} />
                         <div className="content-new-app-text">
                             <p className='grey'>Выберите желаемую сумму и срок займа. После отправки заявки наш менеджер перезвонит вам в течение часа, чтобыуточнить детали.</p>
                         </div>

@@ -7,16 +7,23 @@ import './style.css';
 export default class Header extends Component {
     render() {
         const { title, page } = this.props;
-        let elementR, elementL;
+        let rightSide, leftSide;
         switch(page) {
             // case 'loans':
             //     element = <Link className='blue' to='/new_application'>Взять займ</Link>;
             //     break;
             case 'loan':
-                elementL = <img src={back} onClick={this.props.back} alt="назад"/>;
+                leftSide = (
+                    <h2>
+                        <img src={back} onClick={this.props.back} alt="назад"/>
+                        {this.props.title}
+                    </h2>
+                );
                 break;
             case 'pay':
-                elementR = <img src={close} onClick={this.props.back} alt="назад"/>;
+                rightSide = (
+                    <img src={close} onClick={this.props.back} alt="назад"/>
+                );
                 break;
             // case 'new-app':
             //     element = <img src={close} onClick={this.props.back} alt=""/>;
@@ -26,11 +33,10 @@ export default class Header extends Component {
         return (
             <div className='header'>
                 <div className="header-leftside">
-                    <h2>{elementL}{this.props.title}</h2>
+                    {leftSide}
                 </div>
                 <div className="header-rightside">
-                    {/* <img src={close} alt="выйти"/> */}
-                    {elementR}
+                    {rightSide}
                 </div>
             </div>
         );

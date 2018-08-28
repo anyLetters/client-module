@@ -1,4 +1,7 @@
 import Auth from './auth';
+import { URL, API_TOKENS } from './secrets';
+
+const apiURL = process.env.NODE_ENV === 'production' ? URL.prod.api : URL.dev.api;
 
 function handleErrors(response) {
     if (!response.ok) {
@@ -18,28 +21,89 @@ function handleErrors(response) {
     return response;
 }
 
-export class UserAPI {
+export class Dadata {
+    static getFIOSuggestions(query) {
+        return fetch("https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/fio", {
+                    body: JSON.stringify({ query }),
+                    headers: {
+                        Accept: "application/json",
+                        Authorization: `Token ${API_TOKENS.dadata}`,
+                        "Content-Type": "application/json"
+                    },
+                    method: "POST"
+                })
+                .then(handleErrors)
+                .then(response => response.json())
+                .then(json => {
+					if (json.suggestions.length > 0) {
+						let suggests = json.suggestions.filter(suggestion => {
+							if (query.toLowerCase().trim() === suggestion.value.toLowerCase().trim()) return suggestion;
+                        });
+                        return suggests.length > 0
+                        ? {
+                            gender: suggests[0].data.gender,
+                            name: suggests[0].data.name,
+                            patronymic: suggests[0].data.patronymic,
+                            surname: suggests[0].data.surname
+                        }
+                        : {
+                            gender: null,
+                            name: query.trim(),
+                            patronymic: null,
+                            surname: null
+                        };
+					} else {
+						return {
+							gender: null,
+							name: query.trim(),
+							patronymic: null,
+							surname: null
+						};
+                    }
+                });
+    }
+}
+
+export class PersonAPI {
     static create(body) {
-        return fetch('https://api.credit.club/person/account', {
+        let str = '?';
+        for (let key in body) {
+            if (body[key]) str += `${key}=${body[key]}&`;
+        }
+        str = str.slice(0, str.length - 1);
+        return fetch(`${apiURL}/person/account${str}`, {
                     method: 'post',
-                    body: JSON.stringify(body),
                     headers: { 'Accept': 'application/json;charset=UTF-8', 'Content-Type': 'application/json;charset=UTF-8' }
                 })
                 .then(handleErrors)
                 .then(response => response.json());
     }
+
+    static getCurrentPerson() {
+        return Auth.fetch(`${apiURL}/person/current`)
+            .then(handleErrors)
+            .then(response => response.json());
+    }
 }
 
 export class LoanAPI {
     static getAllByPersonId() {
-        return Auth.fetch('https://api.credit.club/loan/person')
+        return Auth.fetch(`${apiURL}/loan/person`)
+                .then(handleErrors)
+                .then(response => response.json());
+    }
+
+    static getLoan(number) {
+        return Auth.fetch(`${apiURL}/loan/?id=${number}`)
                 .then(handleErrors)
                 .then(response => response.json());
     }
 }
 
-export class ApplicationsAPI {
-    static getApplications() {
-        // return Auth.fetch('')
+export class ApplicationAPI {
+    static findAllByPersonId() {
+        return Auth.fetch(`${apiURL}/application/person`)
+                .then(handleErrors)
+                .then(response => response.json());
     }
 }
