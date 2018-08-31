@@ -1,9 +1,6 @@
 .loader {
   position: relative;
-  transform: translateY(50%);
-  margin-left: -24px;
-  z-index: -1;
-  left: 50%; }
+  z-index: -1; }
   .loader .lds-ring-default {
     display: inline-block;
     position: relative;

@@ -3,58 +3,13 @@ import Menu from '../../containers/Menu';
 import Header from '../Header/Header';
 import { Link } from 'react-router-dom';
 import { isEmpty } from 'ramda';
+import doge from '../../images/1.png';
 import { GetFullName } from '../../api/index';
 import moment from 'moment';
+import Loader from '../Loader/Loader';
 import 'moment/locale/ru';
 import './style.css';
 import './media.css';
-
-export const STATUSES = [
-    {
-        "title": "REFUSAL",
-        "value": "Отказ"
-    },
-    {
-      "title": "NEW",
-      "value": "Новая"
-    },
-    {
-      "title": "PROCESSING",
-      "value": "В Обработке",
-    },
-    {
-      "title": "FIRST_APPROVAL",
-      "value": "Согласование"
-    },
-    {
-      "title": "FIRST_LEGAL_ASSESSMENT",
-      "value": "Юр. оценка"
-    },
-    {
-      "title": "SECOND_APPROVAL",
-      "value": "Согласование"
-    },
-    {
-      "title": "WAITING_FOR_INVESTMENT",
-      "value": "Инвестирование"
-    },
-    {
-      "title": "CREATION_OF_CONTRACTS",
-      "value": "Создание договоров"
-    },
-    {
-      "title": "SECOND_LEGAL_ASSESSMENT",
-      "value": "Юр. оценка"
-    },
-    {
-      "title": "WAITING_FOR_SIGNING",
-      "value": "Подписание"
-    },
-    {
-      "title": "BECAME_LOAN",
-      "value": "Займ"
-    }
-];
 
 function DummyLoan(props) {
     return (
@@ -167,7 +122,12 @@ function Loan(props) {
                             {loan.contract.loan.toLocaleString('ru')} ₽ на {loan.contract.period} мес. под {loan.contract.percent}%
                         </div>
                         <div>
-                            {date}
+                            <span className={isOverdue && 'red'}>{upcomingPayment.toLocaleString('ru')} ₽</span>
+                            <span>{` · `}</span>
+                            <span>{moment(upcomingPaymentDate.date).format('D MMMM')}</span>
+                        </div>
+                        <div>
+                            <Link to={`/loan/${loan.id}/pay`} className='blue'>Оплатить</Link>
                         </div>
                     </div>
                 </div>
@@ -197,7 +157,7 @@ function Loan(props) {
 function Application(props) {
     const { application } = props;
     const date = moment.utc(application.createdAt, 'YYYY-MM-DD').local().format('D MMMM YYYY');
-    const status = application.status.title;
+    const status = application.status.abbreviation;
     return (
         // <Link to={`/application/${application.id}`}>
             <div className='block-application'>
@@ -210,7 +170,7 @@ function Application(props) {
                     </div>
                     <div className="application-under">
                         <span className={status === 'REFUSAL' ? 'red' : status === 'BECAME_LOAN' ? 'green' : ''}>
-                            {STATUSES.find(e => status === e.title).value}
+                            {application.status.abbreviation}
                         </span>
                     </div>
                 </div>
@@ -220,7 +180,8 @@ function Application(props) {
                     </div>
                     <div>
                         <span className={status === 'REFUSAL' ? 'red' : status === 'BECAME_LOAN' ? 'green' : ''}>
-                            {STATUSES.find(e => status === e.title).value}
+                            {/* {STATUSES.find(e => status === e.title).value} */}
+                            {application.status.abbreviation}
                         </span>
                     </div>
                     <div>
@@ -270,14 +231,15 @@ export default class MainPage extends Component {
     renderLoans = (loans) => {
         return (
             <div className='loans'>
-                {!isEmpty(loans) && <div className='loans-columns'>
+                <div className='loans-columns'>
                     <div>Договор</div>
                     <div>Параметры займа</div>
                     <div>Предстоящий платеж</div>
-                </div>}
-                {isEmpty(loans)
+                </div>
+                {/* {isEmpty(loans)
                 ? <div className='loans-not-found'>Займы не найдены :(</div>
-                : loans.map((loan, i) => <Loan key={i} loan={loan} link={this.props.history.push} /> )}
+                : loans.map((loan, i) => <Loan key={i} loan={loan} link={this.props.history.push} /> )} */}
+                {loans.map((loan, i) => <Loan key={i} loan={loan} link={this.props.history.push} /> )}
             </div>
         );
     }
@@ -285,16 +247,60 @@ export default class MainPage extends Component {
     renderApplications = (applications) => {
         return (
             <div className='applications'>
-                {!isEmpty(applications) && <div className='applications-columns'>
+                <div className='applications-columns'>
                     <div>Параметры займа</div>
                     <div>Статус</div>
                     <div>Дата и время</div>
-                </div>}
-                {isEmpty(applications)
+                </div>
+                {/* {isEmpty(applications)
                 ? <div className='applications-not-found'>Заявки не найдены :(</div>
-                : applications.map((application, i) => <Application key={i} application={application} link={this.props.history.push} /> )}
+                : applications.map((application, i) => <Application key={i} application={application} link={this.props.history.push} /> )} */}
+                {applications.map((application, i) => <Application key={i} application={application} link={this.props.history.push} /> )}
             </div>
         );
+    }
+
+    renderContent = () => {
+        const { loans, applications } = this.props;
+        const hasLoans = !isEmpty(loans.data) && !loans.fetching;
+        const hasApplications = !isEmpty(applications.data) && !applications.fetching;
+
+        if (loans.fetching || applications.fetching) {
+            return <div><Loader/></div>
+        }
+
+        if (!hasLoans && !hasApplications) {
+            return <div style={{height: '100%', margin: '5% 0'}}><img src={doge} alt=""/><p>Здесь ничего нет</p></div>;
+        } else if (hasApplications && hasLoans) {
+            return (
+                <div>
+                    <h3 className='tabs-item'>Займы</h3>
+                    {this.renderLoans(loans.data)}
+                    <h3 className='tabs-item'>Инвестиции</h3>
+                    {this.renderApplications(applications.data)}
+                </div>
+            )
+        }
+
+        if (hasLoans && !hasApplications) {
+            return (
+                <div>
+                    <h3 className='tabs-item'>Займы</h3>
+                    {this.renderLoans(loans.data)}
+                </div>
+            );
+        }
+
+        if (hasApplications && !hasLoans) {
+            return (
+                <div>
+                    <h3 className='tabs-item'>Инвестиции</h3>
+                    {this.renderApplications(applications.data)}
+                </div>
+            );
+        }
+
+        return null;
     }
 
     onSelectTab = (value) => {
@@ -304,7 +310,7 @@ export default class MainPage extends Component {
     render() {
         const { loans, applications, match, history } = this.props;
         const { activeTab } = this.state;
-
+        console.log(this.props);
         return (
             <div className='main-page'>
                 <div>
@@ -312,16 +318,23 @@ export default class MainPage extends Component {
                     <div className="wrapper">
                         <div className="content-main">
                             <div className="content-main-upper">
-                                <Tabs>
+                                {/* <Tabs>
                                     <TabItem value='Займы' active={activeTab} onSelectTab={this.onSelectTab} />
                                     <TabItem value='Заявки' active={activeTab} onSelectTab={this.onSelectTab} />
-                                </Tabs>
-                                {activeTab === 'Займы' ? (loans.fetching || loans.error)
-                                    ? <DummyLoan error={loans.error} />
-                                    : this.renderLoans(loans.data) : null}
-                                {activeTab === 'Заявки' ? (applications.fetching || applications.error)
-                                    ? <DummyApplication error={applications.error} />
-                                    : this.renderApplications(applications.data) : null}
+                                </Tabs> */}
+                                {/* {!isEmpty(loans.data) && <div>
+                                    <h3>Займы</h3>
+                                    {(loans.fetching || loans.error)
+                                        ? <DummyLoan error={loans.error} />
+                                        : this.renderLoans(loans.data)}
+                                </div>}
+                                {!isEmpty(applications.data) && <div>
+                                    <h3>Инвестиции</h3>
+                                    {(applications.fetching || applications.error)
+                                        ? <DummyApplication error={applications.error} />
+                                        : this.renderApplications(applications.data)}
+                                </div>} */}
+                                {this.renderContent()}
                             </div>
                         </div>
                     </div>

@@ -20,11 +20,14 @@
       justify-content: space-between; }
       .main-page .tabs-item {
         margin: 0;
+        margin-bottom: 16px;
         font-size: 24px; }
     .main-page .applications-columns, .main-page .loans-columns {
       display: none; }
     .main-page .block-loan-mobile-no-1c {
-      display: flex; } }
+      display: flex; }
+    .main-page .content-main {
+      padding-top: 20px; } }
 
 @media screen and (max-width: 767px) {
   .main-page {
@@ -41,8 +44,11 @@
       justify-content: space-between; }
       .main-page .tabs-item {
         margin: 0;
+        margin-bottom: 16px;
         font-size: 24px; }
     .main-page .applications-columns, .main-page .loans-columns {
       display: none; }
     .main-page .block-loan-mobile-no-1c {
-      display: flex; } }
+      display: flex; }
+    .main-page .content-main {
+      padding-top: 20px; } }

@@ -29,7 +29,7 @@ export function fetchApplications(id) {
 
         return ApplicationAPI.findAllByPersonId()
                 .then(json => {
-                    dispatch(fetchApplicationsSuccess(json))
+                    dispatch(fetchApplicationsSuccess([json]))
                     return json;
                 })
                 .catch(error => dispatch(fetchApplicationsFailure(error)));

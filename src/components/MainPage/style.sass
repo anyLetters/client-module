@@ -21,10 +21,11 @@
         margin-bottom: 10px
         &-item
             font-size: 36px
-            margin: 0 32px
+            // margin: 0 32px
             font-weight: 600
             color: #343434
-            cursor: pointer
+            // cursor: pointer
+            text-align: left
 
 .content-main
     min-height: 100%
@@ -32,6 +33,7 @@
     box-sizing: border-box
     display: flex
     padding: 20px 0
+    padding-top: 36px
     flex-direction: column
     justify-content: space-between
     .block-loan
@@ -68,11 +70,12 @@
                     margin-bottom: 15px
         &-desktop
             display: grid
-            grid-template-columns: 1fr 1fr 1fr
+            grid-template-columns: 1.1fr 1.1fr .9fr .25fr
             height: 100%
             font-size: 18px
-            max-height: 56px
-            grid-template-rows: 36px
+            min-height: 36px
+            grid-auto-rows: auto
+            color: #343434
             justify-items: flex-start
             align-items: center
     .block-application
@@ -93,6 +96,7 @@
             grid-template-columns: 1fr 1fr 1fr
             font-size: 18px
             min-height: 36px
+            color: #343434
             grid-auto-rows: auto
             justify-items: flex-start
             align-items: center
@@ -106,6 +110,8 @@
             margin-top: 30px
             margin-bottom: 8px
             width: 100%
+    .loans-columns
+        grid-template-columns: 1.1fr 1.1fr .9fr .25fr
     .loan-under, .application-under
         font-size: 14px
         color: #343434
@@ -113,9 +119,13 @@
         justify-content: space-between
     .loans-not-found, .applications-not-found
         padding: 48px
+        max-height: 56px
+        min-height: 46px
     &-footer
         display: none
         flex-wrap: nowrap
         input
             width: 100%
             cursor: pointer
+    .list-name
+        font-size: 
