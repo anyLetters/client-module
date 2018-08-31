@@ -1,11 +1,41 @@
 import React, { Component } from 'react';
-import logo from '../../images/mini-logo.svg';
+import miniLogo from '../../images/mini-logo.svg';
+import logo from '../../images/logo-textless.svg';
 import logout from '../../images/logout.svg';
 import { Link } from 'react-router-dom';
 import Auth from '../../api/auth';
 import account from '../../images/account-default.svg';
 import './style.css';
+import './media.css';
 import { isEmpty } from 'ramda';
+
+class Tabs extends Component {
+
+    state = {
+        tab: this.props.active
+    }
+
+    switchTab = tab => {
+        if (tab === this.state.tab) return;
+        this.setState({ tab });
+    }
+
+    render() {
+        const { items } = this.props;
+        console.log('render');
+        return (
+            <div className='menu-tabs'>
+                {items.map((e, i) => {
+                    return (
+                        <div key={i} className={`menu-tab ${e.value === this.state.tab ? 'tab-active' : ''}`} onClick={() => this.switchTab(e.value)}>
+                            <Link className={`${e.value !== this.state.tab ? 'grey' : 'blue'}`} to={`/${e.value}`}>{e.title}</Link>
+                        </div>
+                    );
+                })}
+            </div>
+        );
+    }
+}
 
 export default class Menu extends Component {
 
@@ -39,18 +69,30 @@ export default class Menu extends Component {
     }
 
     render() {
-        const { error, fetching } = this.props;
+        const { error, fetching, active } = this.props;
         return (
             <div className='menu'>
-                <div>
-                    <Link to='/'><img src={logo} alt=""/></Link>
-                    <span className='username'>Меню</span>
-                </div>
-                <div>
-                    {!error && !fetching && this._username && <Link to='/' className='username'>
-                        {this._username}
-                    </Link>}
-                    <Link to='/login' onClick={this.logout}><img src={logout} alt="выйти"/></Link>
+                <div className='menu-content'>
+                    <div>
+                        <Link to='/'>
+                            <img src={miniLogo} className='menu-mini-logo' alt=""/>
+                            <img src={logo} className='menu-big-logo' alt=""/>
+                        </Link>
+                        <span className='menu-btn blue'>Меню</span>
+                        <Tabs
+                            active={active}
+                            items={[
+                                {title: 'Заёмщик', value: 'borrower'},
+                                {title: 'Инвестор', value: 'investor'}
+                            ]}/>
+                    </div>
+                    <div>
+                        <span className='menu-apply blue'>Подать заявку на заём</span>
+                        {!error && !fetching && this._username && <Link to='/' className='username'>
+                            {this._username}
+                        </Link>}
+                        <Link to='/login' className='logout' onClick={this.logout}><img src={logout} alt="выйти"/></Link>
+                    </div>
                 </div>
             </div>
         );

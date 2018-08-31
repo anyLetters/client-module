@@ -45,7 +45,7 @@ export default class SignupPage extends Component {
                             username: phone,
                             password
                         })
-                        .then(() => this.props.history.push('/'))
+                        .then(() => this.props.history.push('/borrower'))
                         .catch(json => this.props.history.push('/login'));
                     })
                     .catch(json => {
@@ -71,14 +71,17 @@ export default class SignupPage extends Component {
         }
     }
 
+    componentDidMount() {
+        document.body.style = 'background: #343434;';
+    }
+
     render() {
         const { error, errorText, isLoading } = this.state;
         return (
             <div className='signup-page'>
-                <div className="back"></div>
                 <div className="wrapper">
                     <div className="content-signup">
-                        <div className="menu">
+                        <div className="menu no-padding">
                             <img src={logo} alt=""/>
                         </div>
                         <div className="signup-form">

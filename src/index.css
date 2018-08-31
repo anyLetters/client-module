@@ -1,6 +1,7 @@
 * {
 	padding: 0;
 	margin: 0;
+	box-sizing: border-box;
 }
 
 html {
@@ -24,16 +25,40 @@ body {
 }
 
 .wrapper {
-	min-width: 320px;
+	/* min-width: 320px; */
+	padding: 0 16px;
 	margin: 0 auto;
-	padding: 0 20px;
+	display: flex;
+	justify-content: center;
+	width: 1180px;
 	/* max-width: 768px; */
-	max-width: 320px;
+	/* max-width: 320px; */
 	box-sizing: border-box;
 }
 
 @media screen and (max-width: 767px) {
 	.wrapper {
 		width: 100%;
+		padding: 0 20px;
 	}
 }
+
+@media screen and (max-width: 991px) and (min-width: 768px) {
+	.wrapper {
+		/* width: 750px; */
+		width: 100%;
+		padding: 0 20px;
+	}
+}
+
+@media screen and (max-width: 1200px) and (min-width: 992px) {
+	.wrapper {
+		width: 970px;
+	}
+}
+/* 
+* {
+	background: #000 !important;
+	color: #0f0 !important;
+	outline: solid #f00 1px !important;
+  } */

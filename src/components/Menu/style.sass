@@ -1,21 +1,49 @@
 .menu
+    font-size: 20px
+    margin: 0 auto
+    padding: 0 16px
     display: flex
-    justify-content: space-between
-    margin-bottom: 20px
+    align-items: center
     img
         cursor: pointer
+    a:first-child
+        height: 32px
     .avatar
         margin-top: -2px
         margin-left: 8px
     .username
-        font-size: 14px
-        line-height: 1.43
         color: #00a1dc
         margin-right: 10px
         align-items: flex-start
         display: flex
-    div
+    .menu-content
+        width: 100%
         display: flex
-        &:first-child
-            img
-                margin-right: 10px
+        height: 100%
+        justify-content: space-between
+        line-height: 32px
+        align-items: center
+        .menu-btn
+            display: none
+        .menu-tabs
+            height: 100%
+            margin-left: 20%
+            .menu-tab
+                display: inline
+                height: 100%
+                margin-right: 24px
+            .tab-active
+                border-bottom: 2px solid #00a1dc
+        div
+            display: flex
+            // align-items: center
+            height: 100%
+            &:first-child
+                img
+                    margin-right: 10px
+    &-apply
+        margin-right: 32px
+    &-mini-logo
+        display: none
+    .logout
+        display: flex

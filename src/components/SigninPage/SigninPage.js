@@ -13,6 +13,7 @@ export default class SigninPage extends Component {
         errorText: null,
         isLoading: false
     }
+
     submit = e => {
         e.preventDefault();
         const phone = this.phoneInput.value.replace(/[^0-9.]/g, "").slice(1);;
@@ -29,7 +30,7 @@ export default class SigninPage extends Component {
                 username: phone,
                 password
             })
-            .then(() => this.props.history.push('/'))
+            .then(() => this.props.history.push('/borrower'))
             .catch(json => {
                 this.showError(json);
                 console.error(`Error: ${json.error}\nMessage: ${json.message}`);
@@ -47,14 +48,17 @@ export default class SigninPage extends Component {
         }
     }
 
+    componentDidMount() {
+        document.body.style = 'background: #343434;';
+    }
+
     render() {
         const { error, errorText, isLoading } = this.state;
         return (
             <div className='signin-page'>
-                <div className="back"></div>
                 <div className="wrapper">
                     <div className="content-signin">
-                        <div className="menu">
+                        <div className="menu no-padding">
                             <img src={logo} alt=""/>
                         </div>
                         <div className="signin-form">

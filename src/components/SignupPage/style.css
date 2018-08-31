@@ -2,9 +2,9 @@
   height: 100%;
   width: 100%; }
   .signup-page .wrapper {
-    height: 100%;
-    width: 100%;
-    max-width: 400px; }
+    height: 100%; }
+  .signup-page .menu {
+    margin: 0; }
   .signup-page .back {
     background-color: #343434;
     position: fixed;
@@ -13,7 +13,8 @@
     z-index: -1; }
 
 .content-signup {
-  height: 100%;
+  min-height: 100%;
+  min-width: 100%;
   display: flex;
   justify-content: space-between;
   flex-direction: column;

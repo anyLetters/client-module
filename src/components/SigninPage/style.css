@@ -2,18 +2,30 @@
   height: 100%;
   width: 100%; }
   .signin-page .wrapper {
-    height: 100%;
-    width: 100%;
-    max-width: 400px; }
+    height: 100%; }
+  .signin-page .menu {
+    margin: 0; }
   .signin-page .back {
     background-color: #343434;
     position: fixed;
     min-width: 100%;
     min-height: 100%;
     z-index: -1; }
+  .signin-page footer {
+    color: #a3a3a3;
+    font-size: 14px;
+    padding-bottom: 24px;
+    padding-top: 40px;
+    width: 100%; }
+    .signin-page footer p {
+      display: flex;
+      margin: 0;
+      padding: 0;
+      justify-content: space-between; }
 
 .content-signin {
-  height: 100%;
+  min-height: 100%;
+  min-width: 100%;
   display: flex;
   padding-top: 20px;
   justify-content: space-between;
@@ -23,17 +35,6 @@
     margin-bottom: 0;
     display: block;
     text-align: left; }
-  .content-signin footer {
-    color: #a3a3a3;
-    font-size: 14px;
-    padding-bottom: 24px;
-    padding-top: 40px;
-    width: 100%; }
-    .content-signin footer p {
-      display: flex;
-      margin: 0;
-      padding: 0;
-      justify-content: space-between; }
 
 .signin-form {
   margin: 40px auto;

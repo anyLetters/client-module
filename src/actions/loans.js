@@ -33,7 +33,7 @@ export function fetchLoans() {
                     return json;
                 })
                 .catch(error => dispatch(fetchLoansFailure(error)));
-        // return LoanAPI.getLoan('МК 0518/20')
+        // return LoanAPI.getLoan('217')
         //             .then(json => {
         //                 dispatch(fetchLoansSuccess([json]))
         //                 return json;

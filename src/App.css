@@ -19,6 +19,10 @@ a {
 	outline: 0;
 }
 
+.no-padding {
+	padding: 0 !important;
+}
+
 .input {
 	font-size: 16px;
 	border-radius: 4px;
@@ -76,6 +80,12 @@ a {
 	border-radius: 4px;
 	background-color: #dd6666;
 	opacity: .2;
+}
+
+.block-error {
+	background-color: #dd6666;
+	opacity: .25;
+	border-radius: 5px;
 }
 
 .block-loan, .block-application {

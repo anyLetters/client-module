@@ -1,5 +1,5 @@
 import { auth } from './secrets';
-import { resetUserState, resetLoansState } from '../actions/index';
+import { resetUserState, resetLoansState, resetApplicationsState } from '../actions/index';
 import store from '../store/index';
 
 const apiURL = process.env.NODE_ENV === 'production' ? auth.url.prod : auth.url.dev;
@@ -109,14 +109,9 @@ export default class Auth {
     }
 
     static logout() {
-        // localStorage.removeItem('_cc__access_token');
-        // localStorage.removeItem('_cc__refresh_token');
-        // localStorage.removeItem('_cc__refresh_in');
-        // localStorage.removeItem('_cc__expires_in');
-        // localStorage.removeItem('__cc_r');
-        // localStorage.removeItem('__cc_crumbs');
         store.dispatch(resetUserState());
         store.dispatch(resetLoansState());
+        store.dispatch(resetApplicationsState());
         localStorage.clear();
     }
 

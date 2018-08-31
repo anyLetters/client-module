@@ -1,61 +1,111 @@
 .main-page
-    height: 100%
+    min-height: 100%
     width: 100%
-    .wrapper
-        height: 100%
-        width: 100%
-        max-width: 400px
+    padding: 12px 0
+    box-sizing: border-box
+    display: flex
+    justify-content: space-between
+    flex-direction: column
+    // .wrapper
+    //     height: 100%
+    //     width: 100%
+    //     max-width: 400px
         // padding: 0 40px
-        .tabs
-            display: flex
-            width: 100%
-            flex-direction: row
-            align-items: flex-end
-            line-height: .8
-            justify-content: space-between
-            margin-bottom: 10px
-            &-item
-                font-size: 24px
-                font-weight: 600
-                color: #343434
-                cursor: pointer
+    .tabs
+        display: flex
+        width: 100%
+        flex-direction: row
+        align-items: flex-end
+        line-height: .8
+        justify-content: center
+        margin-bottom: 10px
+        &-item
+            font-size: 36px
+            margin: 0 32px
+            font-weight: 600
+            color: #343434
+            cursor: pointer
 
 .content-main
     min-height: 100%
-    padding: 20px 0
+    min-width: 100%
     box-sizing: border-box
     display: flex
+    padding: 20px 0
     flex-direction: column
     justify-content: space-between
     .block-loan
-        min-height: 123px
+        max-width: 1180px
         box-sizing: border-box
+        padding: 10px 24px
+        &-mobile
+            min-height: 103px
+            display: none
+            .loan-info
+                font-size: 14px
+                line-height: 1.43
+                color: #343434
+                text-align: left
+                margin-bottom: 15px
+                p:first-child
+                    font-weight: 500
+            .loan-payment
+                display: flex
+                flex-wrap: wrap
+                font-size: 24px
+                text-align: left
+                color: #343434
+                margin-bottom: 5px
+                span:nth-child(2)
+                    padding: 0 5px
+            &-no-1c
+                display: none
+                min-height: 103px
+                flex-direction: column
+                justify-content: center
+                .loan-info
+                    text-align: center
+                    margin-bottom: 15px
+        &-desktop
+            display: grid
+            grid-template-columns: 1fr 1fr 1fr
+            height: 100%
+            font-size: 18px
+            max-height: 56px
+            grid-template-rows: 36px
+            justify-items: flex-start
+            align-items: center
     .block-application
-        min-height: 96px
+        max-width: 1180px
         box-sizing: border-box
-    .application-info
-        font-size: 14px
-        line-height: 1.43
-        color: #343434
-        text-align: left
-        margin-bottom: 15px
-    .loan-info
-        font-size: 14px
-        line-height: 1.43
-        color: #343434
-        text-align: left
-        margin-bottom: 15px
-        p:first-child
-            font-weight: 500
-    .loan-payment
-        display: flex
-        flex-wrap: wrap
-        font-size: 24px
-        text-align: left
-        color: #343434
-        margin-bottom: 5px
-        span:nth-child(2)
-            padding: 0 5px
+        padding: 10px 24px
+        &-mobile
+            min-height: 96px
+            display: none
+            .application-info
+                font-size: 14px
+                line-height: 1.43
+                color: #343434
+                text-align: left
+                margin-bottom: 15px
+        &-desktop
+            display: grid
+            grid-template-columns: 1fr 1fr 1fr
+            font-size: 18px
+            min-height: 36px
+            grid-auto-rows: auto
+            justify-items: flex-start
+            align-items: center
+    .applications, .loans
+        &-columns
+            font-size: 14px
+            display: grid
+            grid-template-columns: 1fr 1fr 1fr
+            padding: 0 24px
+            justify-items: flex-start
+            margin-top: 30px
+            margin-bottom: 8px
+            width: 100%
     .loan-under, .application-under
         font-size: 14px
         color: #343434
@@ -64,6 +114,8 @@
     .loans-not-found, .applications-not-found
         padding: 48px
     &-footer
+        display: none
+        flex-wrap: nowrap
         input
             width: 100%
             cursor: pointer

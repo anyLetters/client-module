@@ -1,0 +1,48 @@
+@media screen and (max-width: 1200px) and (min-width: 992px) {
+  .main-page .tabs-item {
+    font-size: 28px; }
+  .main-page .block-application-desktop, .main-page .block-loan-desktop {
+    font-size: 16px;
+    min-height: 26px; } }
+
+@media screen and (max-width: 991px) and (min-width: 768px) {
+  .main-page .content-main-footer {
+    display: flex; }
+  .main-page {
+    padding: 20px 0; }
+    .main-page .block-application, .main-page .block-loan {
+      padding: 10px; }
+    .main-page .block-application-desktop, .main-page .block-loan-desktop {
+      display: none; }
+    .main-page .block-application-mobile, .main-page .block-loan-mobile {
+      display: block; }
+    .main-page .tabs {
+      justify-content: space-between; }
+      .main-page .tabs-item {
+        margin: 0;
+        font-size: 24px; }
+    .main-page .applications-columns, .main-page .loans-columns {
+      display: none; }
+    .main-page .block-loan-mobile-no-1c {
+      display: flex; } }
+
+@media screen and (max-width: 767px) {
+  .main-page {
+    padding: 20px 0; }
+    .main-page .content-main-footer {
+      display: flex; }
+    .main-page .block-application, .main-page .block-loan {
+      padding: 10px; }
+    .main-page .block-application-desktop, .main-page .block-loan-desktop {
+      display: none; }
+    .main-page .block-application-mobile, .main-page .block-loan-mobile {
+      display: block; }
+    .main-page .tabs {
+      justify-content: space-between; }
+      .main-page .tabs-item {
+        margin: 0;
+        font-size: 24px; }
+    .main-page .applications-columns, .main-page .loans-columns {
+      display: none; }
+    .main-page .block-loan-mobile-no-1c {
+      display: flex; } }
