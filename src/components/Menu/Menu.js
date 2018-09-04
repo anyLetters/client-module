@@ -22,7 +22,7 @@ class Tabs extends Component {
 
     render() {
         const { items } = this.props;
-        console.log('render');
+
         return (
             <div className='menu-tabs'>
                 {items.map((e, i) => {
@@ -82,8 +82,8 @@ export default class Menu extends Component {
                         <Tabs
                             active={active}
                             items={[
-                                {title: 'Заёмщик', value: 'borrower'},
-                                {title: 'Инвестор', value: 'investor'}
+                                {title: 'Займы', value: 'loans'},
+                                {title: 'Инвестиции', value: 'investments'}
                             ]}/>
                     </div>
                     <div>

@@ -37,7 +37,7 @@ function TableRow(props) {
 
 function HistoryRow(props) {
     return (
-        <div className='history-row mb-10'>
+        <div className='loan-history-row'>
             <div>
                 <div>{props.title}</div>
                 <span className={props.color}>
@@ -108,7 +108,7 @@ export default class LoanPage extends Component {
     }
 
     render() {
-        const { error, fetching } = this.props;
+        const { error, fetching, history } = this.props;
         const { loan } = this.state;
 
         if (error || fetching || !loan) return <div></div>;
@@ -122,51 +122,57 @@ export default class LoanPage extends Component {
         return (
             <div className='loan-page'>
                 <div>
-                    <Menu />
+                    <Menu active={'loans'} />
                     <div className="wrapper">
                         <div className="content-loan">
-                            <Header title={loan.number} page='loan' back={() => this.props.history.push('/loans')} />
-                            <div className="block-loan">
-                                <div className="block-loan-row">
-                                    <BlockRow title='Параметры займа' text={`${loan.contract.loan.toLocaleString('ru')} ₽ на ${loan.contract.period} мес. под ${loan.contract.percent}%`} />
+                            <Header title={`${loan.number}`} page='loan' back={() => this.props.history.push('/loans')} />
+                            <div className="blocks-loan">
+                                <div className="blocks-loan-1">
+                                    <div className="block-loan">
+                                        <div className="block-loan-row">
+                                            <BlockRow title='Параметры займа' text={`${loan.contract.loan.toLocaleString('ru')} ₽ на ${loan.contract.period} мес. под ${loan.contract.percent}%`} />
+                                        </div>
+                                        <div className="block-loan-row">
+                                            <BlockRow title='Остаток долга' text={`${loan.contract.balanceOwed ? loan.contract.balanceOwed.toLocaleString('ru') : 0} ₽`} />
+                                            <BlockRow title='Остаток на счете' text={`${loan.contract.accountBalance ? loan.contract.accountBalance.toLocaleString('ru') : 0} ₽`} />
+                                        </div>
+                                        <div className="block-loan-row">
+                                            <BlockRow title='Дата займа' text={`${moment(loan.createdAt).format('DD MMM YYYY')}`} />
+                                            <BlockRow title='Тип займа' text={loan.contract.type} />
+                                        </div>
+                                    </div>
                                 </div>
-                                <div className="block-loan-row">
-                                    <BlockRow title='Остаток долга' text={`${loan.contract.balanceOwed ? loan.contract.balanceOwed.toLocaleString('ru') : 0} ₽`} />
-                                    <BlockRow title='Остаток на счете' text={`${loan.contract.accountBalance ? loan.contract.accountBalance.toLocaleString('ru') : 0} ₽`} />
+                                <div className="blocks-loan-2">
+                                    <div className="block-loan mb-20">
+                                        <div className="loan-payment">
+                                            <span className={isOverdue ? 'red' : ''}>{upcomingPayment.toLocaleString('ru')} ₽</span>
+                                            <span>{` · `}</span>
+                                            <span>{moment(upcomingPaymentDate).format('D MMMM')}</span>
+                                        </div>
+                                        <div className="loan-under">
+                                            <p className='grey'>Предстоящий платеж</p>
+                                            <p className='blue'>
+                                                <span onClick={this.toggle}>{this.state.isToggled ? 'Свернуть' : 'Подробно'}</span>
+                                                <Link className='blue' to={`/loan/${this.props.match.params.id}/pay`}>Оплатить</Link>
+                                            </p>
+                                        </div>
+                                        {this.state.isToggled && <div className="loan-more">
+                                            <Table>
+                                                <TableRow colOne={loan.contract.upcomingPayment.main || 0} colTwo='основной долг' />
+                                                <TableRow colOne={loan.contract.upcomingPayment.percent || 0} colTwo='проценты' />
+                                                <TableRow colOne={loan.contract.upcomingPayment.penalties || 0} colTwo='пени' red />
+                                                <TableRow colOne={overduePayment || 0} colTwo='просрочка' red />
+                                            </Table>
+                                        </div>}
+                                    </div>
+                                    <div className="loan-history">
+                                        <h4>Движение средств по договору</h4>
+                                        {motion && motion.sort((a,b) => a.date < b.date).map((e, i) => {
+                                            let {title, color} = this.defineTitleAndColor(e);
+                                            return <HistoryRow key={i} title={title} expenses={e.amount.toLocaleString('ru')} date={moment(e.date).format('DD MMM YYYY')} color={color} />;
+                                        })}
+                                    </div>
                                 </div>
-                                <div className="block-loan-row">
-                                    <BlockRow title='Дата займа' text={`${moment(loan.createdAt).format('DD MMM YYYY')}`} />
-                                    <BlockRow title='Тип займа' text={loan.contract.type} />
-                                </div>
-                            </div>
-                            <div className="block-loan mb-20">
-                                <div className="loan-payment">
-                                    <span className={isOverdue ? 'red' : ''}>{upcomingPayment.toLocaleString('ru')} ₽</span>
-                                    <span>{` · `}</span>
-                                    <span>{moment(upcomingPaymentDate).format('D MMMM')}</span>
-                                </div>
-                                <div className="loan-under">
-                                    <p className='grey'>Предстоящий платеж</p>
-                                    <p className='blue'>
-                                        <span onClick={this.toggle}>{this.state.isToggled ? 'Свернуть' : 'Подробно'}</span>
-                                        <Link className='blue' to={`/loan/${this.props.match.params.id}/pay`}>Оплатить</Link>
-                                    </p>
-                                </div>
-                                {this.state.isToggled && <div className="loan-more">
-                                    <Table>
-                                        <TableRow colOne={loan.contract.upcomingPayment.main || 0} colTwo='основной долг' />
-                                        <TableRow colOne={loan.contract.upcomingPayment.percent || 0} colTwo='проценты' />
-                                        <TableRow colOne={loan.contract.upcomingPayment.penalties || 0} colTwo='пени' red />
-                                        <TableRow colOne={overduePayment || 0} colTwo='просрочка' red />
-                                    </Table>
-                                </div>}
-                            </div>
-                            <div className="loan-history">
-                                <h4>Движение средств по договору</h4>
-                                {motion && motion.sort((a,b) => a.date < b.date).map((e, i) => {
-                                    let {title, color} = this.defineTitleAndColor(e);
-                                    return <HistoryRow key={i} title={title} expenses={e.amount.toLocaleString('ru')} date={moment(e.date).format('DD MMM YYYY')} color={color} />;
-                                })}
                             </div>
                         </div>
                     </div>

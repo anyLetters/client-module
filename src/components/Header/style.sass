@@ -5,7 +5,15 @@
     align-items: flex-end
     line-height: .8
     justify-content: space-between
-    margin-bottom: 10px
+    margin-bottom: 20px
+    @media screen and (max-width: 991px)
+        margin-bottom: 10px
+    h2
+        display: flex
+        align-items: center
+        font-size: 36px
+        @media screen and (max-width: 991px)
+            font-size: 24px
     &-rightside > img
         width: 24px
         cursor: pointer
@@ -15,8 +23,7 @@
     &-leftside > h2 > img
         width: auto
         cursor: pointer
-        height: 24px
-        margin: -4px
+        height: auto
         margin-left: 4.5px
         margin-right: 4px
         box-sizing: border-box

@@ -111,5 +111,5 @@ export class ApplicationAPI {
 export function GetFullName(person) {
     return !person.surname && !person.patronymic
     ? person.name
-    : `${person.surname ? person.surname : ''} ${person.name ? person.name : ''} ${person.patronymic ? person.patronymic : ''}`.replace(/\s{2,}/g, ' ');
+    : `${person.surname ? person.surname : ''} ${person.name ? person.name : ''} ${person.patronymic ? person.patronymic : ''}`.replace(/\s{2,}/g, ' ').trim();
 }

@@ -13,9 +13,12 @@
     margin-left: 8px; }
   .menu .username {
     color: #00a1dc;
-    margin-right: 10px;
+    margin-right: 20px;
     align-items: flex-start;
     display: flex; }
+    @media screen and (max-width: 991px) {
+      .menu .username {
+        margin-right: 10px; } }
   .menu .menu-content {
     width: 100%;
     display: flex;

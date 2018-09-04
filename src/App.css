@@ -68,7 +68,7 @@ a {
 }
 
 .red {
-	color: #dd6666;
+	color: #dd6666 !important;
 }
 
 .p-dummy {

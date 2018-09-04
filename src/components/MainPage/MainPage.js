@@ -116,7 +116,7 @@ function Loan(props) {
                     </div>
                     <div className="block-loan-desktop">
                         <div>
-                            {`№${loan.number} от ${date}`}
+                            {`${loan.number} от ${date}`}
                         </div>
                         <div>
                             {loan.contract.loan.toLocaleString('ru')} ₽ на {loan.contract.period} мес. под {loan.contract.percent}%
@@ -147,7 +147,7 @@ function Loan(props) {
             </div>
             <div className="block-loan-desktop">
                 <div>{`${loan.number} от ${date}`}</div>
-                <div>-</div>
+                <div>–</div>
                 <div>Нет данных о платежах</div>
             </div>
         </div>
@@ -180,13 +180,11 @@ function Application(props) {
                     </div>
                     <div>
                         <span className={status === 'REFUSAL' ? 'red' : status === 'BECAME_LOAN' ? 'green' : ''}>
-                            {/* {STATUSES.find(e => status === e.title).value} */}
                             {application.status.abbreviation}
                         </span>
                     </div>
                     <div>
                         {date}
-                        {/* фыоалФЫОАлф офлЫаол фоыал фоыла ФОЫЛа офЛЫполфполдф ОпдлфОЫДЛ фдЫподл */}
                     </div>
                 </div>
             </div>
@@ -265,42 +263,82 @@ export default class MainPage extends Component {
         const hasLoans = !isEmpty(loans.data) && !loans.fetching;
         const hasApplications = !isEmpty(applications.data) && !applications.fetching;
 
-        if (loans.fetching || applications.fetching) {
+        if ((loans.fetching && !hasApplications) || (applications.fetching && !hasLoans)) {
             return <div><Loader/></div>
+        }
+
+        if (loans.error && applications.error) {
+            return (
+                <div style={{height: '100%', margin: '5% 0'}}>
+                    <img src={doge} alt=""/>
+                    <p className='red'>WOW... MUCH ERRORS</p>
+                </div>
+            );
+        }
+
+        if (loans.error || applications.error) {
+            return (
+                <div className='main-page-list'>
+                    {this.renderloansList()}
+                    {this.renderApplicationsList()}
+                </div>
+            );
         }
 
         if (!hasLoans && !hasApplications) {
             return <div style={{height: '100%', margin: '5% 0'}}><img src={doge} alt=""/><p>Здесь ничего нет</p></div>;
-        } else if (hasApplications && hasLoans) {
-            return (
-                <div>
-                    <h3 className='tabs-item'>Займы</h3>
-                    {this.renderLoans(loans.data)}
-                    <h3 className='tabs-item'>Инвестиции</h3>
-                    {this.renderApplications(applications.data)}
-                </div>
-            )
         }
 
-        if (hasLoans && !hasApplications) {
+        return (
+            <div className='main-page-list'>
+                {this.renderloansList()}
+                {this.renderApplicationsList()}
+            </div>
+        );
+    }
+
+    renderloansList = () => {
+        const { loans } = this.props;
+        const hasLoans = !isEmpty(loans.data) && !loans.fetching;
+
+        if (loans.error) {
             return (
-                <div>
+                <div className='entity-list'>
+                    <span className='tabs-item red'>Не удалось загрузить займы, попробуйте позже</span>
+                </div>
+            );
+        }
+
+        if (hasLoans) {
+            return (
+                <div className='entity-list'>
                     <h3 className='tabs-item'>Займы</h3>
                     {this.renderLoans(loans.data)}
                 </div>
             );
         }
+    }
 
-        if (hasApplications && !hasLoans) {
+    renderApplicationsList = () => {
+        const { applications } = this.props;
+        const hasApplications = !isEmpty(applications.data) && !applications.fetching;
+
+        if (applications.error) {
             return (
-                <div>
-                    <h3 className='tabs-item'>Инвестиции</h3>
-                    {this.renderApplications(applications.data)}
+                <div className='entity-list'>
+                    <span className='tabs-item red'>Не удалось загрузить заявки, попробуйте позже</span>
                 </div>
             );
         }
 
-        return null;
+        if (hasApplications) {
+            return (
+                <div className='entity-list'>
+                    <h3 className='tabs-item'>Заявки</h3>
+                    {this.renderApplications(applications.data)}
+                </div>
+            );
+        }
     }
 
     onSelectTab = (value) => {
@@ -310,7 +348,6 @@ export default class MainPage extends Component {
     render() {
         const { loans, applications, match, history } = this.props;
         const { activeTab } = this.state;
-        console.log(this.props);
         return (
             <div className='main-page'>
                 <div>
@@ -318,22 +355,6 @@ export default class MainPage extends Component {
                     <div className="wrapper">
                         <div className="content-main">
                             <div className="content-main-upper">
-                                {/* <Tabs>
-                                    <TabItem value='Займы' active={activeTab} onSelectTab={this.onSelectTab} />
-                                    <TabItem value='Заявки' active={activeTab} onSelectTab={this.onSelectTab} />
-                                </Tabs> */}
-                                {/* {!isEmpty(loans.data) && <div>
-                                    <h3>Займы</h3>
-                                    {(loans.fetching || loans.error)
-                                        ? <DummyLoan error={loans.error} />
-                                        : this.renderLoans(loans.data)}
-                                </div>}
-                                {!isEmpty(applications.data) && <div>
-                                    <h3>Инвестиции</h3>
-                                    {(applications.fetching || applications.error)
-                                        ? <DummyApplication error={applications.error} />
-                                        : this.renderApplications(applications.data)}
-                                </div>} */}
                                 {this.renderContent()}
                             </div>
                         </div>

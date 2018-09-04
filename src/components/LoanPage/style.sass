@@ -13,61 +13,77 @@
     box-sizing: border-box
     display: flex
     padding: 20px 0
+    padding-top: 36px
     flex-direction: column
     justify-content: space-between
-    .block-loan
-        &-row
-            text-align: left
+    .blocks-loan
+        display: flex
+        flex-direction: row-reverse
+        justify-content: space-between
+        .blocks-loan-1, .blocks-loan-2
             display: flex
-            margin-bottom: 10px
-            &:first-child > div
-                width: 100%
-            &:last-child
-                margin-bottom: 0
-            div
-                width: 50%
-                p
-                    line-height: 1.4
-                    word-break: break-word
-        .loan-payment
-            display: flex
-            flex-wrap: wrap
-            font-size: 24px
-            text-align: left
-            color: #343434
-            margin-bottom: 4px
-            span:nth-child(2)
-                padding: 0 5px
-        .loan-under > p
-            display: flex
-            justify-content: space-between
-            margin-bottom: 2px
-            span
-                cursor: pointer
-            &:last-child
-                margin-bottom: 0
-        .loan-more
-            margin-top: 6px
-            tr > td
+            width: 46%
+            flex-direction: column
+        .block-loan
+            width: 100%
+            font-size: 16px
+            padding: 16px
+            &-row
                 text-align: left
-                &:first-child
-                    padding-right: 2px
-                    text-align: right
-    .loan-history
-        text-align: left
-        font-size: 14px
-        margin-bottom: 20px
-        p
-            line-height: 1.4
-        h4
-            margin-bottom: 10px
-        div:first-child
-            display: flex
-            justify-content: space-between
-            div
-                max-width: 60%
-
+                display: flex
+                margin-bottom: 16px
+                &:first-child > div
+                    width: 100%
+                &:last-child
+                    margin-bottom: 0 !important
+                div
+                    width: 50%
+                    p
+                        line-height: 1.4
+                        word-break: break-word
+            .loan-payment
+                display: flex
+                flex-wrap: wrap
+                font-size: 24px
+                text-align: left
+                color: #343434
+                margin-bottom: 8px
+                span:nth-child(2)
+                    padding: 0 5px
+            .loan-under > p
+                display: flex
+                justify-content: space-between
+                margin-bottom: 2px
+                span
+                    cursor: pointer
+                &:last-child
+                    margin-bottom: 0
+            .loan-more
+                margin-top: 6px
+                tr > td
+                    text-align: left
+                    &:first-child
+                        padding-right: 2px
+                        text-align: right
+        .loan-history
+            text-align: left
+            font-size: 16px
+            margin-bottom: 20px
+            padding: 0 16px
+            @media screen and (max-width: 991px)
+                padding: 0
+            p
+                line-height: 1.4
+            h4
+                margin-bottom: 10px
+            div:first-child
+                display: flex
+                justify-content: space-between
+                div
+                    max-width: 60%
+            &-row
+                margin-bottom: 10px
+                &:last-child
+                    margin-bottom: 0
     .mb-20
         margin-bottom: 20px
-    .mb-10
-        margin-bottom: 10px

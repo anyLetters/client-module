@@ -50,8 +50,8 @@ class App extends Component {
 			<Router>
 				<div className="App">
 					<Switch>
-						<Route exact path='/borrower' component={withAuth(MainPage)} />
-						<Route exact path='/investor' component={withAuth(MainPage)} />
+						<Route exact path='/loans' component={withAuth(MainPage)} />
+						<Route exact path='/investments' component={withAuth(MainPage)} />
 						<Route exact path='/login' component={SigninPage} />
 						<Route exact path='/login/recovery' component={RecoveryPage} />
 						<Route exact path='/signup' component={SignupPage} />
@@ -59,7 +59,7 @@ class App extends Component {
 						<Route exact path='/loan/:id/pay' component={withAuth(PayPage)} />
 						<Route exact path='/password' component={withAuth(CreatePasswordPage)} />
 						{/* <Route exact path='/new_loan' component={NewLoanPage} /> */}
-						<Redirect from='/' to='/borrower' />
+						<Redirect from='/' to='/loans' />
 					</Switch>
 				</div>
 			</Router>

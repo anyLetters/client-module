@@ -26,7 +26,14 @@
             color: #343434
             // cursor: pointer
             text-align: left
-
+    &-list
+        .entity-list
+            &:nth-child(2)
+                margin-top: 75px
+                margin-bottom: 55px
+            span.tabs-item
+                font-size: 16px
+                font-weight: 400
 .content-main
     min-height: 100%
     min-width: 100%
@@ -40,6 +47,9 @@
         max-width: 1180px
         box-sizing: border-box
         padding: 10px 24px
+        @media screen and (min-width: 991px)
+            &:hover
+                background-color: #fff9e2
         &-mobile
             min-height: 103px
             display: none
@@ -51,6 +61,8 @@
                 margin-bottom: 15px
                 p:first-child
                     font-weight: 500
+                @media screen and (max-width: 991px) and (min-width: 768px)
+                    font-size: 16px
             .loan-payment
                 display: flex
                 flex-wrap: wrap
@@ -68,6 +80,8 @@
                 .loan-info
                     text-align: center
                     margin-bottom: 15px
+                @media screen and (max-width: 991px) and (min-width: 768px)
+                    font-size: 16px
         &-desktop
             display: grid
             grid-template-columns: 1.1fr 1.1fr .9fr .25fr
@@ -83,7 +97,7 @@
         box-sizing: border-box
         padding: 10px 24px
         &-mobile
-            min-height: 96px
+            min-height: 86px
             display: none
             .application-info
                 font-size: 14px
@@ -91,6 +105,8 @@
                 color: #343434
                 text-align: left
                 margin-bottom: 15px
+                @media screen and (max-width: 991px) and (min-width: 768px)
+                    font-size: 16px
         &-desktop
             display: grid
             grid-template-columns: 1fr 1fr 1fr
@@ -117,6 +133,8 @@
         color: #343434
         display: flex
         justify-content: space-between
+        @media screen and (max-width: 991px) and (min-width: 768px)
+            font-size: 16px
     .loans-not-found, .applications-not-found
         padding: 48px
         max-height: 56px

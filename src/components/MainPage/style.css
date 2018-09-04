@@ -19,6 +19,12 @@
       font-weight: 600;
       color: #343434;
       text-align: left; }
+  .main-page-list .entity-list:nth-child(2) {
+    margin-top: 75px;
+    margin-bottom: 55px; }
+  .main-page-list .entity-list span.tabs-item {
+    font-size: 16px;
+    font-weight: 400; }
 
 .content-main {
   min-height: 100%;
@@ -33,6 +39,9 @@
     max-width: 1180px;
     box-sizing: border-box;
     padding: 10px 24px; }
+    @media screen and (min-width: 991px) {
+      .content-main .block-loan:hover {
+        background-color: #fff9e2; } }
     .content-main .block-loan-mobile {
       min-height: 103px;
       display: none; }
@@ -44,6 +53,9 @@
         margin-bottom: 15px; }
         .content-main .block-loan-mobile .loan-info p:first-child {
           font-weight: 500; }
+        @media screen and (max-width: 991px) and (min-width: 768px) {
+          .content-main .block-loan-mobile .loan-info {
+            font-size: 16px; } }
       .content-main .block-loan-mobile .loan-payment {
         display: flex;
         flex-wrap: wrap;
@@ -61,6 +73,9 @@
         .content-main .block-loan-mobile-no-1c .loan-info {
           text-align: center;
           margin-bottom: 15px; }
+        @media screen and (max-width: 991px) and (min-width: 768px) {
+          .content-main .block-loan-mobile-no-1c {
+            font-size: 16px; } }
     .content-main .block-loan-desktop {
       display: grid;
       grid-template-columns: 1.1fr 1.1fr .9fr .25fr;
@@ -76,7 +91,7 @@
     box-sizing: border-box;
     padding: 10px 24px; }
     .content-main .block-application-mobile {
-      min-height: 96px;
+      min-height: 86px;
       display: none; }
       .content-main .block-application-mobile .application-info {
         font-size: 14px;
@@ -84,6 +99,9 @@
         color: #343434;
         text-align: left;
         margin-bottom: 15px; }
+        @media screen and (max-width: 991px) and (min-width: 768px) {
+          .content-main .block-application-mobile .application-info {
+            font-size: 16px; } }
     .content-main .block-application-desktop {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
@@ -109,6 +127,9 @@
     color: #343434;
     display: flex;
     justify-content: space-between; }
+    @media screen and (max-width: 991px) and (min-width: 768px) {
+      .content-main .loan-under, .content-main .application-under {
+        font-size: 16px; } }
   .content-main .loans-not-found, .content-main .applications-not-found {
     padding: 48px;
     max-height: 56px;

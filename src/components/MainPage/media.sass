@@ -5,6 +5,11 @@
         .block-application-desktop, .block-loan-desktop
             font-size: 16px
             min-height: 26px
+        &-list
+            .entity-list
+                &:nth-child(2)
+                    margin-top: 55px
+                    margin-bottom: 35px
 @media screen and (max-width: 991px) and (min-width: 768px)
     .main-page .content-main-footer
         display: flex
@@ -15,7 +20,9 @@
         .block-application-desktop, .block-loan-desktop
             display: none
         .block-application-mobile, .block-loan-mobile
-            display: block
+            display: flex
+            flex-direction: column
+            justify-content: space-between
         .tabs
             justify-content: space-between
             &-item
@@ -28,6 +35,13 @@
             display: flex
         .content-main
             padding-top: 20px
+        &-list
+            .entity-list
+                &:nth-child(2)
+                    margin-top: 45px
+                    margin-bottom: 25px
+                span.tabs-item
+                    font-size: 16px
 @media screen and (max-width: 767px)
     .main-page
         padding: 20px 0
@@ -38,7 +52,9 @@
         .block-application-desktop, .block-loan-desktop
             display: none
         .block-application-mobile, .block-loan-mobile
-            display: block
+            display: flex
+            flex-direction: column
+            justify-content: space-between
         .tabs
             justify-content: space-between
             &-item
@@ -51,3 +67,10 @@
             display: flex
         .content-main
             padding-top: 20px
+        &-list
+            .entity-list
+                &:nth-child(2)
+                    margin-top: 35px
+                    margin-bottom: 15px
+                span.tabs-item
+                    font-size: 14px
