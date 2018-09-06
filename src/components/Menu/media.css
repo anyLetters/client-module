@@ -11,8 +11,6 @@
       align-items: flex-start; }
       .menu .menu-content div {
         align-items: flex-start; }
-      .menu .menu-content .menu-btn {
-        display: inline; }
       .menu .menu-content .menu-tabs {
         display: none; }
     .menu-apply {
@@ -39,7 +37,5 @@
       align-items: flex-start; }
       .menu .menu-content div {
         align-items: flex-start; }
-      .menu .menu-content .menu-btn {
-        display: inline; }
       .menu .menu-content .menu-tabs {
         display: none; } }

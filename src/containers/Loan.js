@@ -15,6 +15,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-const Loan = connect(mapStateToProps, mapDispatchToProps)(LoanPage);
-
-export default Loan;
+export default connect(mapStateToProps, mapDispatchToProps)(LoanPage);

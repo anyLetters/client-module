@@ -32,7 +32,7 @@
       height: 100%;
       margin-left: 20%; }
       .menu .menu-content .menu-tabs .menu-tab {
-        display: inline;
+        display: none;
         height: 100%;
         margin-right: 24px; }
       .menu .menu-content .menu-tabs .tab-active {
@@ -43,7 +43,8 @@
       .menu .menu-content div:first-child img {
         margin-right: 10px; }
   .menu-apply {
-    margin-right: 32px; }
+    margin-right: 32px;
+    display: none; }
   .menu-mini-logo {
     display: none; }
   .menu .logout {

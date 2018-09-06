@@ -12,6 +12,14 @@ export default class Header extends Component {
             // case 'loans':
             //     element = <Link className='blue' to='/new_application'>Взять займ</Link>;
             //     break;
+            case 'application':
+                leftSide = (
+                    <h2>
+                        <img src={back} onClick={this.props.back} alt="назад"/>
+                        {this.props.title}
+                    </h2>
+                );
+                break;
             case 'loan':
                 leftSide = (
                     <h2>
@@ -23,6 +31,9 @@ export default class Header extends Component {
             case 'pay':
                 rightSide = (
                     <img src={close} onClick={this.props.back} alt="назад"/>
+                );
+                leftSide = (
+                    <p>{title}</p>
                 );
                 break;
             // case 'new-app':

@@ -4,6 +4,7 @@ import Header from '../Header/Header';
 import { Link } from 'react-router-dom';
 import { isEmpty } from 'ramda';
 import doge from '../../images/1.png';
+import empty from '../../images/empty-folder.svg';
 import { GetFullName } from '../../api/index';
 import moment from 'moment';
 import Loader from '../Loader/Loader';
@@ -104,7 +105,7 @@ function Loan(props) {
                             </p>
                         </div>
                         <div className="loan-payment">
-                            <span className={isOverdue && 'red'}>{upcomingPayment.toLocaleString('ru')} ₽</span>
+                            <span className={isOverdue ? 'red' : ''}>{upcomingPayment.toLocaleString('ru')} ₽</span>
                             <span>{` · `}</span>
                             <span>{moment(upcomingPaymentDate.date).format('D MMMM')}</span>
                         </div>
@@ -122,7 +123,7 @@ function Loan(props) {
                             {loan.contract.loan.toLocaleString('ru')} ₽ на {loan.contract.period} мес. под {loan.contract.percent}%
                         </div>
                         <div>
-                            <span className={isOverdue && 'red'}>{upcomingPayment.toLocaleString('ru')} ₽</span>
+                            <span className={isOverdue ? 'red' : ''}>{upcomingPayment.toLocaleString('ru')} ₽</span>
                             <span>{` · `}</span>
                             <span>{moment(upcomingPaymentDate.date).format('D MMMM')}</span>
                         </div>
@@ -158,8 +159,9 @@ function Application(props) {
     const { application } = props;
     const date = moment.utc(application.createdAt, 'YYYY-MM-DD').local().format('D MMMM YYYY');
     const status = application.status.abbreviation;
+
     return (
-        // <Link to={`/application/${application.id}`}>
+        <Link to={`/application/${application.id}`}>
             <div className='block-application'>
                 <div className="block-application-mobile">
                     <div className="application-info">
@@ -176,6 +178,9 @@ function Application(props) {
                 </div>
                 <div className="block-application-desktop">
                     <div>
+                        {`№${application.number} от ${date}`}
+                    </div>
+                    <div>
                         {application.calculations[0].loan.toLocaleString('ru')} ₽ на {application.calculations[0].period} мес. под {application.calculations[0].percent}%
                     </div>
                     <div>
@@ -183,12 +188,9 @@ function Application(props) {
                             {application.status.abbreviation}
                         </span>
                     </div>
-                    <div>
-                        {date}
-                    </div>
                 </div>
             </div>
-        // </Link>
+        </Link>
     );
 }
 
@@ -246,9 +248,9 @@ export default class MainPage extends Component {
         return (
             <div className='applications'>
                 <div className='applications-columns'>
-                    <div>Параметры займа</div>
+                    <div>Заявка</div>
+                    <div>Параметры заявки</div>
                     <div>Статус</div>
-                    <div>Дата и время</div>
                 </div>
                 {/* {isEmpty(applications)
                 ? <div className='applications-not-found'>Заявки не найдены :(</div>
@@ -279,20 +281,28 @@ export default class MainPage extends Component {
         if (loans.error || applications.error) {
             return (
                 <div className='main-page-list'>
-                    {this.renderloansList()}
                     {this.renderApplicationsList()}
+                    {this.renderloansList()}
                 </div>
             );
         }
 
         if (!hasLoans && !hasApplications) {
-            return <div style={{height: '100%', margin: '5% 0'}}><img src={doge} alt=""/><p>Здесь ничего нет</p></div>;
+            return (
+                <div style={{height: '100%', margin: '5% auto', width: '200px'}}>
+                    <img src={empty} alt=""/>
+                    <p style={{marginTop: '20px', fontWeight: 600, fontSize: 14}}>Заявок нет</p>
+                    <p style={{marginTop: '5px', fontSize: 14, lineHeight: '20px'}}>
+                        Подайте свою первую заявку на займ <a rel="noopener noreferrer" href="https://credit.club" target='_blank' className='blue'>на сайте</a> или по телефону <a href="tel:+78007758009" className='blue'>8 800 775 80 09</a>
+                    </p>
+                </div>
+            );
         }
 
         return (
             <div className='main-page-list'>
-                {this.renderloansList()}
                 {this.renderApplicationsList()}
+                {this.renderloansList()}
             </div>
         );
     }

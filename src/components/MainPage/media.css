@@ -9,8 +9,6 @@
     margin-bottom: 35px; } }
 
 @media screen and (max-width: 991px) and (min-width: 768px) {
-  .main-page .content-main-footer {
-    display: flex; }
   .main-page {
     padding: 20px 0; }
     .main-page .block-application, .main-page .block-loan {
@@ -42,8 +40,6 @@
 @media screen and (max-width: 767px) {
   .main-page {
     padding: 20px 0; }
-    .main-page .content-main-footer {
-      display: flex; }
     .main-page .block-application, .main-page .block-loan {
       padding: 10px; }
     .main-page .block-application-desktop, .main-page .block-loan-desktop {

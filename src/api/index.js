@@ -84,6 +84,20 @@ export class PersonAPI {
             .then(handleErrors)
             .then(response => response.json());
     }
+
+    static get(id) {
+        return Auth.fetch(`${apiURL}/person/?id=${id}`)
+            .then(handleErrors)
+            .then(response => response.json());
+    }
+}
+
+export class WorkerAPI {
+    static get(id) {
+        return Auth.fetch(`${apiURL}/worker/?id=${id}`)
+            .then(handleErrors)
+            .then(response => response.json());
+    }
 }
 
 export class LoanAPI {
@@ -108,7 +122,58 @@ export class ApplicationAPI {
     }
 }
 
+export class FacilityAPI {
+    static get(id) {
+        return Auth.fetch(`${apiURL}/facility/?cadasterOrId=${id}`)
+                .then(handleErrors)
+                .then(response => response.json());
+    }
+
+    static addFacilityToApplication(id, body) {
+        return Auth.fetch(`${apiURL}/facility/application/${id}`, { method: 'post', body: JSON.stringify(body) })
+                .then(handleErrors)
+                .then(response => response.json());
+    }
+
+    static updateAssessment(id, assessment) {
+        return Auth.fetch(`${apiURL}/facility/${id}/assessment`, { method: 'put', body: JSON.stringify(assessment) })
+                .then(handleErrors)
+                .then(response => response.json());
+    }
+
+    static changeCadaster(id, newCadaster) {
+        return Auth.fetch(`${apiURL}/facility/?id=${id}&newCadaster=${newCadaster}`, { method: 'put' })
+                .then(handleErrors)
+                .then(response => response.json());
+    }
+
+    static requestStatement(id) {
+        return Auth.fetch(`${apiURL}/facility/${id}/statement`, { method: 'post' })
+                .then(handleErrors);
+    }
+
+    static updateFacility(id, entityName, method, body, part) {
+        switch (method) {
+            case 'put':
+                return Auth.fetch(`${apiURL}/facility/${id}/${entityName}/${body.id}?part=${part}`, { method, body: JSON.stringify(body) })
+                            .then(handleErrors)
+                            .then(response => response);
+            case 'delete':
+                return Auth.fetch(`${apiURL}/facility/${id}/${entityName}/${body.id}`, { method, body: JSON.stringify(body) })
+                            .then(handleErrors)
+                            .then(response => response);
+            default: return;
+        }
+    }
+
+    static updateAdditional(id, additional) {
+        return Auth.fetch(`${apiURL}/facility/${id}/additional`, { method: 'put', body: JSON.stringify(additional) })
+                .then(handleErrors);
+    }
+}
+
 export function GetFullName(person) {
+    if (!person) return person;
     return !person.surname && !person.patronymic
     ? person.name
     : `${person.surname ? person.surname : ''} ${person.name ? person.name : ''} ${person.patronymic ? person.patronymic : ''}`.replace(/\s{2,}/g, ' ').trim();

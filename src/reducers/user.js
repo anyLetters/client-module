@@ -1,7 +1,7 @@
 import { FETCH_USER_BEGIN, FETCH_USER_SUCCESS, FETCH_USER_FAILURE, RESET_USER_STATE } from '../actions/index';
 
 const initialState = {
-    data: [],
+    data: {},
     fetching: false,
     error: null
 }

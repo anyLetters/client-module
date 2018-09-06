@@ -1,0 +1,101 @@
+.application-page
+    min-height: 100%
+    width: 100%
+    padding: 12px 0
+    box-sizing: border-box
+    display: flex
+    justify-content: space-between
+    flex-direction: column
+
+.content-application
+    min-height: 100%
+    min-width: 100%
+    box-sizing: border-box
+    display: flex
+    padding: 20px 0
+    padding-top: 36px
+    flex-direction: column
+    justify-content: space-between
+    .blocks-application
+        display: flex
+        flex-direction: row-reverse
+        justify-content: space-between
+        .blocks-application-1, .blocks-application-2
+            display: flex
+            width: 46%
+            flex-direction: column
+        .block-application
+            width: 100%
+            font-size: 16px
+            padding: 16px
+            @media screen and (max-width: 991px)
+                margin-bottom: 20px
+            &-row
+                text-align: left
+                display: flex
+                margin-bottom: 16px
+                &:first-child > div
+                    width: 100%
+                &:last-child > div
+                    width: 100%
+                &:last-child
+                    margin-bottom: 0 !important
+                div
+                    width: 50%
+                    p
+                        line-height: 1.4
+                        word-break: break-word
+            .application-payment
+                display: flex
+                flex-wrap: wrap
+                font-size: 24px
+                text-align: left
+                color: #343434
+                margin-bottom: 8px
+                span:nth-child(2)
+                    padding: 0 5px
+            .application-under > p
+                display: flex
+                justify-content: space-between
+                margin-bottom: 2px
+                span
+                    cursor: pointer
+                &:last-child
+                    margin-bottom: 0
+            .application-more
+                margin-top: 6px
+                tr > td
+                    text-align: left
+                    &:first-child
+                        padding-right: 2px
+                        text-align: right
+        .application-list-of
+            text-align: left
+            font-size: 16px
+            margin-bottom: 20px
+            @media screen and (max-width: 767px)
+                font-size: 14px
+            p
+                line-height: 1.4
+            h4
+                margin-bottom: 10px
+                font-size: 20px
+                @media screen and (max-width: 767px)
+                    font-size: 14px
+                    margin-bottom: 5px
+            div:first-child
+                display: flex
+                flex-direction: column
+                justify-content: space-between
+                div
+                    max-width: 60%
+            &-row
+                margin-bottom: 10px
+                &:last-child
+                    margin-bottom: 0
+            .application-info
+                margin-bottom: 10px
+                &:last-child
+                    margin-bottom: 0
+    .mb-20
+        margin-bottom: 20px

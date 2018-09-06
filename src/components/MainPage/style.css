@@ -90,6 +90,9 @@
     max-width: 1180px;
     box-sizing: border-box;
     padding: 10px 24px; }
+    @media screen and (min-width: 991px) {
+      .content-main .block-application:hover {
+        background-color: #fff9e2; } }
     .content-main .block-application-mobile {
       min-height: 86px;
       display: none; }

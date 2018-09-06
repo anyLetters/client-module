@@ -9,9 +9,15 @@
   @media screen and (max-width: 991px) {
     .header {
       margin-bottom: 10px; } }
-  .header h2 {
+  .header p, .header h2 {
     display: flex;
     align-items: center;
+    font-size: 24px;
+    font-weight: 600; }
+    @media screen and (max-width: 991px) {
+      .header p, .header h2 {
+        font-size: 24px; } }
+  .header h2 {
     font-size: 36px; }
     @media screen and (max-width: 991px) {
       .header h2 {
