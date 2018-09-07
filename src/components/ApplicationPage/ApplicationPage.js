@@ -169,6 +169,8 @@ export default class ApplicationPage extends Component {
             </div>
         );
 
+        const lastCalculations = application.calculations[application.calculations.length - 1];
+
         return (
             <div className='application-page'>
                 <div>
@@ -182,7 +184,7 @@ export default class ApplicationPage extends Component {
                                         <div className="block-application-row">
                                             <BlockRow
                                                 title='Параметры заявки'
-                                                text={`${application.calculations[0].loan.toLocaleString('ru')} ₽ на ${application.calculations[0].period} мес. под ${application.calculations[0].percent}%`} />
+                                                text={`${lastCalculations.loan.toLocaleString('ru')} ₽ на ${lastCalculations.period} мес. под ${lastCalculations.percent}%`} />
                                         </div>
                                         <div className="block-application-row">
                                             <BlockRow
@@ -213,7 +215,7 @@ export default class ApplicationPage extends Component {
                                                 GetFullName(user) && application.persons[0].roles[0][0].toUpperCase() + application.persons[0].roles.join(', ').slice(1).toLowerCase()
                                             } />}
                                         {application && application.persons.slice(1).map((e, i) => {
-                                            if (e.hasOwnProperty('error') || e.hasOwnProperty('message')) return <DummyInfo/>;
+                                            if (e.hasOwnProperty('error')) return <DummyInfo/>;
                                             return <DoubleRow
                                                         key={i}
                                                         firstRow={GetFullName(e)}

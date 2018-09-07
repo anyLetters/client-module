@@ -87,12 +87,24 @@ function calculatePayment(overall) {
 function Loan(props) {
     const { loan } = props;
     const date = moment.utc(loan.createdAt, 'YYYY-MM-DD').local().format('D MMMM YYYY');
-    let upcomingPaymentDate, upcomingPayment, isOverdue;
+    let upcomingPaymentDate, upcomingPayment, isOverdue, payment;
 
     if (loan.contract) {
         upcomingPaymentDate = findUpcomingPayment(loan.contract.schedule);
         upcomingPayment = calculatePayment([loan.contract.upcomingPayment, loan.contract.overduePayment]);
         isOverdue = calculatePayment([loan.contract.upcomingPayment]) !== upcomingPayment;
+
+        if (isEmpty(loan.contract.motion)) return null;
+
+        payment = upcomingPaymentDate
+        ?   [
+                <span key={0} className={isOverdue ? 'red' : ''}>{upcomingPayment.toLocaleString('ru')} ₽</span>,
+                <span key={1} >{` · `}</span>,
+                <span key={2} >{moment(upcomingPaymentDate.date).format('D MMMM')}</span>
+            ]
+        :   <span className={isOverdue ? 'red' : 'green'}>
+                {upcomingPayment ? `${upcomingPayment.toLocaleString('ru')} ₽` : 'Погашен'}
+            </span>;
 
         return (
             <Link to={`/loan/${loan.id}`}>
@@ -105,15 +117,13 @@ function Loan(props) {
                             </p>
                         </div>
                         <div className="loan-payment">
-                            <span className={isOverdue ? 'red' : ''}>{upcomingPayment.toLocaleString('ru')} ₽</span>
-                            <span>{` · `}</span>
-                            <span>{moment(upcomingPaymentDate.date).format('D MMMM')}</span>
+                            {payment}
                         </div>
-                        <div className="loan-under">
+                        {upcomingPayment && <div className="loan-under">
                             <span className='grey'>Предстоящий платеж</span>
                             <Link to={`/loan/${loan.id}/pay`} className='blue'>Оплатить</Link>
                             {/* <span className='blue' onClick={() => props.link(`/loan/${loan.id}/pay`)}>Оплатить</span> */}
-                        </div>
+                        </div>}
                     </div>
                     <div className="block-loan-desktop">
                         <div>
@@ -123,12 +133,10 @@ function Loan(props) {
                             {loan.contract.loan.toLocaleString('ru')} ₽ на {loan.contract.period} мес. под {loan.contract.percent}%
                         </div>
                         <div>
-                            <span className={isOverdue ? 'red' : ''}>{upcomingPayment.toLocaleString('ru')} ₽</span>
-                            <span>{` · `}</span>
-                            <span>{moment(upcomingPaymentDate.date).format('D MMMM')}</span>
+                            {payment}
                         </div>
                         <div>
-                            <Link to={`/loan/${loan.id}/pay`} className='blue'>Оплатить</Link>
+                            {upcomingPayment && <Link to={`/loan/${loan.id}/pay`} className='blue'>Оплатить</Link>}
                         </div>
                     </div>
                 </div>
@@ -159,7 +167,7 @@ function Application(props) {
     const { application } = props;
     const date = moment.utc(application.createdAt, 'YYYY-MM-DD').local().format('D MMMM YYYY');
     const status = application.status.abbreviation;
-
+    const lastCalculations = application.calculations[application.calculations.length - 1];
     return (
         <Link to={`/application/${application.id}`}>
             <div className='block-application'>
@@ -167,7 +175,7 @@ function Application(props) {
                     <div className="application-info">
                         <p>{`№${application.number} от ${date}`}</p>
                         <p className='grey'>
-                            {application.calculations[0].loan.toLocaleString('ru')} ₽ на {application.calculations[0].period} мес. под {application.calculations[0].percent}%
+                            {lastCalculations.loan.toLocaleString('ru')} ₽ на {lastCalculations.period} мес. под {lastCalculations.percent}%
                         </p>
                     </div>
                     <div className="application-under">
@@ -181,7 +189,7 @@ function Application(props) {
                         {`№${application.number} от ${date}`}
                     </div>
                     <div>
-                        {application.calculations[0].loan.toLocaleString('ru')} ₽ на {application.calculations[0].period} мес. под {application.calculations[0].percent}%
+                        {lastCalculations.loan.toLocaleString('ru')} ₽ на {lastCalculations.period} мес. под {lastCalculations.percent}%
                     </div>
                     <div>
                         <span className={status === 'REFUSAL' ? 'red' : status === 'BECAME_LOAN' ? 'green' : ''}>

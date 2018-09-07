@@ -33,7 +33,7 @@ export default class PayPage extends Component {
         let index = schedule.findIndex((payment, i) =>  
             new Date().getTime() <= new Date(`${payment.date.replace(/-/g, "/")} 00:00:00`).setDate(new Date(`${payment.date.replace(/-/g, "/")} 00:00:00`).getDate() + 1)
         );
-        return schedule[index].date;
+        return schedule[index];
     }
 
     calculatePayment = overall => {
@@ -67,10 +67,10 @@ export default class PayPage extends Component {
                                         <td className='grey'>Сумма</td>
                                         <td>{upcomingPayment.toLocaleString('ru')} ₽</td>
                                     </tr>
-                                    <tr>
+                                    {upcomingPaymentDate && <tr>
                                         <td className='grey'>Дата</td>
-                                        <td>{moment(upcomingPaymentDate).format('D MMMM YYYY')}</td>
-                                    </tr>
+                                        <td>{moment(upcomingPaymentDate.date).format('D MMMM YYYY')}</td>
+                                    </tr>}
                                 </tbody>
                             </table>
                             <h3>Реквизиты</h3>

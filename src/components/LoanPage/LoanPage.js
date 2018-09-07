@@ -83,7 +83,7 @@ export default class LoanPage extends Component {
         let index = schedule.findIndex((payment, i) =>  
             new Date().getTime() <= new Date(`${payment.date.replace(/-/g, "/")} 00:00:00`).setDate(new Date(`${payment.date.replace(/-/g, "/")} 00:00:00`).getDate() + 1)
         );
-        return schedule[index].date;
+        return schedule[index];
     }
 
     calculatePayment = overall => {
@@ -118,6 +118,15 @@ export default class LoanPage extends Component {
         const upcomingPayment = this.calculatePayment([loan.contract.upcomingPayment, loan.contract.overduePayment]);
         const overduePayment = this.calculatePayment([loan.contract.overduePayment]);
         const isOverdue = this.calculatePayment([loan.contract.upcomingPayment]) !== upcomingPayment;
+        const payment = upcomingPaymentDate
+        ?   [
+                <span key={0} className={isOverdue ? 'red' : ''}>{upcomingPayment.toLocaleString('ru')} ₽</span>,
+                <span key={1} >{` · `}</span>,
+                <span key={2} >{moment(upcomingPaymentDate.date).format('D MMMM')}</span>
+            ]
+        :   <span className={isOverdue ? 'red' : 'green'}>
+                {upcomingPayment ? `${upcomingPayment.toLocaleString('ru')} ₽` : 'Погашен'}
+            </span>;
 
         return (
             <div className='loan-page'>
@@ -144,16 +153,12 @@ export default class LoanPage extends Component {
                                 </div>
                                 <div className="blocks-loan-2">
                                     <div className="block-loan mb-20">
-                                        <div className="loan-payment">
-                                            <span className={isOverdue ? 'red' : ''}>{upcomingPayment.toLocaleString('ru')} ₽</span>
-                                            <span>{` · `}</span>
-                                            <span>{moment(upcomingPaymentDate).format('D MMMM')}</span>
-                                        </div>
+                                        <div className="loan-payment">{payment}</div>
                                         <div className="loan-under">
                                             <p className='grey'>Предстоящий платеж</p>
                                             <p className='blue'>
                                                 <span onClick={this.toggle}>{this.state.isToggled ? 'Свернуть' : 'Подробно'}</span>
-                                                <Link className='blue' to={`/loan/${this.props.match.params.id}/pay`}>Оплатить</Link>
+                                                {upcomingPayment && <Link className='blue' to={`/loan/${this.props.match.params.id}/pay`}>Оплатить</Link>}
                                             </p>
                                         </div>
                                         {this.state.isToggled && <div className="loan-more">
@@ -165,13 +170,13 @@ export default class LoanPage extends Component {
                                             </Table>
                                         </div>}
                                     </div>
-                                    <div className="loan-history">
+                                    {!isEmpty(loan.contract.motion) && <div className="loan-history">
                                         <h4>Движение средств по договору</h4>
                                         {motion && motion.sort((a,b) => a.date < b.date).map((e, i) => {
                                             let {title, color} = this.defineTitleAndColor(e);
                                             return <HistoryRow key={i} title={title} expenses={e.amount.toLocaleString('ru')} date={moment(e.date).format('DD MMM YYYY')} color={color} />;
                                         })}
-                                    </div>
+                                    </div>}
                                 </div>
                             </div>
                         </div>
