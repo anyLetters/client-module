@@ -60,7 +60,6 @@ export default class ApplicationPage extends Component {
 
     state = {
         application: null,
-        user: this.props.user.data,
         workerError: null
     }
 
@@ -79,17 +78,56 @@ export default class ApplicationPage extends Component {
                 application: props.applications.data[index]
             };
         }
-        if (state.user !== props.user.data) {
-            return {
-                user: props.user.data
-            };
-        }
+        // if (state.user !== props.user.data) {
+        //     return {
+        //         user: props.user.data
+        //     };
+        // }
+        // if (state.persons !== props.persons) {
+        //     return {
+        //         persons: props.persons
+        //     };
+        // }
+        // if (state.facilities !== props.facilities) {
+        //     return {
+        //         facilities: props.facilities
+        //     };
+        // }
+        // if (state.workers !== props.workers) {
+        //     return {
+        //         workers: props.workers
+        //     };
+        // }
         return null;
     }
 
     shouldComponentUpdate(nextProps, nextState) {
         const index = nextProps.applications.data.findIndex(application => application.id === this.props.match.params.id);
         if (nextProps.applications.data[index] !== this.state.application) {
+            return true;
+        }
+        // if (this.state.user !== nextProps.user.data) {
+        //     return true;
+        // }
+        // if (this.state.persons !== nextProps.persons) {
+        //     return true;
+        // }
+        // if (this.state.facilities !== nextProps.facilities) {
+        //     return true;
+        // }
+        // if (this.state.workers !== nextProps.workers) {
+        //     return true;
+        // }
+        if (this.props.user !== nextProps.user.data) {
+            return true;
+        }
+        if (this.props.persons !== nextProps.persons) {
+            return true;
+        }
+        if (this.props.facilities !== nextProps.facilities) {
+            return true;
+        }
+        if (this.props.workers !== nextProps.workers) {
             return true;
         }
         return false;
@@ -101,7 +139,7 @@ export default class ApplicationPage extends Component {
             ? applications
             : this.props.applications.data
         ].findIndex(application => application.id === this.props.match.params.id);
-        this.setState({ application: applications[index] }, this.fetchAll);
+        this.setState({ application: applications[index] }, this.findAllEntities);
     }
 
     toggle = () => {
@@ -110,53 +148,141 @@ export default class ApplicationPage extends Component {
 
     fetchAll = () => {
         return Promise.resolve()
-                .then(this.fetchWorker)
+                .then(this.fetchWorkers)
                 .then(this.fetchPersons)
                 .then(this.fetchFacilities)
     }
 
-    fetchWorker = () => {
+    findAllEntities = () => {
+        this.findWorkersToFetch();
+        this.findPersonsToFetch();
+        this.findFacilitiesToFetch();
+    }
+
+    findWorkersToFetch = () => {
+        const { application } = this.state;
+
+        if (isEmpty(this.props.workers)) {
+            this.fetchWorkers();
+            return;
+        }
+
+        let workersToFetch = [];
+
+        Object.keys(application.workers).forEach(key => {
+            if (application.workers[key]) {
+                const index = this.props.workers.findIndex(worker => worker.id === application.workers[key]);
+                if (index < 0) {
+                    workersToFetch.push({ id: application.workers[key] });
+                }
+            }
+        })
+
+        !isEmpty(workersToFetch) && this.props.fetchWorkers(workersToFetch);
+    }
+
+    findWorkersToRender = (workers) => {
+        const { application } = this.state;
+
+        return {
+            manager: workers.find(worker => worker.id === application.workers.manager),
+            supervisor: workers.find(worker => worker.id === application.workers.supervisor),
+            lawyer: workers.find(worker => worker.id === application.workers.lawyer)
+        };
+    }
+
+    findPersonsToFetch = (data) => {
+        const { application } = this.state;
+
+        if (isEmpty(this.props.persons)) {
+            this.fetchPersons();
+            return;
+        }
+
+        let personsToFetch = [];
+
+        application.persons.forEach(person => {
+            const index = this.props.persons.findIndex(e => e.id === person.id);
+            if (index < 0) personsToFetch.push(person);
+        });
+
+        !isEmpty(personsToFetch) && this.props.fetchPersons(personsToFetch);
+    }
+
+    findPersonsToRender = (persons) => {
+        const { application } = this.state;
+
+        return persons.map(person => {
+            const index = application.persons.findIndex(e => e.id === person.id);
+            return index >= 0 ? {...person, roles: application.persons[index].roles} : null;
+        }).filter(e => e);
+    }
+
+    findFacilitiesToFetch = (data) => {
+        const { application } = this.state;
+
+        if (isEmpty(this.props.facilities)) {
+            this.fetchFacilities();
+            return;
+        }
+
+        let facilitiesToFetch = [];
+
+        application.facilities.forEach(facility => {
+            const index = this.props.facilities.findIndex(e => e.id === facility);
+            if (index < 0) facilitiesToFetch.push({id: facility});
+        });
+
+        !isEmpty(facilitiesToFetch) && this.props.fetchFacilities(facilitiesToFetch);
+    }
+
+    findFacilitiesToRender = (facilities) => {
+        const { application } = this.state;
+
+        return facilities.map(facility => {
+            const index = application.facilities.findIndex(e => e === facility.id);
+            return index >= 0 ? facility : null;
+        }).filter(e => e);
+    }
+
+    fetchWorkers = () => {
         const { applications } = this.props;
         const application = applications.data[applications.data.findIndex(application => application.id === this.props.match.params.id)];
-        if (typeof application.workers.manager === 'string') {
-            return WorkerAPI.get(application.workers.manager)
-                .then(json => this.props.loadWorkerToApplication(application.id, json, 'manager'))
-                .catch(() => this.setState({workerError: 'manager'}));
-        } else {
+        const workers = Object.keys(application.workers).map(worker => {
+            if (!application.workers[worker]) return null;
+            if (typeof application.workers[worker] === 'string') return { id: application.workers[worker] };
+            if (application.workers[worker].hasOwnProperty('error')) return application.workers[worker];
             return null;
-        }
+        }).filter(e => e);
+        !isEmpty(workers) ? this.props.fetchWorkers(workers) : null;
     }
 
     fetchPersons = () => {
         const { applications } = this.props;
         const application = applications.data[applications.data.findIndex(application => application.id === this.props.match.params.id)];
-        if (application.persons.findIndex(e => Object.keys(e).length === 2 || e.hasOwnProperty('error')) >= 0) {
-            return Promise.all(application.persons.slice(1).map(person => PersonAPI.get(person.id).catch(e => e)))
-                    .then(persons => this.props.loadPersonsToApplication(
-                        application.id,
-                        [ { id: application.persons[0].id, roles: application.persons[0].roles, ...this.props.user.data }, ...persons ]
-                    ))
-        } else {
-            return null;
-        }
+        const persons = application.persons.map(person => {
+            if (person.hasOwnProperty('error')) return { id: person.id, ...person };
+            return person;
+        }).filter(e => e);
+        !isEmpty(persons) ? this.props.fetchPersons(persons) : null;
     }
 
     fetchFacilities = () => {
         const { applications } = this.props;
         const application = applications.data[applications.data.findIndex(application => application.id === this.props.match.params.id)];
-        if (application.facilities.findIndex(e => typeof e === 'string' || e.hasOwnProperty('error')) >= 0) {
-            return Promise.all(application.facilities.map(facility => FacilityAPI.get(facility).catch(e => ({id: facility, error: e.message}))))
-                    .then(facilities => this.props.loadFacilitiesToApplication(application.id, facilities))
-        } else {
-            return null;
-        }
+        const facilities = application.facilities.map(facility => {
+            if (typeof facility === 'string') return { id: facility };
+            if (facility.hasOwnProperty('error')) return { id: facility.id, ...facility };
+            return facility;
+        }).filter(e => e);
+        !isEmpty(facilities) ? this.props.fetchFacilities(facilities) : null;
     }
 
     render() {
-        const { history } = this.props;
-        const { application, workerError, user } = this.state;
+        const { application, workerError } = this.state;
+        const { applications, workers, persons, facilities, history } = this.props;
 
-        if (!application || this.props.applications.fetching || this.props.applications.error) return (
+        if (!application || applications.fetching || applications.error) return (
             <div className='application-page'>
                 <div>
                     <Menu active={'loans'} />
@@ -171,13 +297,17 @@ export default class ApplicationPage extends Component {
 
         const lastCalculations = application.calculations[application.calculations.length - 1];
 
+        let matchedPersons = this.findPersonsToRender(persons);
+        let matchedWorkers = this.findWorkersToRender(workers);
+        let matchedFacilities = this.findFacilitiesToRender(facilities);
+
         return (
             <div className='application-page'>
                 <div>
                     <Menu active={'loans'} />
                     <div className="wrapper">
                         <div className="content-application">
-                            <Header title={`Заявка №${application.number}`} page='application' back={() => this.props.history.push('/loans')} />
+                            <Header title={`Заявка №${application.number}`} page='application' back={() => history.push('/loans')} />
                             <div className="blocks-application">
                                 <div className="blocks-application-1">
                                     <div className="block-application">
@@ -200,7 +330,7 @@ export default class ApplicationPage extends Component {
                                                 text={
                                                     workerError
                                                     ? 'Ошибка'
-                                                    : typeof application.workers.manager !== 'string' && GetFullName(application.workers.manager)
+                                                    : typeof matchedWorkers.manager !== 'string' && GetFullName(matchedWorkers.manager)
                                                 }
                                                 red={workerError}/>
                                         </div>
@@ -209,13 +339,8 @@ export default class ApplicationPage extends Component {
                                 <div className="blocks-application-2">
                                     <div className="application-list-of">
                                         <h4>Участники</h4>
-                                        {application && <DoubleRow
-                                            firstRow={GetFullName(user)}
-                                            secondRow={
-                                                GetFullName(user) && application.persons[0].roles[0][0].toUpperCase() + application.persons[0].roles.join(', ').slice(1).toLowerCase()
-                                            } />}
-                                        {application && application.persons.slice(1).map((e, i) => {
-                                            if (e.hasOwnProperty('error')) return <DummyInfo/>;
+                                        {application && !isEmpty(matchedPersons) && matchedPersons.map((e, i) => {
+                                            if (e.hasOwnProperty('error')) return <DummyInfo key={i} />;
                                             return <DoubleRow
                                                         key={i}
                                                         firstRow={GetFullName(e)}
@@ -224,17 +349,17 @@ export default class ApplicationPage extends Component {
                                                         } />;
                                         })}
                                     </div>
-                                    {!isEmpty(application.facilities) && <div className="application-list-of">
+                                    {!isEmpty(matchedFacilities) && <div className="application-list-of">
                                         <h4>Залог</h4>
-                                        {application && application.facilities.map((e, i) => {
-                                            if (e.hasOwnProperty('error')) return <DummyInfo/>;
+                                        {application && matchedFacilities.map((e, i) => {
+                                            if (e.hasOwnProperty('error')) return <DummyInfo key={i} />;
                                             return typeof e === 'string'
                                             ? null
                                             : <DoubleRow
                                                     key={i}
                                                     firstRow={[
                                                         `${e.type.value} ${e.area} м`,
-                                                        <sup>2</sup>,
+                                                        <sup key={1}>2</sup>,
                                                         e.assessment ? ` — ${e.assessment.averagePrice.toLocaleString('ru')} ₽` : null
                                                     ]}
                                                     secondRow={e.address} />;
