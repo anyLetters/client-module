@@ -16,6 +16,6 @@ export function fetchWorkers(workers) {
             .then(json => {
                 dispatch(addWorkers(json))
                 return json;
-            })
+            });
     };
 }

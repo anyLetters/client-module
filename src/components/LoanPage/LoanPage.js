@@ -4,6 +4,7 @@ import Header from '../Header/Header';
 import { Link } from 'react-router-dom';
 import { isEmpty } from 'ramda';
 import moment from 'moment';
+import PayPopup from '../PayPopup/PayPopup';
 import './style.css';
 import './media.css';
 
@@ -53,7 +54,8 @@ export default class LoanPage extends Component {
 
     state = {
         loan: null,
-        isToggled: false
+        isToggled: false,
+        showPaymentPopup: false
     }
 
     componentDidMount() {
@@ -62,6 +64,10 @@ export default class LoanPage extends Component {
         } else {
             this.findLoan(this.props.data);
         }
+    }
+
+    onPayClick = () => {
+        this.setState(ps => ({ showPaymentPopup: !ps.showPaymentPopup }));
     }
 
     componentWillReceiveProps(nextProps) {
@@ -109,7 +115,7 @@ export default class LoanPage extends Component {
 
     render() {
         const { error, fetching, history } = this.props;
-        const { loan } = this.state;
+        const { loan, showPaymentPopup } = this.state;
 
         if (error || fetching || !loan) return <div></div>;
 
@@ -130,6 +136,12 @@ export default class LoanPage extends Component {
 
         return (
             <div className='loan-page'>
+              {showPaymentPopup && <PayPopup
+                    onPayClick={this.onPayClick}
+                    number={loan.number}
+                    createdAt={loan.createdAt}
+                    upcomingPayment={upcomingPayment}
+                    upcomingPaymentDate={upcomingPaymentDate} />}
                 <div>
                     <Menu active={'loans'} />
                     <div className="wrapper">
@@ -158,7 +170,7 @@ export default class LoanPage extends Component {
                                             <p className='grey'>Предстоящий платеж</p>
                                             <p className='blue'>
                                                 <span onClick={this.toggle}>{this.state.isToggled ? 'Свернуть' : 'Подробно'}</span>
-                                                {upcomingPayment && <Link className='blue' to={`/loan/${this.props.match.params.id}/pay`}>Оплатить</Link>}
+                                                {upcomingPayment && <span onClick={this.onPayClick} className='blue pointer'>Оплатить</span>}
                                             </p>
                                         </div>
                                         {this.state.isToggled && <div className="loan-more">

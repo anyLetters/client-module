@@ -4,6 +4,7 @@ import Header from '../Header/Header';
 import { Link } from 'react-router-dom';
 import { isEmpty } from 'ramda';
 import doge from '../../images/1.png';
+import PayPopup from '../PayPopup/PayPopup';
 import empty from '../../images/empty-folder.svg';
 import { GetFullName } from '../../api/index';
 import moment from 'moment';
@@ -84,83 +85,100 @@ function calculatePayment(overall) {
     return overall.map(obj => Object.values(obj).reduce((a, b) => a + b)).reduce((a, b) => a + b);
 }
 
-function Loan(props) {
-    const { loan } = props;
-    const date = moment.utc(loan.createdAt, 'YYYY-MM-DD').local().format('D MMMM YYYY');
-    let upcomingPaymentDate, upcomingPayment, isOverdue, payment;
+class Loan extends Component {
 
-    if (loan.contract) {
-        upcomingPaymentDate = findUpcomingPayment(loan.contract.schedule);
-        upcomingPayment = calculatePayment([loan.contract.upcomingPayment, loan.contract.overduePayment]);
-        isOverdue = calculatePayment([loan.contract.upcomingPayment]) !== upcomingPayment;
+    state = {
+        showPaymentPopup: false
+    }
 
-        if (isEmpty(loan.contract.motion)) return null;
+    onPayClick = () => {
+        this.setState(ps => ({ showPaymentPopup: !ps.showPaymentPopup }));
+    }
 
-        payment = upcomingPaymentDate
-        ?   [
-                <span key={0} className={isOverdue ? 'red' : ''}>{upcomingPayment.toLocaleString('ru')} ₽</span>,
-                <span key={1} >{` · `}</span>,
-                <span key={2} >{moment(upcomingPaymentDate.date).format('D MMMM')}</span>
-            ]
-        :   <span className={isOverdue ? 'red' : 'green'}>
-                {upcomingPayment ? `${upcomingPayment.toLocaleString('ru')} ₽` : 'Погашен'}
-            </span>;
-
-        return (
-            <Link to={`/loan/${loan.id}`}>
+    render() {
+        const { loan } = this.props;
+        const { showPaymentPopup } = this.state;
+        const date = moment.utc(loan.createdAt, 'YYYY-MM-DD').local().format('D MMMM YYYY');
+        let upcomingPaymentDate, upcomingPayment, isOverdue, payment;
+    
+        if (loan.contract) {
+            upcomingPaymentDate = findUpcomingPayment(loan.contract.schedule);
+            upcomingPayment = calculatePayment([loan.contract.upcomingPayment, loan.contract.overduePayment]);
+            isOverdue = calculatePayment([loan.contract.upcomingPayment]) !== upcomingPayment;
+    
+            if (isEmpty(loan.contract.motion)) return null;
+    
+            payment = upcomingPaymentDate
+            ?   [
+                    <span key={0} className={isOverdue ? 'red' : ''}>{upcomingPayment.toLocaleString('ru')} ₽</span>,
+                    <span key={1} >{` · `}</span>,
+                    <span key={2} >{moment(upcomingPaymentDate.date).format('D MMMM')}</span>
+                ]
+            :   <span className={isOverdue ? 'red' : 'green'}>
+                    {upcomingPayment ? `${upcomingPayment.toLocaleString('ru')} ₽` : 'Погашен'}
+                </span>;
+    
+            return (
                 <div className='block-loan'>
+                    {showPaymentPopup && <PayPopup
+                                            onPayClick={this.onPayClick}
+                                            number={loan.number}
+                                            createdAt={loan.createdAt}
+                                            upcomingPayment={upcomingPayment}
+                                            upcomingPaymentDate={upcomingPaymentDate} />}
                     <div className="block-loan-mobile">
-                        <div className="loan-info">
-                            <p>{`${loan.number} от ${date}`}</p>
-                            <p className='grey'>
-                                {loan.contract.loan.toLocaleString('ru')} ₽ на {loan.contract.period} мес. под {loan.contract.percent}%
-                            </p>
-                        </div>
-                        <div className="loan-payment">
-                            {payment}
-                        </div>
+                        <Link to={`/loan/${loan.id}`}>
+                            <div className="loan-info">
+                                <p>{`${loan.number} от ${date}`}</p>
+                                <p className='grey'>
+                                    {loan.contract.loan.toLocaleString('ru')} ₽ на {loan.contract.period} мес. под {loan.contract.percent}%
+                                </p>
+                            </div>
+                            <div className="loan-payment">
+                                {payment}
+                            </div>
+                        </Link>
                         {upcomingPayment && <div className="loan-under">
                             <span className='grey'>Предстоящий платеж</span>
-                            <Link to={`/loan/${loan.id}/pay`} className='blue'>Оплатить</Link>
-                            {/* <span className='blue' onClick={() => props.link(`/loan/${loan.id}/pay`)}>Оплатить</span> */}
+                            <span onClick={this.onPayClick} className='blue pointer'>Оплатить</span>
                         </div>}
                     </div>
                     <div className="block-loan-desktop">
-                        <div>
+                        <Link to={`/loan/${loan.id}`}>
                             {`${loan.number} от ${date}`}
-                        </div>
-                        <div>
+                        </Link>
+                        <Link to={`/loan/${loan.id}`}>
                             {loan.contract.loan.toLocaleString('ru')} ₽ на {loan.contract.period} мес. под {loan.contract.percent}%
-                        </div>
-                        <div>
+                        </Link>
+                        <Link to={`/loan/${loan.id}`}>
                             {payment}
-                        </div>
+                        </Link>
                         <div>
-                            {upcomingPayment && <Link to={`/loan/${loan.id}/pay`} className='blue'>Оплатить</Link>}
+                            {upcomingPayment && <span onClick={this.onPayClick} className='blue pointer'>Оплатить</span>}
                         </div>
                     </div>
                 </div>
-            </Link>
+            );
+        }
+    
+        return (
+            <div className='block-loan'>
+                <div className="block-loan-mobile-no-1c">
+                    <div className="loan-info">
+                        <p>{`${loan.number} от ${date}`}</p>
+                    </div>
+                    <div>
+                        <p className='red'>Нет данных о платежах</p>
+                    </div>
+                </div>
+                <div className="block-loan-desktop">
+                    <div>{`${loan.number} от ${date}`}</div>
+                    <div>–</div>
+                    <div>Нет данных о платежах</div>
+                </div>
+            </div>
         );
     }
-
-    return (
-        <div className='block-loan'>
-            <div className="block-loan-mobile-no-1c">
-                <div className="loan-info">
-                    <p>{`${loan.number} от ${date}`}</p>
-                </div>
-                <div>
-                    <p className='red'>Нет данных о платежах</p>
-                </div>
-            </div>
-            <div className="block-loan-desktop">
-                <div>{`${loan.number} от ${date}`}</div>
-                <div>–</div>
-                <div>Нет данных о платежах</div>
-            </div>
-        </div>
-    );
 }
 
 function Application(props) {
@@ -168,6 +186,7 @@ function Application(props) {
     const date = moment.utc(application.createdAt, 'YYYY-MM-DD').local().format('D MMMM YYYY');
     const status = application.status.abbreviation;
     const lastCalculations = application.calculations[application.calculations.length - 1];
+
     return (
         <Link to={`/application/${application.id}`}>
             <div className='block-application'>
@@ -247,7 +266,9 @@ export default class MainPage extends Component {
                 {/* {isEmpty(loans)
                 ? <div className='loans-not-found'>Займы не найдены :(</div>
                 : loans.map((loan, i) => <Loan key={i} loan={loan} link={this.props.history.push} /> )} */}
-                {loans.map((loan, i) => <Loan key={i} loan={loan} link={this.props.history.push} /> )}
+                {loans.map((loan, i) => 
+                    <Loan key={i} loan={loan} link={this.props.history.push} />
+                )}
             </div>
         );
     }
@@ -280,8 +301,8 @@ export default class MainPage extends Component {
         if (loans.error && applications.error) {
             return (
                 <div style={{height: '100%', margin: '5% 0'}}>
-                    <img src={doge} alt=""/>
-                    <p className='red'>WOW... MUCH ERRORS</p>
+                    <p className='red' style={{fontWeight: 600}}>Ошибка приложения</p>
+                    <p>Не можем загрузить заявки и займы</p>
                 </div>
             );
         }
@@ -365,7 +386,7 @@ export default class MainPage extends Component {
 
     render() {
         const { loans, applications, match, history } = this.props;
-        const { activeTab } = this.state;
+        const { activeTab, showPayment } = this.state;
         return (
             <div className='main-page'>
                 <div>

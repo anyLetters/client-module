@@ -8,7 +8,6 @@ import SignupPage from './components/SignupPage/SignupPage.js';
 import RecoveryPage from './components/RecoveryPage/RecoveryPage.js';
 import MainPage from './containers/Main';
 import LoanPage from './containers/Loan';
-import PayPage from './containers/Pay';
 import ApplicationPage from './containers/Application';
 import NewLoanPage from './components/NewLoanPage/NewLoanPage';
 import CreatePasswordPage from './components/CreatePasswordPage/CreatePasswordPage';
@@ -57,7 +56,6 @@ class App extends Component {
 						<Route exact path='/login/recovery' component={RecoveryPage} />
 						<Route exact path='/signup' component={SignupPage} />
 						<Route exact path='/loan/:id' component={withAuth(LoanPage)} />
-						<Route exact path='/loan/:id/pay' component={withAuth(PayPage)} />
 						<Route exact path='/application/:id' component={withAuth(ApplicationPage)} />
 						<Route exact path='/password' component={withAuth(CreatePasswordPage)} />
 						{/* <Route exact path='/new_loan' component={NewLoanPage} /> */}

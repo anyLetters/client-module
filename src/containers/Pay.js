@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { fetchLoans } from '../actions';
-import PayPage from '../components/PayPage/PayPage.js';
+import PayPopup from '../components/PayPopup/PayPopup.js';
 
 function mapStateToProps(state) {
     return {
@@ -14,6 +14,6 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-const Pay = connect(mapStateToProps, mapDispatchToProps)(PayPage);
+const Pay = connect(mapStateToProps, mapDispatchToProps)(PayPopup);
 
 export default Pay;

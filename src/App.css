@@ -55,6 +55,14 @@ a {
 	margin-bottom: 10px;
 }
 
+.color-inherit {
+	color: inherit;
+}
+
+.pointer {
+	cursor: pointer;
+}
+
 .blue {
 	color: #00a1dc !important
 }
