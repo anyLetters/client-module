@@ -42,7 +42,7 @@ function HistoryRow(props) {
             <div>
                 <div>{props.title}</div>
                 <span className={props.color}>
-                    {props.color === 'red' && <span>–</span>}{props.expenses} ₽
+                    {props.color === 'red' ? <span>–</span> : <span>+</span>}{props.expenses} ₽
                 </span>
             </div>
             <p className="grey">{props.date}</p>
@@ -102,11 +102,19 @@ export default class LoanPage extends Component {
         switch(motion.appointment) {
             case 'Списание с расчетного счета':
                 title = 'Зачисление средств по займу';
-                color = 'green';
+                color = '#343434';
                 return {title, color};
             case 'Поступление на расчетный счет':
-                title = 'Списание по займу';
+                title = 'Погашение займов';
                 color = 'red';
+                return {title, color};
+            // case 'Поступление на расчетный счет':
+            //     title = 'Списание по займу';
+            //     color = 'green';
+            //     return {title, color};
+            case 'Погашение займов':
+                title = 'Поступление на счёт';
+                color = 'green';
                 return {title, color};
             default:
                 return {title, color};
@@ -119,7 +127,7 @@ export default class LoanPage extends Component {
 
         if (error || fetching || !loan) return <div></div>;
 
-        const motion = !isEmpty(loan.contract.motion) ? [...loan.contract.motion] : null;
+        const motion = !isEmpty(loan.contract.motion) ? [...loan.contract.motion].reverse() : null;
         const upcomingPaymentDate = this.findUpcomingPaymentDate(loan.contract.schedule);
         const upcomingPayment = this.calculatePayment([loan.contract.upcomingPayment, loan.contract.overduePayment]);
         const overduePayment = this.calculatePayment([loan.contract.overduePayment]);
@@ -184,7 +192,7 @@ export default class LoanPage extends Component {
                                     </div>
                                     {!isEmpty(loan.contract.motion) && <div className="loan-history">
                                         <h4>Движение средств по договору</h4>
-                                        {motion && motion.sort((a,b) => a.date < b.date).map((e, i) => {
+                                        {motion && motion.map((e, i) => {
                                             let {title, color} = this.defineTitleAndColor(e);
                                             return <HistoryRow key={i} title={title} expenses={e.amount.toLocaleString('ru')} date={moment(e.date).format('DD MMM YYYY')} color={color} />;
                                         })}

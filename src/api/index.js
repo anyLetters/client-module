@@ -15,7 +15,7 @@ function handleErrors(response) {
                 }
             });
         } catch (err) {
-            throw new Error(err.message);
+            return Promise.reject({error: err.name, message: err.message});
         }
     }
     return response;
@@ -81,13 +81,11 @@ export class PersonAPI {
 
     static getCurrentPerson() {
         return Auth.fetch(`${apiURL}/person/current`)
-            .then(handleErrors)
             .then(response => response.json());
     }
 
     static get(id) {
         return Auth.fetch(`${apiURL}/person/?id=${id}`)
-            .then(handleErrors)
             .then(response => response.json());
     }
 }
@@ -95,7 +93,6 @@ export class PersonAPI {
 export class WorkerAPI {
     static get(id) {
         return Auth.fetch(`${apiURL}/worker/?id=${id}`)
-            .then(handleErrors)
             .then(response => response.json());
     }
 }
@@ -103,13 +100,11 @@ export class WorkerAPI {
 export class LoanAPI {
     static getAllByPersonId() {
         return Auth.fetch(`${apiURL}/loan/person`)
-                .then(handleErrors)
                 .then(response => response.json());
     }
 
     static getLoan(number) {
         return Auth.fetch(`${apiURL}/loan/?id=${number}`)
-                .then(handleErrors)
                 .then(response => response.json());
     }
 }
@@ -117,7 +112,6 @@ export class LoanAPI {
 export class ApplicationAPI {
     static findAllByPersonId() {
         return Auth.fetch(`${apiURL}/application/person`)
-                .then(handleErrors)
                 .then(response => response.json());
     }
 }
@@ -125,50 +119,42 @@ export class ApplicationAPI {
 export class FacilityAPI {
     static get(id) {
         return Auth.fetch(`${apiURL}/facility/?cadasterOrId=${id}`)
-                .then(handleErrors)
                 .then(response => response.json());
     }
 
     static addFacilityToApplication(id, body) {
         return Auth.fetch(`${apiURL}/facility/application/${id}`, { method: 'post', body: JSON.stringify(body) })
-                .then(handleErrors)
                 .then(response => response.json());
     }
 
     static updateAssessment(id, assessment) {
         return Auth.fetch(`${apiURL}/facility/${id}/assessment`, { method: 'put', body: JSON.stringify(assessment) })
-                .then(handleErrors)
                 .then(response => response.json());
     }
 
     static changeCadaster(id, newCadaster) {
         return Auth.fetch(`${apiURL}/facility/?id=${id}&newCadaster=${newCadaster}`, { method: 'put' })
-                .then(handleErrors)
                 .then(response => response.json());
     }
 
     static requestStatement(id) {
-        return Auth.fetch(`${apiURL}/facility/${id}/statement`, { method: 'post' })
-                .then(handleErrors);
+        return Auth.fetch(`${apiURL}/facility/${id}/statement`, { method: 'post' });
     }
 
     static updateFacility(id, entityName, method, body, part) {
         switch (method) {
             case 'put':
                 return Auth.fetch(`${apiURL}/facility/${id}/${entityName}/${body.id}?part=${part}`, { method, body: JSON.stringify(body) })
-                            .then(handleErrors)
                             .then(response => response);
             case 'delete':
                 return Auth.fetch(`${apiURL}/facility/${id}/${entityName}/${body.id}`, { method, body: JSON.stringify(body) })
-                            .then(handleErrors)
                             .then(response => response);
             default: return;
         }
     }
 
     static updateAdditional(id, additional) {
-        return Auth.fetch(`${apiURL}/facility/${id}/additional`, { method: 'put', body: JSON.stringify(additional) })
-                .then(handleErrors);
+        return Auth.fetch(`${apiURL}/facility/${id}/additional`, { method: 'put', body: JSON.stringify(additional) });
     }
 }
 

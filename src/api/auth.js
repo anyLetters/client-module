@@ -132,7 +132,7 @@ export default class Auth {
                     }
                 });
             } catch (err) {
-                throw new Error(err.message);
+                return Promise.reject({error: err.name, message: err.message});
             }
         }
         return response;
