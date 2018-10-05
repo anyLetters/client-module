@@ -96,18 +96,16 @@ class Loan extends Component {
     }
 
     render() {
-        const { loan } = this.props;
+        const { loan, user } = this.props;
         const { showPaymentPopup } = this.state;
         const date = moment.utc(loan.createdAt, 'YYYY-MM-DD').local().format('D MMMM YYYY');
         let upcomingPaymentDate, upcomingPayment, isOverdue, payment;
-    
+
         if (loan.contract) {
             upcomingPaymentDate = findUpcomingPayment(loan.contract.schedule);
             upcomingPayment = calculatePayment([loan.contract.upcomingPayment, loan.contract.overduePayment]);
             isOverdue = calculatePayment([loan.contract.upcomingPayment]) !== upcomingPayment;
-    
-            if (isEmpty(loan.contract.motion)) return null;
-    
+
             payment = upcomingPaymentDate
             ?   [
                     <span key={0} className={isOverdue ? 'red' : ''}>{upcomingPayment.toLocaleString('ru')} ₽</span>,
@@ -123,13 +121,14 @@ class Loan extends Component {
                     {showPaymentPopup && <PayPopup
                                             onPayClick={this.onPayClick}
                                             number={loan.number}
+                                            payer={user}
                                             createdAt={loan.createdAt}
                                             upcomingPayment={upcomingPayment}
                                             upcomingPaymentDate={upcomingPaymentDate} />}
                     <div className="block-loan-mobile">
                         <Link to={`/loan/${loan.id}`}>
                             <div className="loan-info">
-                                <p>{`${loan.number} от ${date}`}</p>
+                                <p>{`${loan.number.replace('У', '')} от ${date}`}</p>
                                 <p className='grey'>
                                     {loan.contract.loan.toLocaleString('ru')} ₽ на {loan.contract.period} мес. под {loan.contract.percent}%
                                 </p>
@@ -145,7 +144,7 @@ class Loan extends Component {
                     </div>
                     <div className="block-loan-desktop">
                         <Link to={`/loan/${loan.id}`}>
-                            {`${loan.number} от ${date}`}
+                            {`${loan.number.replace('У', '')} от ${date}`}
                         </Link>
                         <Link to={`/loan/${loan.id}`}>
                             {loan.contract.loan.toLocaleString('ru')} ₽ на {loan.contract.period} мес. под {loan.contract.percent}%
@@ -160,7 +159,7 @@ class Loan extends Component {
                 </div>
             );
         }
-    
+
         return (
             <div className='block-loan'>
                 <div className="block-loan-mobile-no-1c">
@@ -267,7 +266,7 @@ export default class MainPage extends Component {
                 ? <div className='loans-not-found'>Займы не найдены :(</div>
                 : loans.map((loan, i) => <Loan key={i} loan={loan} link={this.props.history.push} /> )} */}
                 {loans.map((loan, i) => 
-                    <Loan key={i} loan={loan} link={this.props.history.push} />
+                    <Loan key={i} loan={loan} user={this.props.user} link={this.props.history.push} />
                 )}
             </div>
         );
@@ -319,10 +318,10 @@ export default class MainPage extends Component {
         if (!hasLoans && !hasApplications) {
             return (
                 <div style={{height: '100%', margin: '5% auto', width: '200px'}}>
-                    <img src={empty} alt=""/>
+                    <img src={empty} alt="img"/>
                     <p style={{marginTop: '20px', fontWeight: 600, fontSize: 14}}>Заявок нет</p>
                     <p style={{marginTop: '5px', fontSize: 14, lineHeight: '20px'}}>
-                        Подайте свою первую заявку на займ <a rel="noopener noreferrer" href="https://credit.club" target='_blank' className='blue'>на сайте</a> или по телефону <a href="tel:+78007758009" className='blue'>8 800 775 80 09</a>
+                        Подайте свою первую заявку на заём <a rel="noopener noreferrer" href="https://credit.club" target='_blank' className='blue'>на сайте</a> или по телефону <a href="tel:+78007758009" className='blue'>8 800 775 80 09</a>
                     </p>
                 </div>
             );

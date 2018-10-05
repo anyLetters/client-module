@@ -5,7 +5,8 @@ import MainPage from '../components/MainPage/MainPage.js';
 function mapStateToProps(state) {
     return {
         loans: {...state.loans},
-        applications: {...state.applications}
+        applications: {...state.applications},
+        user: state.user.data
     };
 }
 

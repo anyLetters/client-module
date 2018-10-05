@@ -4,7 +4,8 @@ import LoanPage from '../components/LoanPage/LoanPage.js';
 
 function mapStateToProps(state) {
     return {
-        ...state.loans
+        ...state.loans,
+        user: state.user.data
     };
 }
 

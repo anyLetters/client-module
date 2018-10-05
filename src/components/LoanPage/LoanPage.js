@@ -105,16 +105,15 @@ export default class LoanPage extends Component {
                 color = '#343434';
                 return {title, color};
             case 'Поступление на расчетный счет':
-                title = 'Погашение займов';
-                color = 'red';
+                title = 'Поступление на счёт';
+                color = 'green';
                 return {title, color};
             // case 'Поступление на расчетный счет':
             //     title = 'Списание по займу';
             //     color = 'green';
             //     return {title, color};
             case 'Погашение займов':
-                title = 'Поступление на счёт';
-                color = 'green';
+                color = 'red';
                 return {title, color};
             default:
                 return {title, color};
@@ -148,13 +147,14 @@ export default class LoanPage extends Component {
                     onPayClick={this.onPayClick}
                     number={loan.number}
                     createdAt={loan.createdAt}
+                    payer={this.props.user}
                     upcomingPayment={upcomingPayment}
                     upcomingPaymentDate={upcomingPaymentDate} />}
                 <div>
                     <Menu active={'loans'} />
                     <div className="wrapper">
                         <div className="content-loan">
-                            <Header title={`${loan.number}`} page='loan' back={() => this.props.history.push('/loans')} />
+                            <Header title={`${loan.number.replace('У', '')}`} page='loan' back={() => this.props.history.push('/loans')} />
                             <div className="blocks-loan">
                                 <div className="blocks-loan-1">
                                     <div className="block-loan">
