@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Link, Route, Switch, Redirect } from 'react-ro
 import SigninPage from './components/SigninPage/SigninPage.js';
 import SignupPage from './components/SignupPage/SignupPage.js';
 import RecoveryPage from './components/RecoveryPage/RecoveryPage.js';
+import Menu from './containers/Menu.js';
 import MainPage from './containers/Main';
 import LoanPage from './containers/Loan';
 import ApplicationPage from './containers/Application';
@@ -49,17 +50,16 @@ class App extends Component {
 		return (
 			<Router>
 				<div className="App">
+					<Route path='/(borrower|investor)' component={Menu} />
 					<Switch>
-						<Route exact path='/loans' component={withAuth(MainPage)} />
-						<Route exact path='/investments' component={withAuth(MainPage)} />
+						<Route exact path='/borrower' component={withAuth(MainPage)} />
+						<Route exact path='/investor' component={withAuth(MainPage)} />
+						<Route exact path='/borrower/loan/:id' component={withAuth(LoanPage)} />
+						<Route exact path='/borrower/application/:id' component={withAuth(ApplicationPage)} />
 						<Route exact path='/login' component={SigninPage} />
 						<Route exact path='/login/recovery' component={RecoveryPage} />
 						<Route exact path='/signup' component={SignupPage} />
-						<Route exact path='/loan/:id' component={withAuth(LoanPage)} />
-						<Route exact path='/application/:id' component={withAuth(ApplicationPage)} />
-						<Route exact path='/password' component={withAuth(CreatePasswordPage)} />
-						{/* <Route exact path='/new_loan' component={NewLoanPage} /> */}
-						<Redirect from='/' to='/loans' />
+						<Redirect from='/' to='/borrower' />
 					</Switch>
 				</div>
 			</Router>

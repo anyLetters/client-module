@@ -12,23 +12,40 @@ import { isEmpty } from 'ramda';
 class Tabs extends Component {
 
     state = {
-        tab: this.props.active
+        tab: null
     }
 
     switchTab = tab => {
-        if (tab === this.state.tab) return;
+        if (tab.value === this.state.tab.value) return;
         this.setState({ tab });
+    }
+
+    componentDidMount() {
+        this.defineTab();
+    }
+
+    defineTab = () => {
+        switch(window.location.pathname.split('/')[1]) {
+            case 'borrower':
+                this.setState({ tab: this.props.items.find(item => item.value === 'borrower') });
+                break;
+            case 'investor':
+                this.setState({ tab:this.props.items.find(item => item.value === 'investor') });
+                break;
+        }
     }
 
     render() {
         const { items } = this.props;
 
+        if (!this.state.tab) return null;
+
         return (
             <div className='menu-tabs'>
                 {items.map((e, i) => {
                     return (
-                        <div key={i} className={`menu-tab ${e.value === this.state.tab ? 'tab-active' : ''}`} onClick={() => this.switchTab(e.value)}>
-                            <Link className={`${e.value !== this.state.tab ? 'grey' : 'blue'}`} to={`/${e.value}`}>{e.title}</Link>
+                        <div key={i} className={`menu-tab ${e.value === this.state.tab.value ? 'tab-active' : ''}`} onClick={() => this.switchTab(e)}>
+                            <Link className={`${e.value !== this.state.tab.value ? 'grey' : 'blue'}`} to={`/${e.value}`}>{e.title}</Link>
                         </div>
                     );
                 })}
@@ -56,7 +73,7 @@ export default class Menu extends Component {
         this._username = `${user.name || ''} ${surname ? `${surname[0]}.` : ''}`.trim();
     }
 
-    componentWillMount() {
+    componentDidMount() {
         if (!isEmpty(this.props.data)) {
             this.setUsername(this.props.data);
         }
@@ -69,7 +86,8 @@ export default class Menu extends Component {
     }
 
     render() {
-        const { error, fetching, active } = this.props;
+        const { error, fetching } = this.props;
+
         return (
             <div className='menu'>
                 <div className='menu-content'>
@@ -80,10 +98,9 @@ export default class Menu extends Component {
                         </Link>
                         <span className='menu-btn blue'>Меню</span>
                         <Tabs
-                            active={active}
                             items={[
-                                {title: 'Займы', value: 'loans'},
-                                {title: 'Инвестиции', value: 'investments'}
+                                {title: 'Заёмщик', value: 'borrower'},
+                                {title: 'Инвестор', value: 'investor'}
                             ]}/>
                     </div>
                     <div>

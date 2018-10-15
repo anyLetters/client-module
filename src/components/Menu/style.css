@@ -1,7 +1,7 @@
 .menu {
   font-size: 20px;
   margin: 0 auto;
-  padding: 0 16px;
+  padding: 12px 16px;
   display: flex;
   align-items: center; }
   .menu img {
@@ -32,7 +32,7 @@
       height: 100%;
       margin-left: 20%; }
       .menu .menu-content .menu-tabs .menu-tab {
-        display: none;
+        display: inline;
         height: 100%;
         margin-right: 24px; }
       .menu .menu-content .menu-tabs .tab-active {

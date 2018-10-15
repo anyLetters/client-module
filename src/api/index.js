@@ -107,6 +107,14 @@ export class LoanAPI {
         return Auth.fetch(`${apiURL}/loan/?id=${number}`)
                 .then(response => response.json());
     }
+
+    static getLoans(params) {
+        return Auth.fetch(
+                    `${apiURL}/loan/all?direction=${params.direction}&page=${params.page}&property=${params.property}&size=${params.size}`,
+                    { method: 'post', body: JSON.stringify(params.body) }
+                )
+                .then(response => response.json());
+    }
 }
 
 export class ApplicationAPI {

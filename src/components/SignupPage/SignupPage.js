@@ -41,7 +41,7 @@ export default class SignupPage extends Component {
                     })
                     .then(response => {
                         Auth.login({
-                            grant_type: 'password74',
+                            grant_type: 'password',
                             username: phone,
                             password
                         })

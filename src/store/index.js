@@ -7,7 +7,7 @@ import reducer from '../reducers';
 const store = createStore(
     reducer,
     applyMiddleware(
-        // process.env.NODE_ENV !== 'production' && logger,
+        // process.env.NODE_ENV !== 'production' ? logger : null,
         thunk,
         promise
     )

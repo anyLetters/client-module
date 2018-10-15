@@ -23,8 +23,17 @@ export default class PayPage extends Component {
             Contract: this.props.number ? this.props.number.replace('У', '') : '',
             LastName: payer.surname,
             FirstName: payer.name,
-            MiddleName: payer.patronymic
-        }
+            MiddleName: payer.patronymic,
+            OrgName: "ООО МКК “Магазин кредитов”",
+            OrgNumber: '651303465003905',
+            ContactPhone: '88007758009',
+            Rules: 'https://credit.club/rules',
+            Site: 'https://credit.club/',
+            NPMIR: 'http://www.npmir.ru/',
+            CBR: 'http://www.cbr.ru/',
+            LK: 'https://lk.credit.club/',
+            FSSPRUS: 'http://fssprus.ru/'
+        };
 
         Object.keys(qr).forEach(key => {
             if (qr[key]) {
@@ -36,7 +45,7 @@ export default class PayPage extends Component {
     }
 
     render() {
-        const { upcomingPayment, upcomingPaymentDate, number, createdAt, onPayClick } = this.props;
+        const { upcomingPayment, number, createdAt, onPayClick } = this.props;
 
         const qrCode = this.generateQRString();
 

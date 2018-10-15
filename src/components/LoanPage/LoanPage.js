@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Menu from '../../containers/Menu';
 import Header from '../Header/Header';
 import { Link } from 'react-router-dom';
 import { isEmpty } from 'ramda';
@@ -124,7 +123,7 @@ export default class LoanPage extends Component {
         const { error, fetching, history } = this.props;
         const { loan, showPaymentPopup } = this.state;
 
-        if (error || fetching || !loan) return <div></div>;
+        if (error || fetching || !loan) return null;
 
         const motion = !isEmpty(loan.contract.motion) ? [...loan.contract.motion].reverse() : null;
         const upcomingPaymentDate = this.findUpcomingPaymentDate(loan.contract.schedule);
@@ -151,10 +150,9 @@ export default class LoanPage extends Component {
                     upcomingPayment={upcomingPayment}
                     upcomingPaymentDate={upcomingPaymentDate} />}
                 <div>
-                    <Menu active={'loans'} />
                     <div className="wrapper">
                         <div className="content-loan">
-                            <Header title={`${loan.number.replace('У', '')}`} page='loan' back={() => this.props.history.push('/loans')} />
+                            <Header title={`${loan.number.replace('У', '')}`} page='loan' back={() => this.props.history.push('/borrower')} />
                             <div className="blocks-loan">
                                 <div className="blocks-loan-1">
                                     <div className="block-loan">

@@ -1,20 +1,18 @@
 @media screen and (max-width: 991px) and (min-width: 768px) {
   .menu {
     font-size: 16px;
-    padding: 0 20px; }
+    padding: 20px; }
     .menu a:first-child {
       height: 20px; }
-    .menu-apply {
-      display: none; }
     .menu .menu-content {
       line-height: 20px;
       align-items: flex-start; }
       .menu .menu-content div {
         align-items: flex-start; }
+      .menu .menu-content .menu-btn {
+        display: inline; }
       .menu .menu-content .menu-tabs {
         display: none; }
-    .menu-apply {
-      display: none; }
     .menu-mini-logo {
       display: inline; }
     .menu-big-logo {
@@ -23,11 +21,9 @@
 @media screen and (max-width: 767px) {
   .menu {
     font-size: 14px;
-    padding: 0 20px; }
+    padding: 20px; }
     .menu a:first-child {
       height: 20px; }
-    .menu-apply, .menu .menu-tabs {
-      display: none; }
     .menu-mini-logo {
       display: inline; }
     .menu-big-logo {
@@ -37,5 +33,7 @@
       align-items: flex-start; }
       .menu .menu-content div {
         align-items: flex-start; }
+      .menu .menu-content .menu-btn {
+        display: inline; }
       .menu .menu-content .menu-tabs {
         display: none; } }

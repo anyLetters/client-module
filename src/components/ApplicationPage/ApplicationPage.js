@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Menu from '../../containers/Menu';
 import Header from '../Header/Header';
 import { Link } from 'react-router-dom';
 import { isEmpty } from 'ramda';
@@ -66,7 +65,7 @@ export default class ApplicationPage extends Component {
 
     componentDidMount() {
         if (isEmpty(this.props.application.data)) {
-            this.props.fetchApplications().then(this.findAllEntities).catch(console.error);
+            this.props.fetchApplications().then(this.findAllEntities).catch((error) => console.error(error.message));
         } else {
             this.findAllEntities();
         }
@@ -197,7 +196,7 @@ export default class ApplicationPage extends Component {
                                 <sup key={1}>2</sup>,
                                 facilities[i].assessment ? ` — ${facilities[i].assessment.averagePrice.toLocaleString('ru')} ₽` : null
                             ]}
-                            secondRow={facilities[i].address} />;
+                            secondRow={facilities[i].address.mergedAddress} />;
                 })}
             </div>
         );
@@ -209,7 +208,6 @@ export default class ApplicationPage extends Component {
         if (isEmpty(application.data) || application.fetching || application.error) return (
             <div className='application-page'>
                 <div>
-                    <Menu active={'loans'} />
                     <div className="wrapper">
                         <div className="content-application">
                             {application.fetching && <Loader/>}
@@ -230,10 +228,9 @@ export default class ApplicationPage extends Component {
         return (
             <div className='application-page'>
                 <div>
-                    <Menu active={'loans'} />
                     <div className="wrapper">
                         <div className="content-application">
-                            <Header title={`Заявка №${application.data.number}`} page='application' back={() => history.push('/loans')} />
+                            <Header title={`Заявка №${application.data.number}`} page='application' back={() => history.push('/borrower')} />
                             <div className="blocks-application">
                                 <div className="blocks-application-1">
                                     <div className="block-application">
