@@ -26,14 +26,15 @@
             color: #343434
             // cursor: pointer
             text-align: left
-    &-list
-        .entity-list
-            &:nth-child(2)
-                margin-top: 75px
-                margin-bottom: 55px
-            span.tabs-item
-                font-size: 16px
-                font-weight: 400
+    .entity-list
+        &:nth-child(2)
+            margin-top: 75px
+            margin-bottom: 55px
+        &-message
+            font-size: 16px
+            font-weight: 400
+            margin-top: 30px
+            text-align: left
 .content-main
     min-height: 100%
     min-width: 100%
@@ -88,7 +89,9 @@
             min-height: 36px
             grid-auto-rows: auto
             color: #343434
+            text-align: left
             justify-items: flex-start
+            grid-gap: 12px !important
             align-items: center
             a
                 display: flex
@@ -120,15 +123,19 @@
             font-size: 18px
             min-height: 36px
             color: #343434
+            text-align: left
             grid-auto-rows: auto
             justify-items: flex-start
             align-items: center
+            grid-gap: 12px !important
     .applications, .loans
         &-columns
+            text-align: left
             font-size: 14px
             display: grid
             grid-template-columns: 1fr 1fr 1fr
             padding: 0 24px
+            grid-gap: 12px !important
             justify-items: flex-start
             margin-top: 30px
             margin-bottom: 8px
@@ -153,3 +160,5 @@
         input
             width: 100%
             cursor: pointer
+    .investor-apps
+        grid-template-columns: 1.6fr .6fr .4fr 1.5fr 1.25fr

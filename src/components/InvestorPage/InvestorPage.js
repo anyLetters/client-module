@@ -8,6 +8,7 @@ import empty from '../../images/empty-folder.svg';
 import { GetFullName } from '../../api/index';
 import moment from 'moment';
 import Loader from '../Loader/Loader';
+import InvestmentApps from '../InvestmentApps/InvestmentApps';
 import 'moment/locale/ru';
 
 export default class InvestorPage extends Component {
@@ -15,8 +16,9 @@ export default class InvestorPage extends Component {
     renderInvestor = () => {
         return (
             <div>
-                <img src={doge} alt=""/>
-                <p style={{fontWeight: 600}}>INVESTOR... WOW... MUCH MONEY...</p>
+                {/* <img src={doge} alt=""/>
+                <p style={{fontWeight: 600}}>INVESTOR... WOW... MUCH MONEY...</p> */}
+                <InvestmentApps {...this.props} />
             </div>
         );
     }

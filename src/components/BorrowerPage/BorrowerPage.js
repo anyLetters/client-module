@@ -319,7 +319,8 @@ export default class BorrowerPage extends Component {
         if (loans.error) {
             return (
                 <div className='entity-list'>
-                    <span className='tabs-item red'>Не удалось загрузить займы, попробуйте позже</span>
+                    <h3 className='tabs-item'>Займы</h3>
+                    <p className='entity-list-message red'>Не удалось загрузить займы, попробуйте позже</p>
                 </div>
             );
         }
@@ -341,7 +342,8 @@ export default class BorrowerPage extends Component {
         if (applications.error) {
             return (
                 <div className='entity-list'>
-                    <span className='tabs-item red'>Не удалось загрузить заявки, попробуйте позже</span>
+                    <h3 className='tabs-item'>Заявки</h3>
+                    <p className='entity-list-message red'>Не удалось загрузить заявки, попробуйте позже</p>
                 </div>
             );
         }

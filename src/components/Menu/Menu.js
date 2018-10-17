@@ -24,6 +24,16 @@ class Tabs extends Component {
         this.defineTab();
     }
 
+    static getDerivedStateFromProps(props, state) {
+        switch(window.location.pathname.split('/')[1]) {
+            case 'borrower':
+                return { tab: props.items.find(item => item.value === 'borrower') };
+            case 'investor':
+                return { tab: props.items.find(item => item.value === 'investor') };
+        }
+        return null;
+    }
+
     defineTab = () => {
         switch(window.location.pathname.split('/')[1]) {
             case 'borrower':
@@ -44,8 +54,15 @@ class Tabs extends Component {
             <div className='menu-tabs'>
                 {items.map((e, i) => {
                     return (
-                        <div key={i} className={`menu-tab ${e.value === this.state.tab.value ? 'tab-active' : ''}`} onClick={() => this.switchTab(e)}>
-                            <Link className={`${e.value !== this.state.tab.value ? 'grey' : 'blue'}`} to={`/${e.value}`}>{e.title}</Link>
+                        <div
+                            key={i}
+                            className={`menu-tab ${e.value === this.state.tab.value ? 'tab-active' : ''}`}>
+                            <Link
+                                onClick={() => this.switchTab(e)}
+                                className={`${e.value !== this.state.tab.value ? 'grey' : 'blue'}`}
+                                to={`/${e.value}`}>
+                                {e.title}
+                            </Link>
                         </div>
                     );
                 })}
@@ -92,7 +109,7 @@ export default class Menu extends Component {
             <div className='menu'>
                 <div className='menu-content'>
                     <div>
-                        <Link to='/'>
+                        <Link to={this.props.history.location}>
                             <img src={miniLogo} className='menu-mini-logo' alt=""/>
                             <img src={logo} className='menu-big-logo' alt=""/>
                         </Link>
@@ -108,7 +125,12 @@ export default class Menu extends Component {
                         {!error && !fetching && this._username && <Link to='/' className='username'>
                             {this._username}
                         </Link>}
-                        <Link to='/login' className='logout' onClick={this.logout}><img src={logout} alt="выйти"/></Link>
+                        <Link
+                            to='/login'
+                            className='logout'
+                            onClick={this.logout}>
+                            <img src={logout} alt="выйти"/>
+                        </Link>
                     </div>
                 </div>
             </div>

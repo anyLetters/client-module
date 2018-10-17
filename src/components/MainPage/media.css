@@ -29,10 +29,10 @@
     display: flex; }
   .main-page .content-main {
     padding-top: 0; }
-  .main-page-list .entity-list:nth-child(2) {
+  .main-page .entity-list:nth-child(2) {
     margin-top: 45px;
     margin-bottom: 25px; }
-  .main-page-list .entity-list span.tabs-item {
+  .main-page .entity-list-message {
     font-size: 16px; } }
 
 @media screen and (max-width: 767px) {
@@ -56,8 +56,8 @@
     display: flex; }
   .main-page .content-main {
     padding-top: 0; }
-  .main-page-list .entity-list:nth-child(2) {
+  .main-page .entity-list:nth-child(2) {
     margin-top: 35px;
     margin-bottom: 15px; }
-  .main-page-list .entity-list span.tabs-item {
+  .main-page .entity-list-message {
     font-size: 14px; } }

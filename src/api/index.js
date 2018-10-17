@@ -118,6 +118,14 @@ export class LoanAPI {
 }
 
 export class ApplicationAPI {
+    static getApplications(params) {
+        return Auth.fetch(
+                    `${apiURL}/application/all?direction=${params.direction}&page=${params.page}&property=${params.property}&size=${params.size}`,
+                    { method: 'post', body: JSON.stringify(params.body) }
+                )
+                .then(response => response.json());
+    }
+
     static findAllByPersonId() {
         return Auth.fetch(`${apiURL}/application/person`)
                 .then(response => response.json());
