@@ -13,6 +13,10 @@ import 'moment/locale/ru';
 
 export default class InvestorPage extends Component {
 
+    renderMyInvestments = () => {
+        
+    }
+
     renderInvestor = () => {
         return (
             <div>

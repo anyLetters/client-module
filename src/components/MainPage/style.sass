@@ -35,6 +35,8 @@
             font-weight: 400
             margin-top: 30px
             text-align: left
+        &-loader-mobile
+            display: none
 .content-main
     min-height: 100%
     min-width: 100%
@@ -160,5 +162,25 @@
         input
             width: 100%
             cursor: pointer
-    .investor-apps
-        grid-template-columns: 1.6fr .6fr .4fr 1.5fr 1.25fr
+    .investor-apps-desktop
+        grid-template-columns: 1.45fr .65fr .45fr 1.6fr 1.25fr
+    .investor-apps-mobile
+        .application-info
+            p:first-child
+                font-weight: 600
+                font-size: 18px
+                line-height: 24px
+            p:last-child
+                line-height: 20px
+                margin-top: 4px
+        .application-under
+            flex-direction: column
+            line-height: 20px
+            align-items: flex-start
+            &-row
+                display: flex
+                flex-direction: column
+                line-height: 20px
+                align-items: flex-start
+                &:nth-child(1n + 2)
+                    margin-top: 10px

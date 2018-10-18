@@ -99,3 +99,12 @@ a {
 .block-loan, .block-application {
 	border-radius: 5px;
 }
+
+.user-profile-error {
+	height: 25%;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}

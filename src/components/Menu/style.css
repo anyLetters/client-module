@@ -19,6 +19,13 @@
     @media screen and (max-width: 991px) {
       .menu .username {
         margin-right: 10px; } }
+  .menu .user-loader {
+    height: 61px;
+    width: 100px; }
+  .menu svg {
+    height: 18px;
+    width: 100px;
+    margin-right: 20px; }
   .menu .menu-content {
     width: 100%;
     display: flex;

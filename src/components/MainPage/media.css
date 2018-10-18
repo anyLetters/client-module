@@ -33,7 +33,11 @@
     margin-top: 45px;
     margin-bottom: 25px; }
   .main-page .entity-list-message {
-    font-size: 16px; } }
+    font-size: 16px; }
+  .main-page .entity-list-loader-desktop {
+    display: none; }
+  .main-page .entity-list-loader-mobile {
+    display: inline; } }
 
 @media screen and (max-width: 767px) {
   .main-page .block-application, .main-page .block-loan {
@@ -60,4 +64,8 @@
     margin-top: 35px;
     margin-bottom: 15px; }
   .main-page .entity-list-message {
-    font-size: 14px; } }
+    font-size: 14px; }
+  .main-page .entity-list-loader-desktop {
+    display: none; }
+  .main-page .entity-list-loader-mobile {
+    display: inline; } }

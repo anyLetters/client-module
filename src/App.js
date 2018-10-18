@@ -7,27 +7,62 @@ import SigninPage from './components/SigninPage/SigninPage.js';
 import SignupPage from './components/SignupPage/SignupPage.js';
 import RecoveryPage from './components/RecoveryPage/RecoveryPage.js';
 import Menu from './containers/Menu.js';
+import Loader from './components/Loader/Loader';
 import MainPage from './containers/Main';
 import LoanPage from './containers/Loan';
 import ApplicationPage from './containers/Application';
 import NewLoanPage from './components/NewLoanPage/NewLoanPage';
 import CreatePasswordPage from './components/CreatePasswordPage/CreatePasswordPage';
-import store from './store';
 import { fetchUser } from './actions/index';
 import { isEmpty } from 'ramda';
+import { connect } from 'react-redux';
+
+function UserError(props) {
+	return (
+		<div className='user-profile-error'>
+			<h2>Ошибка приложения: не удалось загрузить профиль</h2>
+		</div>
+	);
+}
 
 function withAuth(AuthComponent) {
-    return class AuthWrapped extends Component {
+
+	function mapStateToProps(state) {
+		return {
+			user: state.user
+		};
+	}
+
+	function mapDispatchToProps(dispatch) {
+		return {
+			fetchUser: () => dispatch(fetchUser())
+		};
+	}
+
+   	class AuthWrapped extends Component {
 
 		state = {
 			component: null
 		}
 
 		fetchUserAndDefineAuthComponent = () => {
-			if (isEmpty(store.getState().user.data) && !store.getState().user.fetching) {
-				store.dispatch(fetchUser());
+			if (isEmpty(this.props.user.data) && !this.props.user.fetching) {
+				this.props.fetchUser();
 			}
-			this.setState({ component: <AuthComponent {...this.props} /> });
+		}
+		
+		static getDerivedStateFromProps(props, state) {
+			if (!isEmpty(props.user.data) && !props.user.error && !props.user.fetching) {
+				return {
+					component: <AuthComponent {...props} />
+				};
+			}
+			if (props.user.error) {
+				return {
+					component: <UserError/>
+				};
+			}
+			return null;
 		}
 
         componentDidMount() {
@@ -42,7 +77,9 @@ function withAuth(AuthComponent) {
         render() {
             return this.state.component;
         }
-    }
+	}
+	
+	return connect(mapStateToProps, mapDispatchToProps)(AuthWrapped);
 }
 
 class App extends Component {

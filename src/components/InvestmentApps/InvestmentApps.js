@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import { ApplicationAPI } from '../../api/index';
 import Loader from '../Loader/Loader';
 import { Link } from 'react-router-dom';
-import { isEmpty } from 'ramda';
+import { isEmpty, flatten } from 'ramda';
 import moment from 'moment';
 import empty from '../../images/empty-folder.svg';
 import 'moment/locale/ru';
 import ContentLoader from "react-content-loader";
 
-function MyLoader(props) {
+function DesktopLoader(props) {
     return (
         <ContentLoader 
             height={400}
@@ -30,17 +30,31 @@ function MyLoader(props) {
     );
 }
 
+function MobileLoader(props) {
+    return (
+        <ContentLoader 
+            height={'600'}
+            width={1148}
+            speed={2}
+            primaryColor="#f9f9f9"
+            secondaryColor="#f3f3f3"
+            {...props}>
+            <rect x="0" y='0' rx="4" ry="4" width="100%" height="197" />
+        </ContentLoader>
+    );
+}
+
 function Application(props) {
     const { application } = props;
     const date = moment.utc(application.createdAt, 'YYYY-MM-DD').local().format('D MMM YYYY');
     const status = application.status.abbreviation;
     const lastCalculations = application.calculations[application.calculations.length - 1];
 
-    const warranter = [
-        ...application.persons.map(e => e.roles.join(', ')),
-        ...application.organizations.map(e => e.roles.join(', ')),
-        ...application.entrepreneurs.map(e => e.roles.join(', ')),
-    ].find(e => e === 'Поручитель') || null;
+    const warranter = flatten([
+        ...application.persons.map(e => e.roles),
+        ...application.organizations.map(e => e.roles),
+        ...application.entrepreneurs.map(e => e.roles),
+    ]).find(e => e === 'Поручитель') || null;
 
     // const facilities = isEmpty(application.facilities) ? null : application.facilities.ma
 
@@ -53,20 +67,23 @@ function Application(props) {
     return (
         <Link to={`/investor/application/${application.id}`}>
             <div className='block-application'>
-                <div className="block-application-mobile">
+                <div className="block-application-mobile investor-apps-mobile">
                     <div className="application-info">
-                        <p>{`№${application.number} от ${date}`}</p>
-                        <p className='grey'>
-                            {lastCalculations.loan.toLocaleString('ru')} ₽ на {lastCalculations.period} мес. под {lastCalculations.percent}%
-                        </p>
+                        <p>{lastCalculations.loan.toLocaleString('ru')} ₽ <br/> на {lastCalculations.period} мес. под {lastCalculations.percent}%</p>
+                        <p className='grey'>{moment.utc(application.createdAt, 'YYYY-MM-DD').local().format('D MMMM')}</p>
                     </div>
-                    <div className="application-under">
-                        <span className={status === 'REFUSAL' ? 'red' : status === 'BECAME_LOAN' ? 'green' : ''}>
-                            {application.status.abbreviation}
-                        </span>
+                    <div className="application-under investor-apps-mobile">
+                        <div className="application-under-row">
+                            <p className="grey">Цель займа</p>
+                            <p>{application.purpose.length > 23 ? `${application.purpose.slice(0, 23)}...` : application.purpose}</p>
+                        </div>
+                        <div className="application-under-row">
+                            <p className="grey">Обеспечение</p>
+                            <p>{provisionNotFound ? provisionNotFound : provision}</p>
+                        </div>
                     </div>
                 </div>
-                <div className="block-application-desktop investor-apps">
+                <div className="block-application-desktop investor-apps-desktop">
                     <div>
                         {lastCalculations.loan.toLocaleString('ru')} ₽ на {lastCalculations.period} мес. под {lastCalculations.percent}%
                     </div>
@@ -94,7 +111,7 @@ export default class InvestmentApps extends Component {
             totalPages: 0
         },
         params: {
-            direction: 'DESC5',
+            direction: 'DESC',
             size: 5,
             property: 'number',
             body: {
@@ -103,8 +120,8 @@ export default class InvestmentApps extends Component {
                 from: { value: null },
                 purposes: { value: null },
                 statuses: { value:
-                    // null
-                    ['Ожидает инвестирования']
+                    null
+                    // ['Ожидает инвестирования']
                 },
                 to: { value: null },
                 lawyers: { value: null },
@@ -158,7 +175,7 @@ export default class InvestmentApps extends Component {
     renderApplications = (applications) => {
         return (
             <div className='applications'>
-                <div className='applications-columns investor-apps'>
+                <div className='applications-columns investor-apps-desktop'>
                     <div>Параметры заявки</div>
                     <div>Дата подачи</div>
                     <div>Рейтинг</div>
@@ -177,7 +194,8 @@ export default class InvestmentApps extends Component {
             return (
                 <div className='entity-list'>
                     <h3 className='tabs-item'>Лента заявок</h3>
-                    <div style={{marginTop: 30}}><MyLoader/></div>
+                    <div style={{marginTop: 30}} className='entity-list-loader-desktop'><DesktopLoader/></div>
+                    <div style={{marginTop: 30}} className='entity-list-loader-mobile'><MobileLoader/></div>
                 </div>
             );
         }

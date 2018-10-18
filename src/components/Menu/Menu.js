@@ -8,6 +8,19 @@ import account from '../../images/account-default.svg';
 import './style.css';
 import './media.css';
 import { isEmpty } from 'ramda';
+import ContentLoader from "react-content-loader";
+
+const MyLoader = props => (
+	<ContentLoader
+		height={'18px'}
+		width={'100px'}
+		speed={2}
+		primaryColor="#f9f9f9"
+		secondaryColor="#f3f3f3"
+		{...props}>
+		<rect x="0" y="0" rx="6" ry="6" width="100px" height="18px" />
+	</ContentLoader>
+);
 
 class Tabs extends Component {
 
@@ -122,15 +135,18 @@ export default class Menu extends Component {
                     </div>
                     <div>
                         <span className='menu-apply blue'>Подать заявку на заём</span>
-                        {!error && !fetching && this._username && <Link to='/' className='username'>
-                            {this._username}
-                        </Link>}
-                        <Link
-                            to='/login'
-                            className='logout'
-                            onClick={this.logout}>
-                            <img src={logout} alt="выйти"/>
-                        </Link>
+                        <div className="user-actions">
+                            {fetching && <MyLoader/>}
+                            {!error && !fetching && this._username && <Link to='/' className='username'>
+                                {this._username}
+                            </Link>}
+                            <Link
+                                to='/login'
+                                className='logout'
+                                onClick={this.logout}>
+                                <img src={logout} alt="выйти"/>
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </div>
