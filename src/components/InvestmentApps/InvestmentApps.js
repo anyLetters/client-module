@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { ApplicationAPI } from '../../api/index';
-import Loader from '../Loader/Loader';
 import { Link } from 'react-router-dom';
 import { isEmpty, flatten } from 'ramda';
 import moment from 'moment';
-import empty from '../../images/empty-folder.svg';
 import 'moment/locale/ru';
 import ContentLoader from "react-content-loader";
 
@@ -65,7 +63,7 @@ function Application(props) {
     provision = provision[0].toUpperCase() + provision.substring(1);
 
     return (
-        <Link to={`/investor/application/${application.id}`}>
+        // <Link to={`/investor/application/${application.id}`}>
             <div className='block-application'>
                 <div className="block-application-mobile investor-apps-mobile">
                     <div className="application-info">
@@ -89,11 +87,11 @@ function Application(props) {
                     </div>
                     <div>{date}</div>
                     <div>—</div>
-                    <div>{application.purpose.length > 23 ? `${application.purpose.slice(0, 23)}...` : application.purpose}</div>
+                    <div>{application.purpose.length > 23 ? `${application.purpose.slice(0, 23)}...` : application.purpose || '—'}</div>
                     <div>{provisionNotFound ? provisionNotFound : provision}</div>
                 </div>
             </div>
-        </Link>
+        // </Link>
     );
 }
 
@@ -120,8 +118,7 @@ export default class InvestmentApps extends Component {
                 from: { value: null },
                 purposes: { value: null },
                 statuses: { value:
-                    null
-                    // ['Ожидает инвестирования']
+                    ['Ожидает инвестирования']
                 },
                 to: { value: null },
                 lawyers: { value: null },

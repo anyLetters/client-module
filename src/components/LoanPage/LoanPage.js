@@ -54,12 +54,21 @@ export default class LoanPage extends Component {
     state = {
         loan: null,
         isToggled: false,
-        showPaymentPopup: false
+        showPaymentPopup: false,
     }
+    
+    role = this.props.location.pathname.split('/')[1]
 
     componentDidMount() {
         if (isEmpty(this.props.data)) {
-            this.props.fetchLoans();
+            switch (this.role) {
+                case 'borrower':
+                    this.props.fetchLoans();
+                    break;
+                case 'investor':
+                    this.props.fetchInvestments(this.props.user.id);
+                    break;
+            }
         } else {
             this.findLoan(this.props.data);
         }
@@ -152,7 +161,7 @@ export default class LoanPage extends Component {
                 <div>
                     <div className="wrapper">
                         <div className="content-loan">
-                            <Header title={`${loan.number.replace('У', '')}`} page='loan' back={() => this.props.history.push('/borrower')} />
+                            <Header title={`${loan.number.replace('У', '')}`} page='loan' back={() => this.props.history.push(`/${this.role}`)} />
                             <div className="blocks-loan">
                                 <div className="blocks-loan-1">
                                     <div className="block-loan">
@@ -176,7 +185,7 @@ export default class LoanPage extends Component {
                                             <p className='grey'>Предстоящий платеж</p>
                                             <p className='blue'>
                                                 <span onClick={this.toggle}>{this.state.isToggled ? 'Свернуть' : 'Подробно'}</span>
-                                                {upcomingPayment && <span onClick={this.onPayClick} className='blue pointer'>Оплатить</span>}
+                                                {upcomingPayment && this.role === 'borrower' && <span onClick={this.onPayClick} className='blue pointer'>Оплатить</span>}
                                             </p>
                                         </div>
                                         {this.state.isToggled && <div className="loan-more">

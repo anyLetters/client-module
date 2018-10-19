@@ -21,7 +21,7 @@
     justify-content: space-between; }
     .main-page .tabs-item {
       margin: 0;
-      margin-bottom: 16px;
+      margin-bottom: 10px;
       font-size: 24px; }
   .main-page .applications-columns, .main-page .loans-columns {
     display: none; }
@@ -52,7 +52,7 @@
     justify-content: space-between; }
     .main-page .tabs-item {
       margin: 0;
-      margin-bottom: 16px;
+      margin-bottom: 10px;
       font-size: 24px; }
   .main-page .applications-columns, .main-page .loans-columns {
     display: none; }

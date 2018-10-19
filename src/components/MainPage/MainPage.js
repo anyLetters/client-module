@@ -24,6 +24,9 @@ export default class MainPage extends Component {
         if (isEmpty(this.props.applications.data)) {
             this.props.fetchApplications();
         }
+        if (isEmpty(this.props.investments.data)) {
+            this.props.fetchInvestments(this.props.user.id);
+        }
     }
 
     renderContent = () => {

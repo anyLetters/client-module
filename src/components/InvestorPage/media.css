@@ -1,0 +1,23 @@
+@media screen and (max-width: 991px) and (min-width: 768px) {
+  .block-info {
+    margin-top: 0;
+    margin-bottom: 20px; }
+    .block-info-loader-desktop {
+      display: inline; }
+    .block-info-loader-mobile {
+      display: none; } }
+
+@media screen and (max-width: 767px) {
+  .block-info {
+    margin-top: 0;
+    margin-bottom: 20px; }
+    .block-info-col > p {
+      font-size: 14px; }
+      .block-info-col > p:last-child {
+        font-size: 24px; }
+    .block-info-loader-desktop {
+      display: none; }
+    .block-info-loader-mobile {
+      display: inline; }
+    .block-info-col:last-child {
+      display: none; } }

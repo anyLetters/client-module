@@ -1,0 +1,25 @@
+// @media screen and (max-width: 1200px) and (min-width: 992px)
+
+@media screen and (max-width: 991px) and (min-width: 768px)
+    .block-info
+        margin-top: 0
+        margin-bottom: 20px
+        &-loader-desktop
+            display: inline
+        &-loader-mobile
+            display: none
+@media screen and (max-width: 767px)
+    .block-info
+        margin-top: 0
+        margin-bottom: 20px
+        &-col > p
+            font-size: 14px
+            &:last-child
+                font-size: 24px
+        &-loader-desktop
+            display: none
+        &-loader-mobile
+            display: inline
+        &-col
+            &:last-child
+                display: none

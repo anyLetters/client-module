@@ -5,10 +5,12 @@ import user from './user';
 import facilities from './facilities';
 import persons from './persons';
 import workers from './workers';
+import investments from './investments';
 
 const reducer = combineReducers({
     loans,
     applications,
+    investments,
     workers,
     persons,
     facilities,

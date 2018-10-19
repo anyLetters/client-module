@@ -4,3 +4,4 @@ export * from './applications';
 export * from './facilities';
 export * from './workers';
 export * from './persons';
+export * from './investments';

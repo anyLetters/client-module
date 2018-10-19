@@ -1,0 +1,24 @@
+.block-info {
+  margin-top: 20px;
+  min-height: 80px; }
+  .block-info-row {
+    display: flex; }
+  .block-info-col {
+    display: flex;
+    text-align: left;
+    flex-direction: column;
+    color: #a3a3a3;
+    font-size: 16px;
+    margin-right: 40px; }
+    .block-info-col p:last-child {
+      color: #343434;
+      font-size: 30px; }
+    .block-info-col:last-child {
+      margin-right: 0; }
+  .block-info-loader-mobile {
+    display: none; }
+  .block-info-buttons {
+    margin-top: 10px;
+    text-align: left; }
+    .block-info-buttons span {
+      cursor: pointer; }

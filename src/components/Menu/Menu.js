@@ -12,13 +12,13 @@ import ContentLoader from "react-content-loader";
 
 const MyLoader = props => (
 	<ContentLoader
-		height={'18px'}
-		width={'100px'}
+		height={18}
+		width={100}
 		speed={2}
 		primaryColor="#f9f9f9"
 		secondaryColor="#f3f3f3"
 		{...props}>
-		<rect x="0" y="0" rx="6" ry="6" width="100px" height="18px" />
+		<rect x="0" y="0" rx="6" ry="6" width="100" height="18" />
 	</ContentLoader>
 );
 

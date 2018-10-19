@@ -1,4 +1,9 @@
-import { FETCH_LOANS_BEGIN, FETCH_LOANS_SUCCESS, FETCH_LOANS_FAILURE, RESET_LOANS_STATE } from '../actions/index';
+import {
+    FETCH_LOANS_BEGIN,
+    FETCH_LOANS_SUCCESS,
+    FETCH_LOANS_FAILURE,
+    RESET_LOANS_STATE
+} from '../actions/index';
 
 const initialState = {
     data: [],

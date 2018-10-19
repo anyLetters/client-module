@@ -16,11 +16,16 @@ import CreatePasswordPage from './components/CreatePasswordPage/CreatePasswordPa
 import { fetchUser } from './actions/index';
 import { isEmpty } from 'ramda';
 import { connect } from 'react-redux';
+import userError from './images/user-error.svg';
 
 function UserError(props) {
 	return (
-		<div className='user-profile-error'>
-			<h2>Ошибка приложения: не удалось загрузить профиль</h2>
+		<div style={{margin: '5% auto', width: '200px'}}>
+			<img src={userError} alt="ошибка профиля"/>
+			<p style={{marginTop: '20px', fontWeight: 600, fontSize: 14}}>Ошибка загрузки</p>
+			<p style={{marginTop: '5px', fontSize: 14, lineHeight: '20px'}}>
+				Мы не смогли загрузить информацию о вашем профиле, попробуйте зайти позже.
+			</p>
 		</div>
 	);
 }
@@ -91,8 +96,8 @@ class App extends Component {
 					<Switch>
 						<Route exact path='/borrower' component={withAuth(MainPage)} />
 						<Route exact path='/investor' component={withAuth(MainPage)} />
-						<Route exact path='/borrower/loan/:id' component={withAuth(LoanPage)} />
-						<Route exact path='/borrower/application/:id' component={withAuth(ApplicationPage)} />
+						<Route exact path='/(borrower|investor)/loan/:id' component={withAuth(LoanPage)} />
+						<Route exact path='/(borrower|investor)/application/:id' component={withAuth(ApplicationPage)} />
 						<Route exact path='/login' component={SigninPage} />
 						<Route exact path='/login/recovery' component={RecoveryPage} />
 						<Route exact path='/signup' component={SignupPage} />

@@ -9,9 +9,9 @@ export const fetchInvestmentsBegin = () => ({
     type: FETCH_INVESTMENTS_BEGIN
 });
 
-export const fetchInvestmentsSuccess = Investments => ({
+export const fetchInvestmentsSuccess = investments => ({
     type: FETCH_INVESTMENTS_SUCCESS,
-    payload: { Investments }
+    payload: { investments }
 });
 
 export const fetchInvestmentsFailure = error => ({
@@ -23,21 +23,29 @@ export const resetInvestmentsState = () => ({
     type: RESET_INVESTMENTS_STATE
 });
 
-export function fetchInvestments() {
+export function fetchInvestments(id) {
     return dispatch => {
         dispatch(fetchInvestmentsBegin());
 
-        return LoanAPI.getAllByPersonId()
+        return LoanAPI.getLoans({
+                    page: 0,
+                    direction: 'DESC',
+                    size: 1000,
+                    property: 'number',
+                    body: {
+                        collection: { value: false },
+                        from: { value: null },
+                        statuses: { value: null },
+                        to: { value: null },
+                        numbers: { value: null },
+                        persons: { value: null },
+                        lenders: { value: [id] }
+                    }
+                })
                 .then(json => {
-                    dispatch(fetchInvestmentsSuccess(json))
+                    dispatch(fetchInvestmentsSuccess(json.content))
                     return json;
                 })
                 .catch(error => dispatch(fetchInvestmentsFailure(error)));
-        // return LoanAPI.getLoan('МК 1217/93')
-        //             .then(json => {
-        //                 dispatch(fetchInvestmentsSuccess([json]))
-        //                 return json;
-        //             })
-        //             .catch(error => dispatch(fetchInvestmentsFailure(error)));
     };
 }
