@@ -81,7 +81,7 @@ export default function reducer(state = initialState, action) {
             return {
                 ...state,
                 fetching: false,
-                data: action.payload.applications.reverse()
+                data: [...action.payload.applications].reverse()
             };
 
         case FETCH_APPLICATIONS_FAILURE:

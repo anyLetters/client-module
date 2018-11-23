@@ -1,16 +1,9 @@
 .main-page
-    // min-height: 100%
     width: 100%
-    // padding: 12px 0
     box-sizing: border-box
     display: flex
     justify-content: space-between
     flex-direction: column
-    // .wrapper
-    //     height: 100%
-    //     width: 100%
-    //     max-width: 400px
-        // padding: 0 40px
     .tabs
         display: flex
         width: 100%
@@ -20,12 +13,21 @@
         justify-content: center
         margin-bottom: 10px
         &-item
-            font-size: 36px
-            // margin: 0 32px
             font-weight: 600
             color: #343434
-            // cursor: pointer
+            display: flex
             text-align: left
+            span
+                align-self: flex-end
+                font-size: 18px
+                font-weight: 400
+                line-height: 28px
+                color: #a3a3a3
+                cursor: pointer
+            h3
+                font-size: 36px
+                align-self: flex-end
+                margin-right: 20px
     .entity-list
         &:nth-child(2)
             margin-top: 75px

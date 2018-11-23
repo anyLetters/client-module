@@ -2,7 +2,7 @@ import { auth } from './secrets';
 import { resetUserState, resetLoansState, resetApplicationsState } from '../actions/index';
 import store from '../store/index';
 
-const apiURL = process.env.NODE_ENV === 'production' ? auth.url.prod : auth.url.dev;
+const apiURL = auth.url;
 
 export default class Auth {
     static login(params) {
@@ -130,9 +130,9 @@ export default class Auth {
                     } else {
                         return Promise.reject({error: e.error, message: e.error_description});
                     }
-                });
+                }).catch(e => Promise.reject(e));
             } catch (err) {
-                return Promise.reject({error: err.name, message: err.message});
+                return Promise.reject({message: err.message});
             }
         }
         return response;

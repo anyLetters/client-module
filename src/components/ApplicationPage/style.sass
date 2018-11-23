@@ -16,35 +16,31 @@
     padding-top: 28px
     flex-direction: column
     justify-content: space-between
-    .blocks-application
+    .blocks-body
         display: flex
-        flex-direction: row-reverse
+        background-color: white
+        flex-direction: row
         justify-content: space-between
-        .blocks-application-1, .blocks-application-2
+        padding: 30px 40px
+        border-radius: 4px
+        box-shadow: 0 6px 12px 0 rgba(0, 161, 220, 0.05), 0 1px 2px 0 rgba(0, 161, 220, 0.1)
+        .blocks-side
             display: flex
-            width: 46%
+            width: 43%
             flex-direction: column
-        .block-application
-            width: 100%
-            font-size: 16px
-            padding: 16px
             @media screen and (max-width: 991px)
+                width: 100%
+                &:last-child > .block
+                    &:last-child
+                        border: 0
+                        margin-bottom: 0
+            .block
+                border-bottom: 1px solid #ececec
                 margin-bottom: 20px
-            &-row
-                text-align: left
-                display: flex
-                margin-bottom: 16px
-                &:first-child > div
-                    width: 100%
-                &:last-child > div
-                    width: 100%
-                &:last-child
-                    margin-bottom: 0 !important
-                div
-                    width: 50%
-                    p
-                        line-height: 1.4
-                        word-break: break-word
+                @media screen and (min-width: 991px)
+                    &:last-child
+                        margin-bottom: 0
+                        border: 0
             .application-payment
                 display: flex
                 flex-wrap: wrap

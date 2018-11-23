@@ -75,7 +75,16 @@ function withAuth(AuthComponent) {
 				Auth.logout();
 				this.setState({ component: <Redirect to='/login' /> });
             } else {
-				this.fetchUserAndDefineAuthComponent();
+				if (Auth.isExpired() || Auth.isRefresh()) {
+					Auth.updateToken().then(() => {
+						this.fetchUserAndDefineAuthComponent();
+					}).catch(() => {
+						Auth.logout();
+						this.setState({ component: <Redirect to='/login' /> });
+					});
+				} else {
+					this.fetchUserAndDefineAuthComponent();
+				}
 			}
         }
 
@@ -92,12 +101,12 @@ class App extends Component {
 		return (
 			<Router>
 				<div className="App">
-					<Route path='/(borrower|investor)' component={Menu} />
+					<Route path='/borrower' component={Menu} />
 					<Switch>
 						<Route exact path='/borrower' component={withAuth(MainPage)} />
-						<Route exact path='/investor' component={withAuth(MainPage)} />
-						<Route exact path='/(borrower|investor)/loan/:id' component={withAuth(LoanPage)} />
-						<Route exact path='/(borrower|investor)/application/:id' component={withAuth(ApplicationPage)} />
+						{/* <Route exact path='/investor' component={withAuth(MainPage)} /> */}
+						<Route exact path='/borrower/loan/:id' component={withAuth(LoanPage)} />
+						<Route exact path='/borrower/application/:id' component={withAuth(ApplicationPage)} />
 						<Route exact path='/login' component={SigninPage} />
 						<Route exact path='/login/recovery' component={RecoveryPage} />
 						<Route exact path='/signup' component={SignupPage} />

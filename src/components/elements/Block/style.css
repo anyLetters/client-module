@@ -1,0 +1,32 @@
+.block {
+  box-shadow: none;
+  width: 100%;
+  font-size: 16px;
+  padding: 0;
+  padding-bottom: 20px; }
+  .block h4 {
+    margin-bottom: 10px;
+    font-size: 20px;
+    text-align: left; }
+    @media screen and (max-width: 767px) {
+      .block h4 {
+        font-size: 14px;
+        margin-bottom: 5px; } }
+  @media screen and (max-width: 991px) {
+    .block {
+      margin-bottom: 20px; } }
+  .block-row {
+    text-align: left;
+    display: flex;
+    margin-bottom: 10px; }
+    .block-row div:first-child {
+      width: 100%; }
+    .block-row div:last-child {
+      width: 100%; }
+    .block-row:last-child {
+      margin-bottom: 0 !important; }
+    .block-row div {
+      width: 50%; }
+      .block-row div div {
+        line-height: 1.4;
+        word-break: break-word; }

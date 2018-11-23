@@ -113,17 +113,7 @@ export default class InvestmentApps extends Component {
             size: 5,
             property: 'number',
             body: {
-                applicants: { value: null },
-                channels: { value: null },
-                from: { value: null },
-                purposes: { value: null },
-                statuses: { value:
-                    ['Ожидает инвестирования']
-                },
-                to: { value: null },
-                lawyers: { value: null },
-                managers: { value: null },
-                supervisors: { value: null }
+                status: ['Ожидает инвестирования']
             }
         }
     }

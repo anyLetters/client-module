@@ -1,19 +1,10 @@
-@media screen and (max-width: 1200px) and (min-width: 992px) {
-  .application-page .block-application {
-    padding: 10px !important; }
-    .application-page .block-application-row {
-      margin-bottom: 12px !important; } }
-
 @media screen and (max-width: 991px) and (min-width: 768px) {
   .application-page .content-application {
     padding-top: 0; }
-  .application-page .block-application {
-    padding: 10px !important; }
-    .application-page .block-application-row {
-      margin-bottom: 10px !important; }
-  .application-page .blocks-application {
+  .application-page .blocks-body {
+    padding: 15px;
     flex-direction: column; }
-    .application-page .blocks-application .blocks-application-1, .application-page .blocks-application .blocks-application-2 {
+    .application-page .blocks-body .block-side {
       width: 100%; }
   .application-page .application-payment {
     margin-bottom: 4px !important; } }
@@ -21,14 +12,10 @@
 @media screen and (max-width: 767px) {
   .application-page .content-application {
     padding-top: 0; }
-  .application-page .block-application {
-    font-size: 14px !important;
-    padding: 10px !important; }
-    .application-page .block-application-row {
-      margin-bottom: 10px !important; }
-  .application-page .blocks-application {
+  .application-page .blocks-body {
+    padding: 15px;
     flex-direction: column; }
-    .application-page .blocks-application .blocks-application-1, .application-page .blocks-application .blocks-application-2 {
+    .application-page .blocks-body .block-side {
       width: 100%; }
   .application-page .application-payment {
     margin-bottom: 4px !important; }

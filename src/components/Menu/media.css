@@ -13,10 +13,8 @@
         display: inline; }
       .menu .menu-content .menu-tabs {
         display: none; }
-    .menu-mini-logo {
-      display: inline; }
-    .menu-big-logo {
-      display: none; } }
+    .menu-logo {
+      height: 20px; } }
 
 @media screen and (max-width: 767px) {
   .menu {
@@ -24,10 +22,10 @@
     padding: 20px; }
     .menu a:first-child {
       height: 20px; }
-    .menu-mini-logo {
-      display: inline; }
-    .menu-big-logo {
+    .menu-apply, .menu .menu-tabs {
       display: none; }
+    .menu-logo {
+      height: 20px; }
     .menu .menu-content {
       line-height: 20px;
       align-items: flex-start; }

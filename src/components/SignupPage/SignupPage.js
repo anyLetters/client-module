@@ -114,7 +114,7 @@ export default class SignupPage extends Component {
                             </div>}
                         </div>
                         <footer>
-                            <p><span>© 2018, КредитКлаб</span> <span>8 800 775 80 09</span></p>
+                            <p><span>© {new Date().getFullYear()}, Credit.club</span> <span>8 800 775 80 09</span></p>
                         </footer>
                     </div>
                 </div>

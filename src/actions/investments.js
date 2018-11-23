@@ -28,24 +28,18 @@ export function fetchInvestments(id) {
         dispatch(fetchInvestmentsBegin());
 
         return LoanAPI.getLoans({
-                    page: 0,
-                    direction: 'DESC',
-                    size: 1000,
-                    property: 'number',
-                    body: {
-                        collection: { value: false },
-                        from: { value: null },
-                        statuses: { value: null },
-                        to: { value: null },
-                        numbers: { value: null },
-                        persons: { value: null },
-                        lenders: { value: [id] }
-                    }
-                })
-                .then(json => {
-                    dispatch(fetchInvestmentsSuccess(json.content))
-                    return json;
-                })
-                .catch(error => dispatch(fetchInvestmentsFailure(error)));
+            page: 0,
+            direction: 'desc',
+            size: 1000,
+            property: 'number',
+            body: {
+                collection: false,
+                statuses: null,
+                participant: null
+            }
+        }).then(json => {
+            dispatch(fetchInvestmentsSuccess(json.content))
+            return json;
+        }).catch(error => dispatch(fetchInvestmentsFailure(error)));
     };
 }

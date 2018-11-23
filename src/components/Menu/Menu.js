@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import miniLogo from '../../images/mini-logo.svg';
 import logo from '../../images/logo-textless.svg';
 import logout from '../../images/logout.svg';
+import fullLogo from '../../images/full-logo.svg';
 import { Link } from 'react-router-dom';
 import Auth from '../../api/auth';
 import account from '../../images/account-default.svg';
@@ -41,8 +42,8 @@ class Tabs extends Component {
         switch(window.location.pathname.split('/')[1]) {
             case 'borrower':
                 return { tab: props.items.find(item => item.value === 'borrower') };
-            case 'investor':
-                return { tab: props.items.find(item => item.value === 'investor') };
+            // case 'investor':
+            //     return { tab: props.items.find(item => item.value === 'investor') };
         }
         return null;
     }
@@ -52,9 +53,9 @@ class Tabs extends Component {
             case 'borrower':
                 this.setState({ tab: this.props.items.find(item => item.value === 'borrower') });
                 break;
-            case 'investor':
-                this.setState({ tab:this.props.items.find(item => item.value === 'investor') });
-                break;
+            // case 'investor':
+            //     this.setState({ tab:this.props.items.find(item => item.value === 'investor') });
+            //     break;
         }
     }
 
@@ -67,16 +68,13 @@ class Tabs extends Component {
             <div className='menu-tabs'>
                 {items.map((e, i) => {
                     return (
-                        <div
+                        <Link
                             key={i}
-                            className={`menu-tab ${e.value === this.state.tab.value ? 'tab-active' : ''}`}>
-                            <Link
-                                onClick={() => this.switchTab(e)}
-                                className={`${e.value !== this.state.tab.value ? 'grey' : 'blue'}`}
-                                to={`/${e.value}`}>
-                                {e.title}
-                            </Link>
-                        </div>
+                            onClick={() => this.switchTab(e)}
+                            className={`menu-tab ${e.value !== this.state.tab.value ? 'grey' : 'tab-active blue'}`}
+                            to={`/${e.value}`}>
+                            {e.title}
+                        </Link>
                     );
                 })}
             </div>
@@ -93,13 +91,6 @@ export default class Menu extends Component {
     setUsername = user => {
         let name = user.name ? user.name : '';
         let surname = user.surname ? user.surname : '';
-        // let username = `${name} ${surname}`.trim();
-        // if (username.length >= 20 && name.length < 20 && surname) {
-        //     username = `${user.name} ${surname ? `${surname[0]}.` : ''}`.trim();
-        // }
-        // if (name.length > 20) {
-        //     username = name.split(' ')[0];
-        // }
         this._username = `${user.name || ''} ${surname ? `${surname[0]}.` : ''}`.trim();
     }
 
@@ -123,15 +114,15 @@ export default class Menu extends Component {
                 <div className='menu-content'>
                     <div>
                         <Link to={this.props.history.location}>
-                            <img src={miniLogo} className='menu-mini-logo' alt=""/>
-                            <img src={logo} className='menu-big-logo' alt=""/>
+                            {/* <img src={miniLogo} className='menu-mini-logo' alt=""/> */}
+                            <img src={fullLogo} className='menu-logo' alt=""/>
                         </Link>
-                        <span className='menu-btn blue'>Меню</span>
-                        <Tabs
+                        {/* <span className='menu-btn blue'>Меню</span> */}
+                        {/* <Tabs
                             items={[
                                 {title: 'Заёмщик', value: 'borrower'},
-                                {title: 'Инвестор', value: 'investor'}
-                            ]}/>
+                                // {title: 'Инвестор', value: 'investor'}
+                            ]}/> */}
                     </div>
                     <div>
                         <span className='menu-apply blue'>Подать заявку на заём</span>

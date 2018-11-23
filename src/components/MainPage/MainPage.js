@@ -17,16 +17,15 @@ import './media.css';
 export default class MainPage extends Component {
 
     componentDidMount() {
-        document.body.style = 'background: white;';
         if (isEmpty(this.props.loans.data)) {
             this.props.fetchLoans();
         }
         if (isEmpty(this.props.applications.data)) {
             this.props.fetchApplications();
         }
-        if (isEmpty(this.props.investments.data)) {
-            this.props.fetchInvestments(this.props.user.id);
-        }
+        // if (isEmpty(this.props.investments.data)) {
+        //     this.props.fetchInvestments(this.props.user.id);
+        // }
     }
 
     renderContent = () => {
@@ -35,8 +34,8 @@ export default class MainPage extends Component {
         switch (history.location.pathname.split('/')[1]) {
             case 'borrower':
                 return <BorrowerPage {...this.props} />;
-            case 'investor':
-                return <InvestorPage {...this.props} />;
+            // case 'investor':
+            //     return <InvestorPage {...this.props} />;
             default:
                 return null;
         }

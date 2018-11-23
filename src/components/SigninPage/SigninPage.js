@@ -4,23 +4,102 @@ import { Link } from 'react-router-dom';
 import InputMask from 'react-input-mask';
 import Auth from '../../api/auth';
 import './style.css';
+import './media.css';
 import Loader from '../Loader/Loader';
+
+function Form({ step, error }) {
+    return (
+        <div>
+            <div className='signin-form-title'>
+                <h1>{step.title}</h1>
+                <p className='signin-form-hint'>{step.hint}</p>
+            </div>
+            <div className="signin-form-inputs">
+                <form onSubmit={step.onSubmit}>
+                    {step.inputs.map((Input, i) => <Input key={i} />)}
+                    <input type="submit" className='input input-submit' value={step.submitPlaceholder}/>
+                    {error && <p className='red' style={{marginTop: '24px'}}>{error}</p>}
+                </form>
+            </div>
+        </div>
+    );
+}
 
 export default class SigninPage extends Component {
 
     state = {
-        error: false,
-        errorText: null,
-        isLoading: false
+        isLoading: false,
+        values: {
+            phone: null,
+            password: null
+        },
+        step: {
+            title: 'Вход',
+            hint: `Используйте номер, который вы указывали в заявке на заём.`,
+            inputs: [() => this.getInput('phone'), () => this.getInput('password')],
+            secondHint: null,
+            submitPlaceholder: 'Далее',
+            onSubmit: e => this.submit(e),
+            error: null
+        }
     }
+
+    getInput = (input) => {
+        switch(input) {
+            case 'phone':
+                return (
+                    <InputMask
+                        className='input input-black'
+                        required
+                        onChange={e => this.setState({ values: { ...this.state.values, phone: e.target.value } })}
+                        value={this.state.values.phone}
+                        mask="+7 999 999-99-99"
+                        placeholder='Номер телефона'
+                        maskChar=""/>
+                );
+            case 'password':
+                return (
+                    <input
+                        type='password'
+                        className='input input-black'
+                        required
+                        onChange={e => this.setState({ values: { ...this.state.values, password: e.target.value } })}
+                        value={this.state.values.password}
+                        placeholder='Пароль'/>
+                );
+        }
+    }
+
+    // submitPhone = (e) => {
+    //     e.preventDefault();
+    //     const { values } = this.state;
+    //     const phone = values.phone.replace(/[^0-9.]/g, "").slice(1);
+
+    //     if (phone.length !== 10) {
+    //         this.setState({error: 'Номер не полный'});
+    //         return;
+    //     }
+
+    //     this.setState({
+    //         step: {
+    //             title: 'Пароль',
+    //             hint: `Пароль отправлен по СМС на номер: ${this.state.values.phone}`,
+    //             inputs: () => this.getInput('password'),
+    //             secondHint: null,
+    //             submitPlaceholder: 'Войти',
+    //             onSubmit: e => this.submitPhone(e),
+    //             error: null
+    //         }
+    //     });
+    // }
 
     submit = e => {
         e.preventDefault();
-        const phone = this.phoneInput.value.replace(/[^0-9.]/g, "").slice(1);;
-        const password = this.refs.password.value;
+        const phone = this.state.values.phone.replace(/[^0-9.]/g, '').slice(1);
+        const password = this.state.values.password;
 
         if (phone.length !== 10) {
-            this.setState({error: true, errorText: 'Номер не полный'});
+            this.setState({error: 'Номер не полный'});
             return;
         }
 
@@ -29,9 +108,7 @@ export default class SigninPage extends Component {
                 grant_type: 'password',
                 username: phone,
                 password
-            })
-            .then(() => this.props.history.push('/borrower'))
-            .catch(json => {
+            }).then(() => this.props.history.push('/borrower')).catch(json => {
                 this.showError(json);
                 console.error(`Error: ${json.error}\nMessage: ${json.message}`);
             });
@@ -41,10 +118,10 @@ export default class SigninPage extends Component {
     showError = (error) => {
         switch (error.message) {
             case 'Bad credentials':
-                this.setState({error: true, errorText: 'Неверный логин или пароль', isLoading: false});
+                this.setState({error: 'Неверный логин или пароль', isLoading: false});
                 break;
             default:
-                this.setState({error: true, errorText: 'Ошибка приложения, попробуйте позже', isLoading: false});
+                this.setState({error: 'Ошибка приложения, попробуйте позже', isLoading: false});
         }
     }
 
@@ -53,7 +130,8 @@ export default class SigninPage extends Component {
     }
 
     render() {
-        const { error, errorText, isLoading } = this.state;
+        const { error, isLoading, step } = this.state;
+
         return (
             <div className='signin-page'>
                 <div className="wrapper">
@@ -62,33 +140,10 @@ export default class SigninPage extends Component {
                             <img src={logo} alt=""/>
                         </div>
                         <div className="signin-form">
-                            {isLoading
-                            ? <Loader/>
-                            : <div>
-                                <div className='signup-form-title'>
-                                    <h1>Вход</h1>
-                                </div>
-                                <div className="signin-form-inputs">
-                                    <form onSubmit={this.submit}>
-                                        <InputMask
-                                            className='input input-black'
-                                            required
-                                            ref={ref => this.phoneInput = ref}
-                                            mask="+7 999 999-99-99"
-                                            placeholder='Номер телефона'
-                                            maskChar=""/>
-                                        <input ref='password' type="password" className='input input-black' placeholder='Пароль'/>
-                                        <input type="submit" className='input input-submit' value='Войти'/>
-                                        {errorText && <p className='red' style={{marginTop: '24px'}}>{errorText}</p>}
-                                    </form>
-                                </div>
-                                <div className="signin-form-links">
-                                    <Link to='/signup'>Зарегистрироваться</Link>
-                                </div>
-                            </div>}
+                            {isLoading ? <Loader/> : <Form step={step} error={error}/>}
                         </div>
                         <footer>
-                            <p><span>© 2018, КредитКлаб</span> <span>8 800 775 80 09</span></p>
+                            <p><span>© {new Date().getFullYear()}, Credit.club</span> <span>8 800 775 80 09</span></p>
                         </footer>
                     </div>
                 </div>

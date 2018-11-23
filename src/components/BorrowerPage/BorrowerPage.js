@@ -188,7 +188,7 @@ function Application(props) {
             <div className='block-application'>
                 <div className="block-application-mobile">
                     <div className="application-info">
-                        <p>{`№${application.number} от ${date}`}</p>
+                        <p className='bold'>{`№${application.number} от ${date}`}</p>
                         <p className='grey'>
                             {lastCalculations.loan.toLocaleString('ru')} ₽ на {lastCalculations.period} мес. под {lastCalculations.percent}%
                         </p>
@@ -319,7 +319,9 @@ export default class BorrowerPage extends Component {
         if (loans.error) {
             return (
                 <div className='entity-list'>
-                    <h3 className='tabs-item'>Займы</h3>
+                    <div className='tabs-item'>
+                        <h3>Займы</h3>
+                    </div>
                     <p className='entity-list-message red'>Не удалось загрузить займы, попробуйте позже</p>
                 </div>
             );
@@ -328,7 +330,9 @@ export default class BorrowerPage extends Component {
         if (hasLoans) {
             return (
                 <div className='entity-list'>
-                    <h3 className='tabs-item'>Займы</h3>
+                    <div className='tabs-item'>
+                        <h3>Займы</h3>
+                    </div>
                     {this.renderLoans(loans.data)}
                 </div>
             );
@@ -342,7 +346,9 @@ export default class BorrowerPage extends Component {
         if (applications.error) {
             return (
                 <div className='entity-list'>
-                    <h3 className='tabs-item'>Заявки</h3>
+                    <div className='tabs-item'>
+                        <h3>Заявки</h3>
+                    </div>
                     <p className='entity-list-message red'>Не удалось загрузить заявки, попробуйте позже</p>
                 </div>
             );
@@ -351,7 +357,10 @@ export default class BorrowerPage extends Component {
         if (hasApplications) {
             return (
                 <div className='entity-list'>
-                    <h3 className='tabs-item'>Заявки</h3>
+                    <div className='tabs-item'>
+                        <h3>Заявки</h3>
+                        <span>Показать все</span>
+                    </div>
                     {this.renderApplications(applications.data)}
                 </div>
             );

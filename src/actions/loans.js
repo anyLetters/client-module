@@ -27,17 +27,9 @@ export function fetchLoans() {
     return dispatch => {
         dispatch(fetchLoansBegin());
 
-        return LoanAPI.getAllByPersonId()
-                .then(json => {
-                    dispatch(fetchLoansSuccess(json))
-                    return json;
-                })
-                .catch(error => dispatch(fetchLoansFailure(error)));
-        // return LoanAPI.getLoan('МК 1217/93')
-        //             .then(json => {
-        //                 dispatch(fetchLoansSuccess([json]))
-        //                 return json;
-        //             })
-        //             .catch(error => dispatch(fetchLoansFailure(error)));
+        return LoanAPI.getAllByPersonId().then(json => {
+             dispatch(fetchLoansSuccess(json))
+             return json;
+        }).catch(error => dispatch(fetchLoansFailure(error)));
     };
 }
