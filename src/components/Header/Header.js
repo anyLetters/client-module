@@ -29,7 +29,7 @@ export default class Header extends Component {
         return (
             <div className='header'>
                 <div className='header-top'>
-                    <Link className='blue' to='/'>Назад</Link>
+                    <Link className='blue' to='/borrower'>Назад</Link>
                 </div>
                 <div className='header-bottom'>
                     <div className="header-leftside">

@@ -23,64 +23,64 @@ const MyLoader = props => (
 	</ContentLoader>
 );
 
-class Tabs extends Component {
+// class Tabs extends Component {
 
-    state = {
-        tab: null
-    }
+    // state = {
+    //     tab: null
+    // }
 
-    switchTab = tab => {
-        if (tab.value === this.state.tab.value) return;
-        this.setState({ tab });
-    }
+    // switchTab = tab => {
+    //     if (tab.value === this.state.tab.value) return;
+    //     this.setState({ tab });
+    // }
 
-    componentDidMount() {
-        this.defineTab();
-    }
+    // componentDidMount() {
+    //     this.defineTab();
+    // }
 
-    static getDerivedStateFromProps(props, state) {
-        switch(window.location.pathname.split('/')[1]) {
-            case 'borrower':
-                return { tab: props.items.find(item => item.value === 'borrower') };
-            // case 'investor':
-            //     return { tab: props.items.find(item => item.value === 'investor') };
-        }
-        return null;
-    }
+    // static getDerivedStateFromProps(props, state) {
+    //     switch(window.location.pathname.split('/')[1]) {
+    //         case 'borrower':
+    //             return { tab: props.items.find(item => item.value === 'borrower') };
+    //         // case 'investor':
+    //         //     return { tab: props.items.find(item => item.value === 'investor') };
+    //     }
+    //     return null;
+    // }
 
-    defineTab = () => {
-        switch(window.location.pathname.split('/')[1]) {
-            case 'borrower':
-                this.setState({ tab: this.props.items.find(item => item.value === 'borrower') });
-                break;
-            // case 'investor':
-            //     this.setState({ tab:this.props.items.find(item => item.value === 'investor') });
-            //     break;
-        }
-    }
+    // defineTab = () => {
+    //     switch(window.location.pathname.split('/')[1]) {
+    //         case 'borrower':
+    //             this.setState({ tab: this.props.items.find(item => item.value === 'borrower') });
+    //             break;
+    //         // case 'investor':
+    //         //     this.setState({ tab:this.props.items.find(item => item.value === 'investor') });
+    //         //     break;
+    //     }
+    // }
 
-    render() {
-        const { items } = this.props;
+//     render() {
+//         const { items } = this.props;
 
-        if (!this.state.tab) return null;
+//         if (!this.state.tab) return null;
 
-        return (
-            <div className='menu-tabs'>
-                {items.map((e, i) => {
-                    return (
-                        <Link
-                            key={i}
-                            onClick={() => this.switchTab(e)}
-                            className={`menu-tab ${e.value !== this.state.tab.value ? 'grey' : 'tab-active blue'}`}
-                            to={`/${e.value}`}>
-                            {e.title}
-                        </Link>
-                    );
-                })}
-            </div>
-        );
-    }
-}
+//         return (
+//             <div className='menu-tabs'>
+//                 {items.map((e, i) => {
+//                     return (
+//                         <Link
+//                             key={i}
+//                             onClick={() => this.switchTab(e)}
+//                             className={`menu-tab ${e.value !== this.state.tab.value ? 'grey' : 'tab-active blue'}`}
+//                             to={`/${e.value}`}>
+//                             {e.title}
+//                         </Link>
+//                     );
+//                 })}
+//             </div>
+//         );
+//     }
+// }
 
 export default class Menu extends Component {
 
@@ -91,7 +91,7 @@ export default class Menu extends Component {
     setUsername = user => {
         let name = user.name ? user.name : '';
         let surname = user.surname ? user.surname : '';
-        this._username = `${user.name || ''} ${surname ? `${surname[0]}.` : ''}`.trim();
+        this.username = `${user.name || ''} ${surname ? `${surname[0]}.` : ''}`.trim();
     }
 
     componentDidMount() {
@@ -108,6 +108,7 @@ export default class Menu extends Component {
 
     render() {
         const { error, fetching } = this.props;
+        console.log(this.state, this.username);
 
         return (
             <div className='menu'>
@@ -128,8 +129,8 @@ export default class Menu extends Component {
                         <span className='menu-apply blue'>Подать заявку на заём</span>
                         <div className="user-actions">
                             {fetching && <MyLoader/>}
-                            {!error && !fetching && this._username && <Link to='/' className='username'>
-                                {this._username}
+                            {!error && !fetching && this.username && <Link to='/' className='username'>
+                                {this.username}
                             </Link>}
                             <Link
                                 to='/login'

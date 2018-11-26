@@ -82,19 +82,27 @@ export class PersonAPI {
 
     static getCurrentPerson() {
         return Auth.fetch(`${url}/person/current`)
-            .then(response => response.json());
+                .then(response => response.json());
     }
 
     static get(id) {
         return Auth.fetch(`${url}/person/${id}`)
-            .then(response => response.json());
+                .then(response => response.json());
+    }
+
+    static signin(phone) {
+        return fetch(`${url}/person/sign-in?phone=${phone}`, { method: 'post' }).then(handleErrors);
+    }
+
+    static passwordRecovery(phone) {
+        return fetch(`${url}/person/recover-password?phone=${phone}`, { method: 'post' }).then(handleErrors);
     }
 }
 
 export class WorkerAPI {
     static get(id) {
         return Auth.fetch(`${url}/worker/?id=${id}`)
-            .then(response => response.json());
+                .then(response => response.json());
     }
 }
 
