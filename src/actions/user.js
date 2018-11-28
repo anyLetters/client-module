@@ -27,11 +27,9 @@ export function fetchUser() {
     return dispatch => {
         dispatch(fetchUserBegin());
 
-        return PersonAPI.getCurrentPerson()
-                .then(json => {
-                    dispatch(fetchUserSuccess(json))
-                    return json;
-                })
-                .catch(error => dispatch(fetchUserFailure(error)));
+        return PersonAPI.getCurrentPerson().then(json => {
+            dispatch(fetchUserSuccess(json))
+            return json;
+        }).catch(error => dispatch(fetchUserFailure(error)));
     };
 }

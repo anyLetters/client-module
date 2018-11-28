@@ -34,7 +34,7 @@ export function fetchInvestments(id) {
             property: 'number',
             body: {
                 collection: false,
-                statuses: null,
+                statuses: ['Ожидает инвестирование'],
                 participant: null
             }
         }).then(json => {

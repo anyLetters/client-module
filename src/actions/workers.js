@@ -10,12 +10,11 @@ export const addWorkers = workers => ({
 export function fetchWorkers(workers) {
     return dispatch => {
         return Promise.all(workers.map(worker => WorkerAPI.get(worker.id).catch(e => ({
-                ...e,
-                id: worker.id
-            }))))
-            .then(json => {
-                dispatch(addWorkers(json))
-                return json;
-            });
+            ...e,
+            id: worker.id
+        })))).then(json => {
+            dispatch(addWorkers(json))
+            return json;
+        });
     };
 }

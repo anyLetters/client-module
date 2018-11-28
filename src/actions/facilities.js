@@ -10,12 +10,11 @@ export const addFaclities = facilities => ({
 export function fetchFacilities(facilities) {
     return dispatch => {
         return Promise.all(facilities.map(facility => FacilityAPI.get(facility.id).catch(e => ({
-                ...e,
-                id: facility.id
-            }))))
-            .then(json => {
-                dispatch(addFaclities(json))
-                return json;
-            })
+            ...e,
+            id: facility.id
+        })))).then(json => {
+            dispatch(addFaclities(json))
+            return json;
+        })
     };
 }
