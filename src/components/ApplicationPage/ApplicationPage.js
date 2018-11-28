@@ -2,12 +2,42 @@ import React, { Component } from 'react';
 import Header from '../Header/Header';
 import { Link } from 'react-router-dom';
 import { isEmpty } from 'ramda';
-import { WorkerAPI, GetFullName, PersonAPI, FacilityAPI, ParsePhone } from '../../api/index';
+import { DocumentAPI, GetFullName, ParsePhone } from '../../api/index';
 import moment from 'moment';
 import Loader from '../Loader/Loader';
 import Block from '../elements/Block/Block';
 import './style.css';
 import './media.css';
+
+function DocumentBlock({title, status}) {
+    return (
+        <div className='document-block'>
+            <div className='document-block-title'>
+                <span>{title}</span>
+            </div>
+            <div className="document-block-status">
+                <span>{status}</span>
+            </div>
+        </div>
+    );
+}
+
+function DocumentsList({documents, subscribe}) {
+    return (
+        <div className="block-list application-documents">
+            {/* <div className="block-list-top">
+                <span>Подписать все</span>
+            </div> */}
+            <div className="block-list-items">
+                {documents.map((e, i) => (
+                    <DocumentBlock
+                        key={i}
+                        title={e.category.value}/>
+                ))}
+            </div>
+        </div>
+    );
+}
 
 function DummyInfo(props) {
     return (
@@ -81,9 +111,13 @@ export default class ApplicationPage extends Component {
 
     componentDidMount() {
         if (isEmpty(this.props.application.data)) {
-            this.props.fetchApplications().then(this.findAllEntities).catch((error) => console.error(error.message));
+            this.props.fetchApplications()
+                .then(this.findAllEntities)
+                .then(() => this.props.fetchDocuments(this.props.application.data.id))
+                .catch((error) => console.error(error.message));
         } else {
             this.findAllEntities();
+            this.props.fetchDocuments(this.props.application.data.id);
         }
     }
 
@@ -104,6 +138,10 @@ export default class ApplicationPage extends Component {
             return true;
         }
         return false;
+    }
+
+    componentWillUnmount() {
+        this.props.resetDocuments();
     }
 
     toggle = () => {
@@ -169,7 +207,7 @@ export default class ApplicationPage extends Component {
     }
 
     render() {
-        let { application, workers, persons, history, facilities } = this.props;
+        let { application, workers, persons, history, facilities, documents } = this.props;
 
         if (isEmpty(application.data) || application.fetching || application.error) return (
             <div className='application-page'>
@@ -230,31 +268,31 @@ export default class ApplicationPage extends Component {
                                     {!(isEmpty(application.data) || isEmpty(application.data.persons)) && <Block
                                         title='Участники'
                                         rows={[
-                                            (((application || {}).data || {}).persons || []).map((e, i) => {
+                                            ...(((application || {}).data || {}).persons || []).map((e, i) => {
                                                 const index = persons.findIndex(p => e.id === p.id);
                                                 if ((persons[i] && persons[i].hasOwnProperty('error')) || index < 0) {
-                                                    return { top: <DummyInfo key={i} error={index} /> };
+                                                    return [{ top: <DummyInfo key={i} error={index} /> }];
                                                 }
-                                                return {
+                                                return [{
                                                     top: GetFullName(persons[i]),
                                                     bottom: GetFullName(persons[i]) && e.roles[0][0].toUpperCase() + e.roles.join(', ').slice(1).toLowerCase(),
                                                     style: { bottom: 'grey' }
-                                                };
+                                                }];
                                             })
                                         ]} />}
                                     {!(isEmpty(application.data) || isEmpty(application.data.facilities)) && <Block
                                         title='Залог'
                                         rows={[
-                                            (((application || {}).data || {}).facilities || []).map((e, i) => {
+                                            ...(((application || {}).data || {}).facilities || []).map((e, i) => {
                                                 const index = facilities.findIndex(f => e === f.id);
                                                 if ((facilities[i] && facilities[i].hasOwnProperty('error')) || index < 0) {
-                                                    return { top: <DummyInfo key={i} error={index} /> };
+                                                    return [{ top: <DummyInfo key={i} error={index} /> }];
                                                 }
-                                                return {
+                                                return [{
                                                     top: `${facilities[i].type.value} ${facilities[i].area} м²${facilities[i].assessment ? ` — ${facilities[i].assessment.averagePrice.toLocaleString('ru')} ₽` : null}`,
                                                     bottom: facilities[i].address.mergedAddress,
                                                     style: { bottom: 'grey' }
-                                                };
+                                                }];
                                             })
                                         ]} />}
                                 </div>
@@ -266,6 +304,8 @@ export default class ApplicationPage extends Component {
                                                 <Message text={
                                                     `Подпишите документы по одному или все сразу. Для подписания пришлем СМС-код на телефон: ${ParsePhone(this.props.user.data.phone)}`
                                                 } />
+                                                {!isEmpty(documents.data) && <DocumentsList
+                                                    documents={documents.data}/>}
                                             </div>
                                         )}
                                     />

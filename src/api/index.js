@@ -181,6 +181,13 @@ export class FacilityAPI {
     }
 }
 
+export class DocumentAPI {
+    static getEntityDocuments(id) {
+        return Auth.fetch(`${url}/document/${id}`)
+                .then(response => response.json());
+    }
+}
+
 export function GetFullName(person) {
     if (!person) return person;
     return !person.surname && !person.patronymic

@@ -159,7 +159,7 @@ class Loan extends Component {
         return (
             <div className='block-loan'>
                 <div className="block-loan-mobile-no-1c">
-                    <div className="loan-info">
+                    <div className="loan-info bold">
                         <p>{`${loan.number} от ${date}`}</p>
                     </div>
                     <div>
@@ -168,7 +168,7 @@ class Loan extends Component {
                 </div>
                 <div className="block-loan-desktop">
                     <div>{`${loan.number} от ${date}`}</div>
-                    <div>–</div>
+                    <div>{loan.calculation.loan.toLocaleString('ru')} ₽ на {loan.calculation.period} мес. под {loan.calculation.percent}%</div>
                     <div>Нет данных о платежах</div>
                 </div>
             </div>

@@ -3,7 +3,9 @@ import {
     fetchApplications,
     fetchWorkers,
     fetchPersons,
-    fetchFacilities
+    fetchFacilities,
+    fetchDocuments,
+    resetDocumentsState
 } from '../actions';
 import ApplicationPage from '../components/ApplicationPage/ApplicationPage.js';
 import { isEmpty } from 'ramda';
@@ -53,7 +55,8 @@ function mapStateToProps(state, props) {
         user: state.user,
         persons: findPersonsFromApplication(state.persons, application.data),
         workers: findWorkersFromApplication(state.workers, application.data),
-        facilities: findFacilitiesFromApplication(state.facilities, application.data)
+        facilities: findFacilitiesFromApplication(state.facilities, application.data),
+        documents: state.documents
     };
 }
 
@@ -62,7 +65,9 @@ function mapDispatchToProps(dispatch) {
         fetchApplications: () => dispatch(fetchApplications()),
         fetchFacilities: facilities => dispatch(fetchFacilities(facilities)),
         fetchWorkers: workers => dispatch(fetchWorkers(workers)),
-        fetchPersons: persons => dispatch(fetchPersons(persons))
+        fetchPersons: persons => dispatch(fetchPersons(persons)),
+        fetchDocuments: id => dispatch(fetchDocuments(id)),
+        resetDocuments: () => dispatch(resetDocumentsState())
     };
 }
 

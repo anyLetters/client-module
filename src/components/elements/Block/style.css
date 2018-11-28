@@ -30,3 +30,9 @@
       .block-row div div {
         line-height: 1.4;
         word-break: break-word; }
+  .block .block-list-top {
+    color: #00a1dc;
+    font-weight: 600;
+    text-align: left;
+    margin-bottom: 10px;
+    font-size: 16px; }

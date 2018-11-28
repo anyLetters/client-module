@@ -1,11 +1,12 @@
 import { combineReducers } from 'redux';
-import loans from './loans';
 import applications from './applications';
-import user from './user';
-import facilities from './facilities';
-import persons from './persons';
-import workers from './workers';
 import investments from './investments';
+import facilities from './facilities';
+import documents from './documents';
+import workers from './workers';
+import persons from './persons';
+import loans from './loans';
+import user from './user';
 
 const reducer = combineReducers({
     loans,
@@ -14,6 +15,7 @@ const reducer = combineReducers({
     workers,
     persons,
     facilities,
+    documents,
     user
 });
 
