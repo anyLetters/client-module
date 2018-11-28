@@ -45,11 +45,9 @@ export function fetchApplications(id) {
     return dispatch => {
         dispatch(fetchApplicationsBegin());
 
-        return ApplicationAPI.findAllByPersonId()
-                .then(json => {
-                    dispatch(fetchApplicationsSuccess(json))
-                    return json;
-                })
-                .catch(error => dispatch(fetchApplicationsFailure(error)));
+        return ApplicationAPI.findAllByPersonId().then(json => {
+            dispatch(fetchApplicationsSuccess(json))
+            return json;
+        }).catch(error => dispatch(fetchApplicationsFailure(error)));
     };
 }

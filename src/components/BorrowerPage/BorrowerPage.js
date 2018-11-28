@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import Header from '../Header/Header';
 import { Link } from 'react-router-dom';
 import { isEmpty } from 'ramda';
-import doge from '../../images/1.png';
 import PayPopup from '../PayPopup/PayPopup';
 import empty from '../../images/empty-folder.svg';
 import { GetFullName } from '../../api/index';
@@ -116,12 +115,12 @@ class Loan extends Component {
             return (
                 <div className='block-loan'>
                     {showPaymentPopup && <PayPopup
-                                            onPayClick={this.onPayClick}
-                                            number={loan.number}
-                                            payer={user}
-                                            createdAt={loan.createdAt}
-                                            upcomingPayment={upcomingPayment}
-                                            upcomingPaymentDate={upcomingPaymentDate} />}
+                        onPayClick={this.onPayClick}
+                        number={loan.number}
+                        payer={user}
+                        createdAt={loan.createdAt}
+                        upcomingPayment={upcomingPayment}
+                        upcomingPaymentDate={upcomingPaymentDate} />}
                     <div className="block-loan-mobile">
                         <Link to={`/borrower/loan/${loan.id}`}>
                             <div className="loan-info">

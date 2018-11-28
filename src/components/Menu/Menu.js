@@ -11,12 +11,12 @@ import './media.css';
 import { isEmpty } from 'ramda';
 import ContentLoader from "react-content-loader";
 
-const MyLoader = props => (
+const Loader = props => (
 	<ContentLoader
 		height={18}
 		width={100}
 		speed={2}
-		primaryColor="#f9f9f9"
+		primaryColor="#00a1dc"
 		secondaryColor="#f3f3f3"
 		{...props}>
 		<rect x="0" y="0" rx="6" ry="6" width="100" height="18" />
@@ -108,7 +108,6 @@ export default class Menu extends Component {
 
     render() {
         const { error, fetching } = this.props;
-        console.log(this.state, this.username);
 
         return (
             <div className='menu'>
@@ -128,7 +127,7 @@ export default class Menu extends Component {
                     <div>
                         <span className='menu-apply blue'>Подать заявку на заём</span>
                         <div className="user-actions">
-                            {fetching && <MyLoader/>}
+                            {fetching && <Loader/>}
                             {!error && !fetching && this.username && <Link to='/' className='username'>
                                 {this.username}
                             </Link>}
