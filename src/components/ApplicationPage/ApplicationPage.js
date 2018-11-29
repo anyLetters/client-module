@@ -270,7 +270,7 @@ export default class ApplicationPage extends Component {
                                         rows={[
                                             ...(((application || {}).data || {}).persons || []).map((e, i) => {
                                                 const index = persons.findIndex(p => e.id === p.id);
-                                                if ((persons[i] && persons[i].hasOwnProperty('error')) || index < 0) {
+                                                if ((persons[i] && persons[i].hasOwnProperty('message')) || index < 0) {
                                                     return [{ top: <DummyInfo key={i} error={index} /> }];
                                                 }
                                                 return [{
@@ -285,11 +285,11 @@ export default class ApplicationPage extends Component {
                                         rows={[
                                             ...(((application || {}).data || {}).facilities || []).map((e, i) => {
                                                 const index = facilities.findIndex(f => e === f.id);
-                                                if ((facilities[i] && facilities[i].hasOwnProperty('error')) || index < 0) {
+                                                if ((facilities[i] && facilities[i].hasOwnProperty('message')) || index < 0) {
                                                     return [{ top: <DummyInfo key={i} error={index} /> }];
                                                 }
                                                 return [{
-                                                    top: `${facilities[i].type.value} ${facilities[i].area} м²${facilities[i].assessment ? ` — ${facilities[i].assessment.averagePrice.toLocaleString('ru')} ₽` : null}`,
+                                                    top: `${facilities[i].type} ${facilities[i].area} м²${facilities[i].assessment ? ` — ${facilities[i].assessment.averagePrice.toLocaleString('ru')} ₽` : null}`,
                                                     bottom: facilities[i].address.mergedAddress,
                                                     style: { bottom: 'grey' }
                                                 }];
@@ -297,18 +297,17 @@ export default class ApplicationPage extends Component {
                                         ]} />}
                                 </div>
                                 <div className="blocks-side">
-                                    <Block
+                                    {!isEmpty(documents.data) && <Block
                                         title='Документы'
                                         customContent={() => (
                                             <div>
-                                                <Message text={
+                                                {/* <Message text={
                                                     `Подпишите документы по одному или все сразу. Для подписания пришлем СМС-код на телефон: ${ParsePhone(this.props.user.data.phone)}`
-                                                } />
+                                                } /> */}
                                                 {!isEmpty(documents.data) && <DocumentsList
                                                     documents={documents.data}/>}
                                             </div>
-                                        )}
-                                    />
+                                    )}/>}
                                 </div>
                             </div>
                         </div>

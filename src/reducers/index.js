@@ -9,13 +9,13 @@ import loans from './loans';
 import user from './user';
 
 const reducer = combineReducers({
-    loans,
     applications,
     investments,
-    workers,
-    persons,
     facilities,
     documents,
+    workers,
+    persons,
+    loans,
     user
 });
 

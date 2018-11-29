@@ -15,8 +15,8 @@ export default function Block({rows, title, customContent = null}) {
                         {row.map((col, j) => {
                             return (
                                 <div key={j} className="block-row-col">
-                                    {col.top && <div className={(col.style || {}).top ? col.style.top : ''}>{col.top}</div>}
-                                    {col.bottom && <div className={(col.style || {}).bottom ? col.style.bottom : ''}>{col.bottom}</div>}
+                                    {col.hasOwnProperty('top') && <div className={(col.style || {}).top ? col.style.top : ''}>{col.top}</div>}
+                                    {col.hasOwnProperty('bottom') && <div className={(col.style || {}).bottom ? col.style.bottom : ''}>{col.bottom || '—'}</div>}
                                 </div>
                             );
                         })}

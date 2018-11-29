@@ -10,7 +10,7 @@
     text-align: left; }
     @media screen and (max-width: 767px) {
       .block h4 {
-        font-size: 14px;
+        font-size: 16px;
         margin-bottom: 5px; } }
   @media screen and (max-width: 991px) {
     .block {
@@ -19,10 +19,13 @@
     text-align: left;
     display: flex;
     margin-bottom: 10px; }
+    .block-row-col {
+      margin-right: 15px; }
     .block-row div:first-child {
       width: 100%; }
     .block-row div:last-child {
-      width: 100%; }
+      width: 100%;
+      margin-right: 0; }
     .block-row:last-child {
       margin-bottom: 0 !important; }
     .block-row div {

@@ -16,6 +16,99 @@
     padding-top: 28px
     flex-direction: column
     justify-content: space-between
+    .document-block
+        background-color: #f9f9f9
+        padding: 10px 15px
+        text-align: left
+        border-radius: 4px
+        margin-bottom: 10px
+        line-height: 20px
+        &-title
+            font-weight: 600
+    .blocks-body
+        display: flex
+        background-color: white
+        flex-direction: row
+        justify-content: space-between
+        padding: 30px 40px
+        border-radius: 4px
+        box-shadow: 0 6px 12px 0 rgba(0, 161, 220, 0.05), 0 1px 2px 0 rgba(0, 161, 220, 0.1)
+        .blocks-side
+            display: flex
+            width: 43%
+            flex-direction: column
+            @media screen and (max-width: 991px)
+                width: 100%
+                &:first-child > .block
+                    &:last-child
+                        border: 0
+                        margin-bottom: 0
+            .block
+                border-bottom: 1px solid #ececec
+                margin-bottom: 20px
+                @media screen and (min-width: 991px)
+                    &:last-child
+                        margin-bottom: 0
+                        border: 0
+        .loan-pay
+            padding: 15px
+            border-radius: 4px
+            background-color: #f9f9f9
+            @media screen and (max-width: 991px)
+                padding: 10px
+            &-overdue
+                background-color: #F6D9DA
+                // background-color: #ffd0d0
+            .loan-payment
+                display: flex
+                flex-wrap: wrap
+                font-size: 24px
+                text-align: left
+                color: #343434
+                margin-bottom: 8px
+                span:nth-child(2)
+                    padding: 0 5px
+                @media screen and (max-width: 767px)
+                    font-size: 20px
+            .loan-under
+                display: flex
+                justify-content: space-between
+                margin-bottom: 2px
+                span
+                    cursor: pointer
+                &:last-child
+                    margin-bottom: 0
+            .loan-more
+                margin-top: 6px
+                tr > td
+                    text-align: left
+                    &:first-child
+                        padding-right: 2px
+                        text-align: right
+        .loan-history
+            text-align: left
+            margin-top: 20px
+            @media screen and (max-width: 991px)
+                padding: 0
+                margin-top: 0
+            p
+                line-height: 1.4
+            &-row
+                div:first-child
+                    display: flex
+                    justify-content: space-between
+                    div
+                        max-width: 60%
+                margin-bottom: 10px
+                &:last-child
+                    margin-bottom: 0
+    .block-list
+        &-top
+            color: #00a1dc
+            font-weight: 600
+            text-align: left
+            margin-bottom: 10px
+            font-size: 16px
     .blocks-loan
         display: flex
         flex-direction: row-reverse
@@ -41,49 +134,5 @@
                     p
                         line-height: 1.4
                         word-break: break-word
-            .loan-payment
-                display: flex
-                flex-wrap: wrap
-                font-size: 24px
-                text-align: left
-                color: #343434
-                margin-bottom: 8px
-                span:nth-child(2)
-                    padding: 0 5px
-            .loan-under > p
-                display: flex
-                justify-content: space-between
-                margin-bottom: 2px
-                span
-                    cursor: pointer
-                &:last-child
-                    margin-bottom: 0
-            .loan-more
-                margin-top: 6px
-                tr > td
-                    text-align: left
-                    &:first-child
-                        padding-right: 2px
-                        text-align: right
-        .loan-history
-            text-align: left
-            font-size: 16px
-            margin-bottom: 20px
-            padding: 0 16px
-            @media screen and (max-width: 991px)
-                padding: 0
-            p
-                line-height: 1.4
-            h4
-                margin-bottom: 10px
-            div:first-child
-                display: flex
-                justify-content: space-between
-                div
-                    max-width: 60%
-            &-row
-                margin-bottom: 10px
-                &:last-child
-                    margin-bottom: 0
     .mb-20
         margin-bottom: 20px

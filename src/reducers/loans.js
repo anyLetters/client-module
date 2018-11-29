@@ -29,7 +29,6 @@ export default function reducer(state = initialState, action) {
 
         case FETCH_LOANS_FAILURE:
             return {
-                ...state,
                 fetching: false,
                 error: action.payload.error,
                 data: []

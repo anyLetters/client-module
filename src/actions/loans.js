@@ -27,13 +27,10 @@ export function fetchLoans() {
     return dispatch => {
         dispatch(fetchLoansBegin());
 
-        // return LoanAPI.getAllByPersonId().then(json => {
-        //      dispatch(fetchLoansSuccess(json))
-        //      return json;
-        // }).catch(error => dispatch(fetchLoansFailure(error)));
-        return LoanAPI.getLoan('МК 09/03').then(json => {
-             dispatch(fetchLoansSuccess([json]))
+        return LoanAPI.getAllByPersonId().then(json => {
+             dispatch(fetchLoansSuccess(json))
              return json;
         }).catch(error => dispatch(fetchLoansFailure(error)));
     };
 }
+

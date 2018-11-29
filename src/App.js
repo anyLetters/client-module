@@ -4,10 +4,10 @@ import './App.css';
 import Auth from './api/auth';
 import { BrowserRouter as Router, Link, Route, Switch, Redirect } from 'react-router-dom';
 import SigninPage from './components/SigninPage/SigninPage.js';
-import SignupPage from './components/SignupPage/SignupPage.js';
-import RecoveryPage from './components/RecoveryPage/RecoveryPage.js';
+// import SignupPage from './components/SignupPage/SignupPage.js';
+// import RecoveryPage from './components/RecoveryPage/RecoveryPage.js';
 import Menu from './containers/Menu.js';
-// import Loader from './components/Loader/Loader';
+import Loader from './components/Loader/Loader';
 import MainPage from './containers/Main';
 import LoanPage from './containers/Loan';
 import ApplicationPage from './containers/Application';
@@ -108,8 +108,8 @@ class App extends Component {
 						<Route exact path='/borrower/loan/:id' component={withAuth(LoanPage)} />
 						<Route exact path='/borrower/application/:id' component={withAuth(ApplicationPage)} />
 						<Route exact path='/login' component={SigninPage} />
-						<Route exact path='/login/recovery' component={RecoveryPage} />
-						<Route exact path='/signup' component={SignupPage} />
+						{/* <Route exact path='/login/recovery' component={RecoveryPage} /> */}
+						{/* <Route exact path='/signup' component={SignupPage} /> */}
 						<Redirect from='/' to='/borrower' />
 					</Switch>
 				</div>
